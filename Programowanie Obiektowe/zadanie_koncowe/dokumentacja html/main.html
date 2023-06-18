@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="pl" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>main module &mdash; Slither.io 1.0.0 - dokumentacja</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Indeks" href="genindex.html" />
+    <link rel="search" title="Szukaj" href="search.html" />
+    <link rel="next" title="mouse module" href="mouse.html" />
+    <link rel="prev" title="food module" href="food.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Slither.io
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Szukaj" aria-label="Szukaj" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">slitherio</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="const.html">CONST module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enemy.html">enemy module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="food.html">food module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mouse.html">mouse module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="particle.html">particle module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="player.html">player module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snake.html">snake module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Slither.io</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">slitherio</a></li>
+      <li class="breadcrumb-item active">main module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/main.rst.txt" rel="nofollow"> Zobacz źródło strony</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-main">
+<span id="main-module"></span><h1>main module<a class="headerlink" href="#module-main" title="Permalink to this heading"></a></h1>
+<p>Główny moduł gry. Wywołuje pozostałe wszystkie moduły projektu. Uruchomienie
+tego modułu skutkuje uruchomieniem gry.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="main.Main">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Main</span></span><a class="headerlink" href="#main.Main" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Klasy bazowe: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Główna klasa programu. Odpowiada za przygotowanie elementów gry, obsługę
+głównej pętli gry oraz rysowanie.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="main.Main.screen">
+<span class="sig-name descname"><span class="pre">screen</span></span><a class="headerlink" href="#main.Main.screen" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Płaszczyzna ekranu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Surface</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="main.Main.draw_screen">
+<span class="sig-name descname"><span class="pre">draw_screen</span></span><a class="headerlink" href="#main.Main.draw_screen" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Płaszczyzna do rysowania.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Surface</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="main.Main.draw_screen_size">
+<span class="sig-name descname"><span class="pre">draw_screen_size</span></span><a class="headerlink" href="#main.Main.draw_screen_size" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Wymiary płaszczyzny do rysowania.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Vector2</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="main.Main.clock">
+<span class="sig-name descname"><span class="pre">clock</span></span><a class="headerlink" href="#main.Main.clock" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Zegar gry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Clock</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="main.Main.dt">
+<span class="sig-name descname"><span class="pre">dt</span></span><a class="headerlink" href="#main.Main.dt" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Mnożnik zmieniający wartości względem wydajności gry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="main.Main.mouse">
+<span class="sig-name descname"><span class="pre">mouse</span></span><a class="headerlink" href="#main.Main.mouse" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Obiekt myszki.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="mouse.html#mouse.Mouse" title="mouse.Mouse">Mouse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="main.Main.is_running">
+<span class="sig-name descname"><span class="pre">is_running</span></span><a class="headerlink" href="#main.Main.is_running" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Zmienna kontrolująca, czy gra ma być uruchomiona.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="main.Main.scroll">
+<span class="sig-name descname"><span class="pre">scroll</span></span><a class="headerlink" href="#main.Main.scroll" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Przesunięcie obszaru rysowania gry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Vector2</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="main.Main.particles">
+<span class="sig-name descname"><span class="pre">particles</span></span><a class="headerlink" href="#main.Main.particles" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Lista obiektów cząsteczek.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="particle.html#particle.Particle" title="particle.Particle">Particle</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="main.Main.player">
+<span class="sig-name descname"><span class="pre">player</span></span><a class="headerlink" href="#main.Main.player" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Obiekt węża gracza.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="player.html#player.Player" title="player.Player">Player</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="main.Main.enemies">
+<span class="sig-name descname"><span class="pre">enemies</span></span><a class="headerlink" href="#main.Main.enemies" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Lista obiektów przeciwników.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[Enemies]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="main.Main.food">
+<span class="sig-name descname"><span class="pre">food</span></span><a class="headerlink" href="#main.Main.food" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Lista obiektów jedzenia.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="food.html#food.Food" title="food.Food">Food</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Main.add_food">
+<span class="sig-name descname"><span class="pre">add_food</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.Main.add_food" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Dodanie nowego obiektu jedzenia, po wcześniejszym znalezieniu
+wolnej pozycji.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Main.check_snake_collisions">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_snake_collisions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snake</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="snake.html#snake.Snake" title="snake.Snake"><span class="pre">Snake</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_snakes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="snake.html#snake.Snake" title="snake.Snake"><span class="pre">snake.Snake</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#main.Main.check_snake_collisions" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Funkcja sprawdzająca kolizje podanego węża z innymi wężami.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>snake</strong> – Wąż, którego kolizje są sprawdzane.</p></li>
+<li><p><strong>other_snakes</strong> – Lista pozostałych węży.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Zwraca<span class="colon">:</span></dt>
+<dd class="field-even"><p>Prawda, jeżeli wystąpiła kolizja, fałsz w przeciwnym przypadku.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Main.display_update">
+<span class="sig-name descname"><span class="pre">display_update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.Main.display_update" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Odświeżanie ekranu.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Main.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.Main.draw" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Rysowanie wszystkich elementów gry.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Main.draw_circle">
+<span class="sig-name descname"><span class="pre">draw_circle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Vector2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Color</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.Main.draw_circle" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Rysowanie koła.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pos</strong> – Pozycja środka koła.</p></li>
+<li><p><strong>r</strong> – Promień koła.</p></li>
+<li><p><strong>c</strong> – Kolor koła.</p></li>
+<li><p><strong>**kwargs</strong> – Dodatkowe argumenty rysowania.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Main.draw_eye">
+<span class="sig-name descname"><span class="pre">draw_eye</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Vector2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparency</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.Main.draw_eye" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Rysowanie oka węża.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pos</strong> – Pozycja, na której ma zostać narysowane oko.</p></li>
+<li><p><strong>size</strong> – Wielkość oka.</p></li>
+<li><p><strong>transparency</strong> (<em>int</em>) – Przeźroczystość oka.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Main.draw_snake">
+<span class="sig-name descname"><span class="pre">draw_snake</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snake</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="snake.html#snake.Snake" title="snake.Snake"><span class="pre">Snake</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.Main.draw_snake" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Rysowanie węża.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>snake</strong> – Obiekt węża do narysowania.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Main.events_update">
+<span class="sig-name descname"><span class="pre">events_update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.Main.events_update" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Sprawdzanie, czy wywołano zdarzenie z modułu pygame i wykonanie
+powiązanych z nim poleceń.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Main.game">
+<span class="sig-name descname"><span class="pre">game</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.Main.game" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Główna logika gry</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Main.is_in_screen_range">
+<span class="sig-name descname"><span class="pre">is_in_screen_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Vector2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#main.Main.is_in_screen_range" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Sprawdzanie, czy okrąg o podanej pozycji środka i promieniu znajduje
+się w zasięgu rysowania.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vector</strong> – Środek okręgu.</p></li>
+<li><p><strong>shift</strong> – Promień okręgu.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Zwraca<span class="colon">:</span></dt>
+<dd class="field-even"><p>Prawda, jeżeli okrąg jest w zasięgu rysowania, fałsz w przeciwnym
+przypadku.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Main.rotate_point">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rotate_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Vector2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Vector2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.Main.rotate_point" title="Stały odnośnik do tej definicji"></a></dt>
+<dd><p>Funkcja zwracająca punkt wektor będący wektorem v1 obróconym o
+podany kąt wokół wektora v2.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – Wektor, który będzie obracany.</p></li>
+<li><p><strong>v2</strong> – Wektor, wokół którego wektor v1 będzie obracany.</p></li>
+<li><p><strong>angle</strong> – Kąt, o jaki wektor v1 będzie obracany wokół wektora v2.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Zwraca<span class="colon">:</span></dt>
+<dd class="field-even"><p>Wektor, będący wektorem v1 obróconym o kąt angle, wokół wektora v2.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="food.html" class="btn btn-neutral float-left" title="food module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Poprzedni</a>
+        <a href="mouse.html" class="btn btn-neutral float-right" title="mouse module" accesskey="n" rel="next">Następny <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Bartosz Kruszewski.</p>
+  </div>
+
+  Zbudowano w <a href="https://www.sphinx-doc.org/">Sphinx</a> używając
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    dostarczone przez <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

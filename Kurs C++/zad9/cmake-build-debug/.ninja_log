@@ -1,0 +1,8 @@
+# ninja log v5
+5	826	7061163740991691	CMakeFiles/zadanie9.dir/main.cpp.obj	e83f53fb26ab3f8d
+1	671	7061169917141553	build.ninja	7049b7b144dc4f92
+827	1010	7061163742801708	zadanie9.exe	4dcb9f453f5b3544
+18	833	7061160442820434	CMakeFiles/zadanie9.dir/List.cpp.obj	af7855afbc418d31
+16	728	7061170438506360	CMakeFiles/zadanie9.dir/List.cpp.obj	af7855afbc418d31
+5	896	7061170440221097	CMakeFiles/zadanie9.dir/main.cpp.obj	e83f53fb26ab3f8d
+897	1096	7061170442171329	zadanie9.exe	4dcb9f453f5b3544

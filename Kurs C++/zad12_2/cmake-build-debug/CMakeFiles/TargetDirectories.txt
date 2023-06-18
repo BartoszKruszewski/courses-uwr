@@ -1,0 +1,3 @@
+C:/Users/Bartek/CLionProjects/lista 12 zad 2/cmake-build-debug/CMakeFiles/lista_12_zad_2.dir
+C:/Users/Bartek/CLionProjects/lista 12 zad 2/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Bartek/CLionProjects/lista 12 zad 2/cmake-build-debug/CMakeFiles/rebuild_cache.dir

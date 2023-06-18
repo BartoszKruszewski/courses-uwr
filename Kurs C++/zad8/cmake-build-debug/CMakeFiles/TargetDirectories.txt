@@ -1,0 +1,3 @@
+C:/Users/Bartek/CLionProjects/zadanie8/cmake-build-debug/CMakeFiles/zadanie8.dir
+C:/Users/Bartek/CLionProjects/zadanie8/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Bartek/CLionProjects/zadanie8/cmake-build-debug/CMakeFiles/rebuild_cache.dir

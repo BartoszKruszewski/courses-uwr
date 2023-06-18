@@ -1,0 +1,3 @@
+C:/Users/Bartek/CLionProjects/lista 12 zadanie 1/cmake-build-debug/CMakeFiles/lista_12_zadanie_1.dir
+C:/Users/Bartek/CLionProjects/lista 12 zadanie 1/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Bartek/CLionProjects/lista 12 zadanie 1/cmake-build-debug/CMakeFiles/rebuild_cache.dir

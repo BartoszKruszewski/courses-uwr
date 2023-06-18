@@ -11,13 +11,13 @@
 ; P := (append xs ys) ≡ zs
 ;
 ; (i) (append empty ys) ≡ ys, czyli zs istnieje
-; (ii) zał. (append xs ys) ≡ zs
-;      do udowodnienia: dla dowolnego elementu x zachodzi (append (cons x xs) ys) ≡ zs
+; (ii) zał. (append xs ys) ≡ zs1
+;      do udowodnienia: dla dowolnego elementu x zachodzi (append (cons x xs) ys) ≡ zs2
 ;
 ;      Weźmy dowolny element x  i podstawmy
 ;      (append (cons x xs) ys) ≡
 ;      (cons x (append xs ys)) ≡
-;      (cons x zs) które jest listą
+;      (cons x zs1) które jest listą
 ;
 ; dla dowolnych list xs, ys istnieje taka lista zs, że (append xs ys) ≡ zs
 

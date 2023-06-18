@@ -1,0 +1,3 @@
+C:/Users/Bartek/CLionProjects/zad6/cmake-build-debug/CMakeFiles/zad6.dir
+C:/Users/Bartek/CLionProjects/zad6/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Bartek/CLionProjects/zad6/cmake-build-debug/CMakeFiles/rebuild_cache.dir

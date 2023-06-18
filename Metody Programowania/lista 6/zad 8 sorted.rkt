@@ -18,7 +18,7 @@
 ; P := (sorted? xs) ≡ #t => (sorted? (insert x xs)) ≡ #t
 ;
 ; (i) zał. (sorted? empty) ≡ #t
-;     Do udowodnienia:(sorted? (insert x empty)) ≡ #t
+;     Do udowodnienia: (sorted? (insert x empty)) ≡ #t
 ;
 ;     (sorted? (insert x empty)) ≡
 ;     (sorted? '(x)) ≡ #t
@@ -39,8 +39,10 @@
 ;         (sorted? (insert x (cons y xs))) ≡
 ;         (sorted? (cons y (insert x xs))) ≡
 ;         (and #t (sorted? (insert x xs))) ≡ ponieważ (sorted? (cons y xs)) ≡ #t to y <= wszystkie elementy xs oraz x >= y
-;         (and #t #t) ≡ #t ponieważ (sorted? (cons y xs)) ≡ #t to (sorted? xs) ≡ #t
-;                                             to z zał. indukcyjenego (sorted? (insert x xs)) ≡ #t
+;         (and #t #t) ≡ #t ponieważ (sorted? (cons y xs)) ≡ #t to
+;                                   (and (< y (first xs)) (sorted? xs)) ≡ #t to
+;                                   (sorted? xs) ≡ #t
+;                                    to z zał. indukcyjenego (sorted? (insert x xs)) ≡ #t
 ;
 ; więc jeśli (sorted? xs) ≡ #t to (sorted? (insert x xs)) ≡ #t      
 

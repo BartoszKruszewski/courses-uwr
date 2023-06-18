@@ -1,0 +1,8 @@
+# ninja log v5
+5	591	7047344638211313	CMakeFiles/zadanie8.dir/main.cpp.obj	da82a6a7b164fc19
+15	852	7047344640817700	CMakeFiles/zadanie8.dir/Rational.cpp.obj	625484de57c0d1eb
+852	999	7047344642229950	zadanie8.exe	6cdac22a96407e59
+2	278	7049071138734424	build.ninja	a164dee4cf1805dd
+6	1358	7049092880742863	CMakeFiles/zadanie8.dir/main.cpp.obj	da82a6a7b164fc19
+15	1910	7049092886351154	CMakeFiles/zadanie8.dir/Rational.cpp.obj	625484de57c0d1eb
+1911	2460	7049092891796606	zadanie8.exe	6cdac22a96407e59

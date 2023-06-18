@@ -19,11 +19,15 @@
 ; (ii) Zał. (map f (map g xs)) ≡ (map (lambda (x) (f (g x))) xs)
 ;      Do udowodnienia: dla dowolnego elementu x (map f (map g (cons x xs))) ≡ (map (lambda (x) (f (g x))) (cons x xs))
 ;
-;      (map f (map g (cons x xs))) ≡
+;      L ≡ (map f (map g (cons x xs))) ≡
 ;      (map f (cons (g x) (map g xs))) ≡
 ;      (cons (f (g x)) (map f (map g xs))) ≡
-;      (cons (f (g x)) (map (lambda (x) (f (g x))) xs)) ≡
-;      (map (lambda (x) (f (g x))) (cons x xs))
+;      (cons (f (g x)) (map (lambda (x) (f (g x))) xs))
+
+;      P ≡ (map (lambda (x) (f (g x))) (cons x xs)) ≡
+;      (cons ((lambda (x) (f (g x))) x) (map (lambda (x) (f (g x))) xs)) ≡
+;      (cons (f (g x)) (map (lambda (x) (f (g x))) xs))
+;       
 ;
 ; więc dla dowolnych funkcji f i g oraz listy xs zachodzi (map f (map g xs)) ≡ (map (lambda (x) (f (g x))) xs)
 
