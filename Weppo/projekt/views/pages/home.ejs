@@ -1,0 +1,14 @@
+<%- include('../elements/categories.ejs', { categories }); %>
+<section class="products py-5">
+  <div class="container">
+    <div class="row g-0">
+      <div class="collection-list row gx-0 gy-3">
+        <% products.forEach(product => { %>
+        <div class="col-md-6 col-lg-4 col-xl-3 p-2 d-flex">
+          <%-include('../elements/product.ejs', { product, readOnly: false}); %>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+  </div>
+</section>

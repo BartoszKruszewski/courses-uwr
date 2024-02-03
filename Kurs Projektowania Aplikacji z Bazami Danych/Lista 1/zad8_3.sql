@@ -1,0 +1,1 @@
+DBCC CHECKCONSTRAINTS ('SalesLT.SalesOrderHeader');

@@ -1,0 +1,105 @@
+<div class="container">
+  <div class="row g-4">
+    <div class="col-xl-6">
+      <div class="card p-5">
+        <div class="row g-4">
+          <div class="col-xl-8">
+            <div class="title text-center mb-4">
+              <h2>Add Stuff</h2>
+            </div>
+            <div class="title text-center mb-4">
+              <h4>Products</h4>
+            </div>
+            <form
+              action="/cms"
+              method="post"
+              enctype="multipart/form-data"
+              class="form-control"
+            >
+              <input type="hidden" name="type" value="product" />
+
+              <input
+                type="text"
+                id="productName"
+                name="name"
+                class="form-control my-2"
+                placeholder="product name"
+                required
+              />
+              <input
+                type="text"
+                id="productDescription"
+                name="description"
+                class="form-control my-2"
+                placeholder="product description"
+              />
+
+              <input
+                type="number"
+                id="productPrice"
+                name="price"
+                class="form-control my-2"
+                placeholder="product price"
+                required
+              />
+
+              <input
+                type="file"
+                id="productImage"
+                name="image"
+                class="form-control my-2"
+                accept=".png, .jpg"
+              />
+
+              <select id="categoryId" name="category" class="form-control my-2">
+                <% categories.forEach(category => { %>
+                <option value="<%= category.id %>"><%= category.name %></option>
+                <% }); %>
+              </select>
+
+              <button class="form-control my-2" type="submit">
+                Add Product
+              </button>
+            </form>
+
+            <div class="title text-center mb-4 mt-4">
+              <h4>Categories</h4>
+            </div>
+
+            <form action="/cms" method="post" class="form-control">
+              <input type="hidden" name="type" value="category" />
+
+              <input
+                type="text"
+                id="categoryName"
+                name="name"
+                class="form-control my-2"
+                placeholder="category name"
+                required
+              />
+
+              <button class="form-control my-2" type="submit">
+                Add Category
+              </button>
+            </form>
+          </div>
+          <div class="col-xl-4">
+            <div class="title text-center mb-4">
+              <h2>Users</h2>
+            </div>
+            <%- include('../elements/users.ejs', { users }); %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6">
+      <div class="card p-5">
+        <div class="title text-center mb-4">
+          <h2>All Orders</h2>
+        </div>
+        <%- include('../elements/orders.ejs', { orders, readOnly: false}); %>
+      </div>
+    </div>
+  </div>
+</div>

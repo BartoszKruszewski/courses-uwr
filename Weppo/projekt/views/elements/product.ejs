@@ -1,0 +1,60 @@
+<div
+  class="card flex-fill card-scaling p-3 fade-in-up"
+  data-bs-toggle="modal"
+  data-bs-target="#modal_<%= product.id %>"
+>
+  <img
+    class="img-fluid card-img-top"
+    src="/uploads/image-<%= product.name %>.png"
+    alt="no image for product: <%= product.name %>"
+  />
+  <div class="card-body text-center">
+    <h5 class="card-title text-capitalize text-truncate">
+      <%= product.name %>
+    </h5>
+    <p class="card-text text-muted">
+      <small class=""><%= product.category %></small>
+    </p>
+    <p class="card-text fw-bold">$ <%= product.price %></p>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal_<%= product.id %>" data-bs-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <img
+          class="img-fluid card-img-top"
+          src="/uploads/image-<%= product.name %>.png"
+          alt="nie ma"
+        />
+        <div class="text-center">
+          <h5 class="text-capitalize text-truncate mt-2">
+            <%= product.name %>
+          </h5>
+          <p class="text-muted">
+            <small class=""><%= product.category %></small>
+          </p>
+          <p class="text"><%= product.description %></p>
+          <p class="fw-bold">$ <%= product.price %></p>
+        </div>
+        <form method="post" action="/addToCart">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+            Cancel
+          </button>
+          <% if (!readOnly) {%>
+          <button
+            class="btn btn-primary"
+            type="submit"
+            name="addToCart"
+            value="<%= product.id %>"
+          >
+            Add to Cart
+          </button>
+          <% } %>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

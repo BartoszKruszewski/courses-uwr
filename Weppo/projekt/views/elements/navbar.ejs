@@ -1,0 +1,53 @@
+<nav
+  class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top shadow user-select-none"
+>
+  <div class="container-fluid">
+    <a class="navbar-brand order-lg-0" href="/">LOGO</a>
+
+    <form
+      method="get"
+      action="/"
+      class="d-flex justify-content-between order-lg-1 btn-group"
+    >
+      <input
+        class="form-control rounded mx-2"
+        name="search"
+        type="text"
+        placeholder="Search..."
+      />
+      <button class="btn btn-outline-primary rounded" type="submit">
+        <i class="fas fa-search"></i>
+      </button>
+    </form>
+
+    <div class="order-lg-3 d-flex align-items-center">
+      <% if (locals.user) { %> <% if (locals.is_admin) { %>
+      <a href="/cms" class="btn position-relative">
+        <i class="fas fa-cog"></i>
+      </a>
+      <% } %> <% } %>
+      <div class="mx-2"><%= locals.user %></div>
+
+      <div class="dropdown">
+        <button
+          class="btn dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          data-bs-popper="placement: right-end"
+        >
+          <i class="fas fa-user"></i>
+        </button>
+
+        <div class="dropdown-menu dropdown-menu-end">
+          <% if (locals.user) { %>
+          <a class="dropdown-item" href="/account">Account</a>
+          <a class="dropdown-item" href="/logout">Logout</a>
+          <% } else { %>
+          <a class="dropdown-item" href="/login">Login</a>
+          <a class="dropdown-item" href="/register">Register</a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

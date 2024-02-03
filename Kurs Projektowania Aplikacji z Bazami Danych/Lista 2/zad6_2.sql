@@ -1,0 +1,9 @@
+SELECT TABLE_NAME
+FROM tempdb.INFORMATION_SCHEMA.tables
+GO
+
+SELECT * FROM #LocalTempTable; 
+GO
+
+SELECT * FROM ##GlobalTempTable; 
+GO

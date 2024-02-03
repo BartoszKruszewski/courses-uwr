@@ -1,0 +1,53 @@
+<% orders.forEach(order => { %>
+    <div class="card p-3 my-3">
+        <div class="card-title ">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <p><%= order.datetime %></p>
+                    <p class="text-muted">Total Cost: <%= order.totalPrice %></p>
+                </div>
+
+                <div>
+                    <p class="text-primary fw-bold text-uppercase"><%= order.status %></p>
+                    <% if (!readOnly) {%>
+          <div class="row">
+            <form class="form-group d-flex" action="/cms" method="post" id="selectStatus">
+                <input type="hidden" name="type" value="order" />
+                <input type="hidden" name="orderID" value="<%= order.id %>" />
+                <select class="form-control" id="orderStatus" name="orderStatus" onchange="submitForm()">
+                    <option value="new" <% if (order.status === 'new') { %>selected<% } %>>New</option>
+                    <option value="in progress" <% if (order.status === 'in progress') { %>selected<% } %>>In Progress</option>
+                    <option value="shipped" <% if (order.status === 'shipped') { %>selected<% } %>>Shipped</option>
+                    <option value="arrived" <% if (order.status === 'arrived') { %>selected<% } %>>Arrived</option>
+                    <option value="canceled" <% if (order.status === 'canceled') { %>selected<% } %>>Canceled</option>
+                </select>
+            </form>
+          </div>
+        <% } %>
+                </div>
+            </div>
+            
+        
+
+        </div>
+
+        <div class="row">
+            <% order.items.forEach(orderItem => { %>
+                <div class="col-sm-6 col-xl-4">
+                    <%-include('../elements/orderItem.ejs', { product: orderItem, readOnly: true }); %>
+                </div>
+            <% }); %>
+        </div>
+        
+        
+    </div>
+    
+<% }); %>
+
+<script>
+  function submitForm() {
+    document.getElementById("selectStatus").submit();
+  }
+</script>
+
+

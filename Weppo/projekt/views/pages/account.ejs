@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row g-4">
+    <div class="col-xl-6">
+      <div class="card p-5 text-center">
+        <div class="title text-center mb-4">
+          <h2>Cart</h2>
+        </div>
+        <div class="card p-5">
+          <div class="row">
+            <% cart.forEach(product => { %>
+            <div class="col-xl-6 p-2 d-flex">
+              <%-include('../elements/orderItem.ejs', { product, readOnly:
+              true});%>
+            </div>
+            <% }); %>
+          </div>
+        </div>
+        <form action="/account" method="post" class="mt-4">
+          <button type="submit" class="btn btn-primary">Order</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-xl-6">
+      <div class="card p-5">
+        <div class="title text-center mb-4">
+          <h2>Your Orders</h2>
+        </div>
+        <%- include('../elements/orders.ejs', { orders, readOnly: true}); %>
+      </div>
+    </div>
+  </div>
+</div>

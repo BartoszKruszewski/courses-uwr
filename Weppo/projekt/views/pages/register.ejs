@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 offset-md-1 col-xl-6 offset-xl-3">
+      <div class="card flex-fill shadow-sm px-5">
+        <div class="card-body text-center">
+          <h1 class="card-title my-4 h2">Register</h1>
+          <form action="/register" method="post" class="mx-5">
+            <input
+              type="text"
+              id="email"
+              name="email"
+              class="form-control my-2"
+              placeholder="email"
+              required
+            />
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-control my-2"
+              placeholder="password"
+              required
+            />
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              class="form-control my-2"
+              placeholder="confirm password"
+              required
+            />
+            <% if (msg) { %>
+            <div class="alert alert-danger">
+              <p><%= msg %></p>
+            </div>
+            <% } %>
+            <button type="submit" class="btn btn-outline-primary my-2">
+              Register
+            </button>
+          </form>
+          <div class="card-text my-3">
+            <p>
+              Already signed?
+              <a class="text-decoration-none mx-2" href="/login">Login In</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

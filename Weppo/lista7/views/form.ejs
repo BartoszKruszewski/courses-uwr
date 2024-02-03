@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formularz zgłoszenia</title>
+  </head>
+  <body>
+    <h1>Formularz zgłoszenia</h1>
+    <form method="post">
+      <label for="firstName">Imię:</label>
+      <input type="text" name="firstName" required />
+
+      <label for="lastName">Nazwisko:</label>
+      <input type="text" name="lastName" required />
+
+      <label for="course">Nazwa zajęć:</label>
+      <input type="text" name="course" required />
+
+      <% for ( var i=1; i<=10; i++ ) { %>
+      <br />
+      <label for="task">Zadanie <%= i %>:</label>
+      <input type="number" name="task<%= i %>" value="0" />
+      <% } %>
+
+      <button type="submit">Wyślij</button>
+    </form>
+  </body>
+</html>

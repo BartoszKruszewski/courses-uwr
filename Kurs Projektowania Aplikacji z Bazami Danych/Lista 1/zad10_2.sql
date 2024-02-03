@@ -1,0 +1,3 @@
+INSERT INTO M2 (K1, K2, V) VALUES (1, 100, 'value1');
+INSERT INTO M2 (K1, K2, V) VALUES (2, 200, 'value2');
+INSERT INTO S2 (K, MFK1, MFK2, V) VALUES (101, 1, 100, 'value3');
