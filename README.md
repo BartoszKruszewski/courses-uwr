@@ -14,3 +14,11 @@
 * Kurs C++
 * Warsztaty "Jak założyć firmę?"
 * Filozofia Polityki
+
+## Semester 3 (Zima 2023/2024)
+* Analiza Numeryczna
+* Matematyka Dyskretna
+* Wybrane Elementy Praktytki Projektowania Oprogramowania
+* Kurs Rozrzeszony Języka Python
+* Kurs Projektowania Aplikacji z Bazami Danych
+* Projekt: Innovative Projects by Nokia
