@@ -1,0 +1,38 @@
+d = [|V|][|V|] <- inf
+
+for (u, v) in E:
+    d[u][v] = c((u, v))
+for v in V:
+    d[v][v] = 0
+
+V' = V / {v1 ... vk}
+
+for u in V':
+    for v1 in V':
+        for v2 in V':
+            # jezeli suma najkrotszych sciezek do u jest krotsza niz najkrotsza
+            # sciezka z v1 do v2 to jest ona nowa najkrotsza sciezka z v1 do v2
+            d[v1][v2] = min(d[v1][v2], d[v1][u] + d[u][v2])
+
+res = []
+
+D = 0
+for v1 in V':
+    for v2 in V':
+        D += d[v1][v2]
+res.append(D)
+
+# dodajemy kolejne wierzchołki, aktualizujemy tablice d oraz obliczamy D
+for j in range(k, 0, -1):
+    V' += {vj}
+    for v1 in V':
+        for v2 in V':
+            d[v1][v2] = min(d[v1][v2], d[v1][vj] + d[u][v2])
+
+    D = 0
+    for v1 in V':
+        for v2 in V':
+            D += d[v1][v2]
+    res.append(D)
+
+return reversed(res)
