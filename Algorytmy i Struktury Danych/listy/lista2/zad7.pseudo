@@ -1,0 +1,35 @@
+e = <v1, v2, max_c>
+
+visited = [n]
+
+def DFS(u):
+    if u == v2:
+        return True
+    visited[u] = True
+    for w, c in G[u]:
+        if not visited[w] and c < max_c and not (u == v1 and w == v2):
+            DFS(w)
+
+return not DFS(v1)
+
+Czas działania: O(n + m) bo to tylko DFS
+
+Dowód:
+Rozważmy przypadki
+
+1. e jest mostem
+    
+    Wtedy algorytm zwróci poprawnie True, poniważ nie uda mu się dotrzeć do v2
+
+2. e nie jest mostem
+    
+    Czyli krawędź jest w jakimś cyklu.
+    Wtedy jeżeli udałoby nam się dojść do v2,
+    używająć tylko krawędzi o wagach mniejszych od wagi e,
+    to znaczy, że e nigdy nie będzie należeć do MST.
+
+    Natomiast jeżeli nie uda nam się dojść do v2, to znaczy,
+    że wagi wszystkich pozostałych krawędzi, które są niezbędne do dojścia do v2,
+    są większe od wagi e, więc e należy do MST.
+
+

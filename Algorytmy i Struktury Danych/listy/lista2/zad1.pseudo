@@ -1,0 +1,10 @@
+I = sort(I) # sortowanie po k, jezeli sa rowne to po p
+last = I[0]
+print(last) 
+for i in range(1, n):
+    if I[i][0] > last: # jezeli poczatek jest dalej niz ostatni koniec
+        print(I[i][0]) 
+        last = I[i][0]
+
+Czas działania: O(n logn) bo trzeba zrobic sortowanie
+Pamiec: O(n)

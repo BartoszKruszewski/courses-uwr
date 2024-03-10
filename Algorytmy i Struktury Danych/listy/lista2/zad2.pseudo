@@ -1,0 +1,26 @@
+while a != 0:
+    x = math.ceil(b / a)
+    print(1/x)
+    a *= x
+    a -= b
+    b *= x
+
+Dowód:
+1 / x jest najwiekszym ułamkiem jaki miesci sie w a / b
+wiec 1 / (x - 1) sie nie miesci
+wiec 1 / (x - 1) > a / b
+b > a(x - 1)
+b > ax - a
+ax - b < a
+
+Zauwazmy ze a / b - 1 / x = (ax - b) / bx
+wiec licznik otrzymywanego ułamka maleje z kazda iteracja,
+niezaleznie od mianownika oraz zawsze jest naturalny, wiec zbiega do 1.
+
+Czas działania: 
+O(a), jezeli z kazda iteracja a zmniejsza sie o co najmniej 1
+to wykonamy maksymalnie a operacji
+
+Nie zawsze jest optymalny:
+Dla 230/13221 znajduje 1/58 + 1/6444 + 1/274520844
+a optymalnie jest 1/113 + 1/117
