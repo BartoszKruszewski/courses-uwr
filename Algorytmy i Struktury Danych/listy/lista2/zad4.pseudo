@@ -1,0 +1,34 @@
+Fn+2 = Fn + Fn+1
+Fn = Fn+2 - Fn+1
+
+f1 = 1
+f2 = 1
+while f2 < r:
+    p = f2
+    f2 += f1
+    f1 = p
+while f2 > 1:
+    if f2 < r:
+        print(f2)
+        r -= f2
+    p = f1
+    f1 = f2 - f1
+    f2 = p
+
+Czas działania: O(logn), bo liczby fibonacciego generujemy w takim czasie
+
+Dowód:
+P(k) := każdą liczbę naturalną <= k da się przedstawić jako suma różnych liczb fibonacciego, w tym największej < k
+1. trywialne
+2. 
+    Musimy udowodnić dla k + 1 bo dla <= k mamy z zał ind. 
+    Oznaczmy jako x największą liczbę fibonacciego < k + 1,
+    wtedy k = x + y
+    y z zał ind P(y) możemy przedstawić jako suma różnych liczb fibonacciego.
+    Nie ma wśród nich x bo y < x.
+
+Algorytm znajduje taki rozkład, ponieważ zawsze bierze największą mieszcząca się liczbę.
+Wtedy dla liczby y możemy powołować się na P(y).
+
+Dowód optymalności:
+

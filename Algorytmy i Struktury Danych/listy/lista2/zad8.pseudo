@@ -1,0 +1,60 @@
+# szukanie dwóch najbardziej oddalonych wierzchołków 
+
+def furthest(v):
+    visited = [n]
+    m_dist = 0
+    m_vertex = v 
+
+    def dfs(v, dist):
+        visted[v] = True
+
+        if dist > m_dist:
+            m_dist = dist
+            m_vertex = v
+
+        for u in G[v]:
+            if not visited[u]:
+                dfs(u, dist + 1)
+    
+    dfs(v, 0)
+    return m_vertex
+
+a = furthest(root)
+b = furthest(a)
+
+# obliczanie odległości od a i b dla kazdego wierzcholka
+
+dist_a = [n]
+dist_b = [n]
+
+def dfs_a(v, dist):
+    dist_a[v] = dist
+
+    for u in G[v]:
+        if not dist_a[u]:
+            dfs(u, dist + 1)
+
+dfs_a(a, 0)
+
+def dfs_b(v, dist):
+    dist_b[v] = dist
+
+    for u in G[v]:
+        if not dist_b[u]:
+            dfs(u, dist + 1)
+
+dfs_b(b, 0)
+
+# szukanie wierzcholka dla ktorego suma odleglosci od a i b jest maksymalna
+
+m = 0
+c = 0
+for v in G:
+    if dist_a[v] + dist_b[v] > m:
+        m = dist_a[v] + dist_b[v]
+        c = v
+
+return a, b, c
+
+Złożoność O(V + E)  # 4 * dfs + szukanie maksimum
+

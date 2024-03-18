@@ -1,34 +1,26 @@
-Fn+2 = Fn + Fn+1
-Fn = Fn+2 - Fn+1
-
-f1 = 1
-f2 = 1
-while f2 < r:
-    p = f2
-    f2 += f1
-    f1 = p
-while f2 > 1:
-    if f2 < r:
-        print(f2)
-        r -= f2
-    p = f1
-    f1 = f2 - f1
-    f2 = p
-
-Czas działania: O(logn), bo liczby fibonacciego generujemy w takim czasie
+while a != 0:
+    x = math.ceil(b / a)
+    print(1/x)
+    a *= x
+    a -= b
+    b *= x
 
 Dowód:
-P(k) := każdą liczbę naturalną <= k da się przedstawić jako suma różnych liczb fibonacciego, w tym największej < k
-1. trywialne
-2. 
-    Musimy udowodnić dla k + 1 bo dla <= k mamy z zał ind. 
-    Oznaczmy jako x największą liczbę fibonacciego < k + 1,
-    wtedy k = x + y
-    y z zał ind P(y) możemy przedstawić jako suma różnych liczb fibonacciego.
-    Nie ma wśród nich x bo y < x.
+1 / x jest najwiekszym ułamkiem jaki miesci sie w a / b
+wiec 1 / (x - 1) sie nie miesci
+wiec 1 / (x - 1) > a / b
+b > a(x - 1)
+b > ax - a
+ax - b < a
 
-Algorytm znajduje taki rozkład, ponieważ zawsze bierze największą mieszcząca się liczbę.
-Wtedy dla liczby y możemy powołować się na P(y).
+Zauwazmy ze a / b - 1 / x = (ax - b) / bx
+wiec licznik otrzymywanego ułamka maleje z kazda iteracja,
+niezaleznie od mianownika oraz zawsze jest naturalny, wiec zbiega do 1.
 
-Dowód optymalności:
+Czas działania: 
+O(a), jezeli z kazda iteracja a zmniejsza sie o co najmniej 1
+to wykonamy maksymalnie a operacji
 
+Nie zawsze jest optymalny:
+Dla 230/13221 znajduje 1/58 + 1/6444 + 1/274520844
+a optymalnie jest 1/113 + 1/117

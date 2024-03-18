@@ -1,0 +1,61 @@
+Dla k = 1 kolorujemy max 1 dowolony wierzchołek.
+Ścieżka może mieć max dwa liście.
+Więc dla k >= 2. Możemy pokolorować wszystkie liście.
+Usuwamy pokolorowane liście z drzewa i zmniejszamy k o 2.
+
+colored = [n]           # kolorowanie
+parents = [n]           # parents[u] = v oznacza, że v jest ojcem u
+stack_leaves = [n]      # aktualnie przeszukiwane liśćie
+stack_parents = [n]     # rodzice aktualnie przeszukiwanych liści
+
+# dodanie liści globalnych na stos i wypełnienie tablicy parents
+
+def add_leaves(v):
+    if not G[v]:
+        stack.push(v)
+    else:
+        for u in G[v]:
+            parents[u] = v
+            add_leaves(u)
+
+add_leaves(root)
+
+while k > 1:
+
+    # kolorowanie wszystkich aktualnych liści 
+    # i dodawanie ich rodziców na stos
+
+    while stack_leaves:
+        v = stack_leaves.pop()
+        colored[v] = True
+        stack_parents.push(parents(v))
+
+    # sprawdzanie, czy po wykonaniu kolorwania "całej warstwy" liści,
+    # rodzice poprzednich liści to nowe liści
+
+    while stack_parents:
+        v = stack_parents.pop()
+        is_leave = True
+        for u in G[v]:
+            if not colored[u]:
+                is_leave = False
+                break
+        if is_leave:
+            stack_leaves.push(v)
+
+    # zmiejszamy k o 2 ponieważ ścieżka może przechodzić
+    # przez max dwa nowo pokolorowane liście
+
+    k -= 2
+
+# jeżeli k było nieparzyste to malujemy jeden dodatkowy dowolny wierzchołek
+
+if k == 1:
+    colored[root] = True
+
+return colored
+
+Złożoność: O(E)
+
+
+        
