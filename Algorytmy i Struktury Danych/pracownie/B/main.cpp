@@ -44,8 +44,7 @@ Answear brute(Point P[], int n, double p) {
 
 Answear getMin(Point Px[], Point Py[], int n)
 {	
-	if (n < 3) return {Px[0], Px[0], Px[0], FLT_MAX};
-	if (n == 3) return {Px[0], Px[1], Px[2], perimeter(Px[0], Px[1], Px[2])};
+	if (n <= 5) return brute(Py, n, DBL_MAX);
 	
 	int mid = n / 2;
 	Point midPoint = Px[mid];
@@ -94,6 +93,6 @@ int main()
 	cout << m.a.x << " " << m.a.y << endl;
 	cout << m.b.x << " " << m.b.y << endl;
 	cout << m.c.x << " " << m.c.y << endl;
-
+	//cout << m.p << endl;
 	return 0;
 }

@@ -10,7 +10,7 @@ Analiza przepływu danych to zbadanie jak dane zmieniają się podczas działani
     in: {(x, ?), (y: ?), (z: ?)}
     out: {(x, 1), (y: ?), (z: ?)}
 
-2. [y := x+10]
+2. [y := x + 10]
     in: {(x, 1), (y: ?), (z: ?)}
     out: {(x, 1), (y: 2), (z: ?)}
 
@@ -20,10 +20,9 @@ Analiza przepływu danych to zbadanie jak dane zmieniają się podczas działani
 ```
 
 **Optymalizacja kodu**
-Wartość $x$ jest przypisywana tylko w 1. instrukcji i później się nie zmienia, więc możemy od razu ją wyliczyć. 
+Wartość $x$ jest przypisywana tylko w 1. instrukcji i później się nie zmienia, więc możemy od razu wyliczyć $y$. 
 
-Wartość $y$ też nie jest już później przypisywana ponownie, więc postępujemy tak samo.
-Analogicznie dla $z$.
+Wartość $y$ też nie jest już później przypisywana ponownie, więc postępujemy tak samo dla $z$.
 
 Optymalizuje to ilość operacji arytmetycznych.
 ```
