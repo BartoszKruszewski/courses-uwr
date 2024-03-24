@@ -58,3 +58,36 @@ return a, b, c
 
 Złożoność O(V + E)  # 4 * dfs + szukanie maksimum
 
+Dowód:
+
+Lemat 1:
+    Teza: dwa wierzchołki spośród a, b, c należą do najdłuższej ścieżki
+    Dowód nie wprost
+    Rozważmy przypadki:
+    1. a należy do najdłuższej ścieżki, a b i c nie:
+        Oznaczmy drugi koniec najdłużej sciezki jako a'
+        Wybierzmy wiercholek v znajdujacy sie na a -> a',
+        taki ze istnieje v -> c.
+        R(a, b, a') = R(a, b, v) + 2d(v, a')
+        R(a, b, c) = R(a, b, v) + 2d(v, c)
+        d(v, a') > d(v, c) bo inaczej a -> c byłoby najdłuższą ścieżką
+        stąd R(a, b, a') > R(a, b, c) co jest sprzeczne bo R(a, b, c) jest OPT
+    2. a, b, c  nie naleza do najdłuższej ścieżki:
+        Niech x i x' będą końcami najdłuższej ścieżki
+        Niech v będzie punktem przecięcia ścieżki a -> b i x -> x'.
+        R(a, x, x') = 2d(a, v) + d(x, v) + d(x', v) + d(x, x') = 2d(a, v) + 2d(x, x')
+        R(a, b, c) = 2d(a, v) + d(v, c) + d(v, b) + d(b, c) = 2d(a, v) + 2d(b, c)
+        d(x, x') > d(b, c) bo x -> x' jest najdłuższą ścieżką
+        R(a, x, x') > R(a, b, c) co jest sprzeczne bo R(a, b, c) jest OPT
+
+Z Lematu 1 wiemy, że najdłuższa ścieżka należy do rozwiązania.
+Bez straty ogólności załóżmy, że a i b to jej końce.
+Wetdy d(a, b) podczas wyboru jest stale.
+Wtedy c musi być najbardziej oddalone od ścieżki.
+Graf jest drzewem, więc istenieje tylko jedna ścieżka a -> c i b -> c.
+Ustalmy v jako wierzcholek ze sciezki dla ktorego v -> c nie nalezy do sciezki.
+d(a, c) + d(b, c) = d(a, v) + d(v, c) + d(b, v) + d(v, c) = d(a, b) + 2d(v, c)
+Dlatego c powinno spelniac d(a, c) + d(b, c) jest maksymalne,
+wtedy d(v, c) tez bedzie maksymalne.
+Czyli R(a, b, c) = 2d(a, b) + 2d(v, c) tez bedzie maksymalne.
+

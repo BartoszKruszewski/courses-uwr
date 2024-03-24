@@ -1,0 +1,44 @@
+P1 - permutacja pi
+P2 - permutacja sigma
+Q[i] - pozycja (i - 1) w P2
+
+r - najbardziej prawy element, który należy przesunąc w prawo
+
+for i in range(n):
+    Q[P2[i] - 1] = i
+
+for _ in range(n):
+    r = 0
+    for j in range(n):
+        if Q[P1[j] - 1] > j: # sprawdzanie czy P1[j] należy przesunąć w prawo
+            r = j
+        elif Q[P1[j] - 1] < j: # sprawdzanie czy P1[j] należy przesunąć w lewo
+            print(r, j)
+            swap(r, j)
+            r = j
+        # jeżeli element jest na właściwym miejscu nic się nie dzieje
+
+Złożoność O(n2)
+
+Dowód:
+Oznaczmy R jako element, który należy przesunąć w prawo.
+Oznaczmy L jako element, który należy przesunąć w lewo.
+
+Obserwacja 1:
+Dla ..., R, poprawnie ustawione elementy, L, ...
+zamieniając R i L będzie to optymalne,
+ponieważ suma kosztów wszystkich przesunięć 
+będzie równa kosztowi jednego długiego 
+optymalnego przesuniecia.
+| i - j | = | i - x | + | x - j |
+
+Obserwacja 2:
+Podczas jednej zewnetrznej iteracji
+ustawiamy najbardziej prawe R na swoje miejsce,
+bo przypisujemy r = j po zamianie,
+więc R będzie przesuwane aż przestanie być R,
+czyli będzie na swoim miejscu.
+
+Z obserwacji 2 wynika, że algorytm po n iteracjach znajdzie poprawne rozwiązanie.
+Z obserwacji 1 wynika, że algorytm wykonuje tylko optymalne zamiany.
+Czyli rozwiązanie jest poprawne i optymalne. 
