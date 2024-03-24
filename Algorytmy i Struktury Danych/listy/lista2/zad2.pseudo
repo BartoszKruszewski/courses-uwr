@@ -8,3 +8,18 @@ for i in range(1, n):
 
 Czas działania: O(n logn) bo trzeba zrobic sortowanie
 Pamiec: O(n)
+
+Dowód:
+
+Niech OPT oznacza rozwiązanie optymalne, 
+a A rozwiązanie zwrocone przez nasz algorytm.
+
+Zał, nie wprost ze A jest gorsze.
+Czyli istnieje pierwszy x należący do OPT, którego nie ma w A.
+Jeśli x nie ma w A to jego poprzednik w A przecina go.
+Poniewaz x jest pierwszym odcinkiem, który różni A i OPT,
+to każdy jego poprzednik należący do A należy też do OPT.
+Wtedy y należy do OPT, co jest sprzeczne bo przecina x. 
+
+Jeżeli x nie ma poprzedników, to będzie pierwszym odcinkiem,
+a algorytm zawsze uwzględnia pierwszy odcinek.

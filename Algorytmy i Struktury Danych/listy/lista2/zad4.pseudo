@@ -18,17 +18,17 @@ while f2 > 1:
 Czas działania: O(logn), bo liczby fibonacciego generujemy w takim czasie
 
 Dowód:
-P(k) := każdą liczbę naturalną <= k da się przedstawić jako suma różnych liczb fibonacciego, w tym największej < k
+P(k) := każdą liczbę naturalną <= k da się jednoznacznie przedstawić jako suma różnych liczb fibonacciego, w tym największej < k
 1. trywialne
 2. 
     Musimy udowodnić dla k + 1 bo dla <= k mamy z zał ind. 
     Oznaczmy jako x największą liczbę fibonacciego < k + 1,
-    wtedy k = x + y
+    wtedy k + 1 = x + y
     y z zał ind P(y) możemy przedstawić jako suma różnych liczb fibonacciego.
-    Nie ma wśród nich x bo y < x.
+    Nie ma wśród nich x bo y < x, bo inaczej x nie byloby największą < k + 1.
+    Wiemy, że x i y można przedsawić jednoznacznie, są one oddalone o conajmniej 1, więc ich suma też jest jednoznaczna.
 
 Algorytm znajduje taki rozkład, ponieważ zawsze bierze największą mieszcząca się liczbę.
 Wtedy dla liczby y możemy powołować się na P(y).
 
-Dowód optymalności:
-
+Skoro rozkład jest jednoznaczny to znajdując jedyne rozwiązanie znajdujemy rozwiązanie optymalne.
