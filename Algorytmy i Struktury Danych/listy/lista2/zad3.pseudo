@@ -13,9 +13,11 @@ b > a(x - 1)
 b > ax - a
 ax - b < a
 
-Zauwazmy ze a / b - 1 / x = (ax - b) / bx
-wiec licznik otrzymywanego ułamka maleje z kazda iteracja,
-niezaleznie od mianownika oraz zawsze jest naturalny, wiec zbiega do 1.
+a / b > 1 / x
+ax > b
+ax - b > 0
+
+a jest naturalny, dodatni i maleje, więc zbiega do 1.
 
 Czas działania: 
 O(a), jezeli z kazda iteracja a zmniejsza sie o co najmniej 1

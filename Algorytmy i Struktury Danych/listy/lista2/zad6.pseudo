@@ -56,6 +56,3 @@ if k == 1:
 return colored
 
 Złożoność: O(E)
-
-
-        

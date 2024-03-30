@@ -1,0 +1,42 @@
+A - pierwsza otoczka wypukła (po prawej)
+B - druga otoczka wypukła (po lewej)
+
+Zakładmy, ze są to wielokąty więc są posortowane,
+względem ruchu wskazowek zegara.
+
+Sprawdzanie czy ab nie przecina B:
+gdzie c to inny punkt z B
+(b[1]-a[1]) * (c[0]-b[0]) - (c[1]-b[1]) * (b[0]-a[0]) >= 0
+
+# znajdowanie tangentu górnego
+a = najbardziej prawy punkt z otoczki a
+b - najbardziej lewy punkt z otoczki b
+while (ab przecina A lub B):
+    while (ab przecina B):
+        b = następny z B #(idzie do góry)
+    while (AB przecina A):
+        a = poprzedni z A #(idzie do góry)
+
+Analogicznie dla tangentu dolnego.
+
+Tangent górny: (AU, BU)
+Tangent dolny: (AL, BL)
+
+Ustawienie wyniku jako punkty w kolejności:
+BU -> BL -> AL -> AU
+
+Złozność: 
+    O(n) # min i max
+    O(n) # znajdowanie tangentu
+    O(n) # wypisanie wyniku
+Razem: O(n)
+
+Dowód poprawności:
+Wszystkie punkty z A oraz z B są pomiędzy obliczonymi tangentami.
+Rozwiązanie uwzględnia punkty w A na lewo od prostej (AU, AL),
+które były dane jako punkty otoczki wypukłej A, więc nadal ograniczają
+obszar od lewej prosty. Analogicznie punkty na prawo od prostej (BU, BL).
+Stąd obszar pokrywa wszystkie punkty.
+
+Jest to rozwiązanie minimalne, poniewaz gdyby dało się dodać inny punkt,
+to oznaczałoby przecięcie z A lub B, co nie pokrywałoby całego obszaru.
