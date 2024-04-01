@@ -1,0 +1,42 @@
+v = root
+while v.l or v.r:
+    if v.l > v and v.r > v:
+        return v
+    v = min(v.l, v.r)
+    
+Złożność:
+    O(n) szukanie korzenia (bez odkrywania wartości)
+    O(logn) bo przechodzimy po ścieżce od korzenia do liścia
+
+Lemat 1:
+    P(x) := Rodzic x jest od niego większy.
+
+    Oznaczmy v jako ojca, a u jako jego mniejsze dziecko.
+
+    Indukcja
+    1. P(korzeń)
+    2. P(v) => P(u) bo algorytm sprawdza tylko mniejsze dzieci.
+
+    1. trywialne
+    2. v z zał ind ma rodzica wiekszego od siebie.
+        Rozpatrzmy przypadki
+        1. u jest wieksze do v
+            wtedy drugie dziecko tez jest wieksze wiec v jest lokalnym minimum
+            indukcja nie przebiega dalej, bo algorytm sie konczy
+        2. u jest mniejsze od v
+
+Dowód:
+    Są możliwe dwa przypadki:
+    1. Algorytm znajdzie lokalne minimum
+    2. Algortym dojdzie do liścia
+        wtedy są również dwa przypadki:
+        a. Liść jest lokalnym minimum
+        b. Rodzic liścia jest od niego mniejszy
+            Skoro liść jest większy od rodzica
+            to jego drugie dziecko też jest od niego większe.
+            Z lematu 1, rodzic rodzica też jest od niego większy,
+            więc rodzic jest lokalnym minimum, co jest sprzeczne z przypadkiem 1,
+            wiec przypadek b nie zachodzi nigdy
+
+Rozwiązanie jest optymalne, ponieważ żeby mieć pewność,
+że znajdziemy minimum to musimy przejść co najmniej do liścia w czasie O(logn).

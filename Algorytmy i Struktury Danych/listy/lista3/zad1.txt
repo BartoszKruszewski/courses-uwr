@@ -1,3 +1,0 @@
-T(n) = 2T(n/2) + n/logn = 2(2T(n/4) + n/2logn) + n/logn =
-     = 4T(n/4) + n/logn + n/logn = ... = 2^logn * 1 + logn * (n/logn) =
-     = n + n = 2n = Θ(n)
