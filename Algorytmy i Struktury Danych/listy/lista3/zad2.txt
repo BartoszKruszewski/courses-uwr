@@ -1,23 +1,17 @@
-def merge(S1, S2, n):
-    res = {}
-    for s1 in S1:
-        for s2 in S2:
-            if s1.a == s2.a:
-                res.append(s1.b < s2.b ? s1 : s2)
-            else:
-                res.append(s1)
-                res.append(s2)
-    return res
+Dowód
 
-def HLR(S, n):
-    if n == 1:
-        return S
-    elif n == 2:
-        if S[0].a == S[1].a:
-            return S[0].b < S[1].b ? {S[0]} : {S[1]}
-        return S
-    
-    S1 = HLR[S[0:n//2], n//2]
-    S2 = HLR[S[n//2:n], n//2]
+Rozwazamy zbior widocznych prostych.
+Weźmy proste I, J, N, takie ze ai < an < aj.
+Punkt przeciecia I i J to p, a punkt n, taki ze xp = xn znajduje się na prostej N.
+Wtedy:
+xp = xn = (bi - bj) / (ai - aj)
+yp = ai * xp + bi = aj * xp + bi
+yn = an * xn + bn
 
-    return merge(S1, S2, n)
+Obserwacja:
+yn > yp <=> N jest widoczne
+Rozwazamy widoczne proste, wiec yn > yp
+
+an * xn + bn > ai * xp + bi lub an * xn + bn > aj * xp + bi
+
+

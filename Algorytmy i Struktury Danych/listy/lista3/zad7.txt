@@ -1,0 +1,8 @@
+Podczas robienia merge w merge sorcie,
+kiedy mamy dwa indeksy i, j dla obu połówek tablicy,
+jezeli arr[i] > arr[j]: 
+to znaczy, ze j-ty element jest inwersja z elementami pierwszej podtablicy
+od i-tego elementu do konca podtablicy.
+Więc dodajemy wtedy do licznika (n // 2 - i).
+
+Licznik nalezy dodawac ze wszystkich wywolan rekurencyjnych.
