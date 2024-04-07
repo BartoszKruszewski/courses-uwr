@@ -1,17 +1,58 @@
-Dowód
+Algorytm:
 
-Rozwazamy zbior widocznych prostych.
-Weźmy proste I, J, N, takie ze ai < an < aj.
-Punkt przeciecia I i J to p, a punkt n, taki ze xp = xn znajduje się na prostej N.
+Zapisujemy proste jako punkty (ai, bi).
+Sortujemy punkty względem a.
+Wybieramy a - pierwszy i b - ostatni, bo zawsze beda widoczne.
+Wyznaczamy otoczke wypukłą.
+Bierzemy część otoczki wypukłej od a do b.
+
+Złożoność: O(nlogn) bo robimy sortowanie, wyszukiwanie otoczki wypukłej też można zrobić w O(nlogn).
+
+Dowód:
+Rozwazamy zbior widocznych prostych, posortowany po a.
+Usuwamy proste równoległe.
+Weźmy proste I, J, N, takie że I oraz J to sąsiednie proste N, odpowiednio z lewej i prawej.
+Punkt przeciecia I i J to p, a punkt n, taki ze xp = xn oraz n znajduje się na prostej N.
 Wtedy:
 xp = xn = (bi - bj) / (ai - aj)
-yp = ai * xp + bi = aj * xp + bi
+yp = ai * xp + bi = aj * xp + bj
 yn = an * xn + bn
 
 Obserwacja:
 yn > yp <=> N jest widoczne
 Rozwazamy widoczne proste, wiec yn > yp
+Podstawiamy równania prostych:
+an * xn + bn > ai * xp + bi lub an * xn + bn > aj * xp + bj
+xn = xp wiec
+an * xn + bn > ai * xn + bi lub an * xn + bn > aj * xn + bj
+an * xn - ai * xn > bi - bn lub an * xn - aj * xn > bj - bn
+xn * (an - ai) > bi - bn lub xn * (an - aj) > bj - bn
 
-an * xn + bn > ai * xp + bi lub an * xn + bn > aj * xp + bi
+wiemy, że (an - ai) > 0 i (an - aj) < 0
+
+xn > (bi - bn) / (an - ai) lub xn < (bj - bn) / (an - aj) 
+
+Podstawiamy xn = (bi - bj) / (ai - aj)
+(bi - bj) / (ai - aj) > (bi - bn) / (an - ai) lub (bi - bj) / (ai - aj) < (bj - bn) / (an - aj)
+(bi - bj) * (an - ai) < (bi - bn) * (ai - aj) lub (bi - bj) * (an - aj) < (bj - bn) * (ai - aj)
+
+Weźmy punkty (0, +inf) oraz N
+N będzie na otoczce górnej <=> N będzie po tej samej stronie prostej IJ co (0, +inf)
+dn = (an − ai) * (bj − bi) − (bn − bi) * (aj − ai) dla wariantu z j można ułożyć analogiczne równanie
+dinf = (ainf − ai) * (bj − bi) − (binf − bi) * (aj − ai)
+Jeżeli d < 0 to punkt leży po jednej stronie prostej
+Jeżeli d > 0 to punkt leży po drugiej stronie prostej
+więc jężeli znaki dn i dinf są równe to punkty leżą po tej samej stronie prostej.
+
+Z wcześniej wyznaczonych równań możemy wywnioskować, że dn < 0.
+
+dinf = (ainf − ai) * (bj − bi) − (binf − bi) * (aj − ai) = -ai * (bj − bi) - inf = -inf < 0
+czyli dinf < 0
+
+Czyli punktu są po tej samej stronie prostej IJ.
+Czyli każdy punkt, którego odpowiadająca prosta jest widoczna należy do otoczki wypukłej górnej.
+
+
+
 
 

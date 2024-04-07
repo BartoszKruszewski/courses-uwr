@@ -1,0 +1,63 @@
+dp[i][j] - para dlugości dwóch najkrótszych dróg od pierwszej kolumny do pola aij
+
+# ustalanie wartości początkowych
+for i in range(n):
+    for j in range(m):
+        dp[i][j] = <inf, inf>
+
+for j in range(m):
+    dp[0][j] = <a[0][j], a[0][j]>
+
+# wypełnianie dp
+for i in range(1, n):
+    for j in range(m):
+
+        # wypełnienie minimalnej drogi
+        d[i][j][0] = a[i][j] + min(d[i - 1][j - 1][0], d[i - 1][j][0], d[i - 1][j + 1][0])
+
+        # wypełnienie drugiej minimalnej drogi
+        for x in [
+                    d[i - 1][j - 1][0],
+                    d[i - 1][j][0],
+                    d[i - 1][j + 1][0],
+                    d[i - 1][j - 1][1],
+                    d[i - 1][j][1],
+                    d[i - 1][j + 1][1]
+                ]:
+            if x != d[i][j][0] and x < d[i][j][1]:
+                d[i][j][1] = x
+
+# szukanie minimum po minimalnych ścieżkach
+min1 = inf
+for j in range(m):
+    if d[n - 1][j] < min1:
+        min1 = d[n - 1][j]
+
+# szukanie drugiego minimum po minimalnych ścieżkach
+min2 = inf
+target_i = 0
+target_j = 0
+for j in range(m):
+    if d[n - 1][j] < min2 and d[n - 1][j] != min1:
+        min2 = d[n - 1][j]
+        target_i = i
+        target_j = j
+
+# szukanie minimum po drugich minimalnych ścieżkach i porównanywnie czy może nie jest mniejsze
+for j in range(m):
+    if d[n - 1][j] < min2:
+        min2 = d[n - 1][j]
+
+# odtwrzanie ścieżki
+def path(i, j):
+    if i == 1: return j
+    k = j if d[i - 1][j] < d[i - 1][j - 1] else j - 1
+    k = j + 1 if d[i - 1][j + 1] < d[i - 1][k] else k
+    return path(i - 1, k) + [j] 
+
+Dowod:
+Rozważmy przypadki:
+1. druga minimalna ścieżka kończy się w tym samym polu co minimalna
+    Wtedy drugi element z pary znajdzie długość tej ścieżki
+2. druga minimalna ścieżka nie kończy się w tym samym polu co minimalna
+    Wtedy sprawdzanie drugiego minimum po pierwszych elementach par znajdzie długość tej ścieżki
