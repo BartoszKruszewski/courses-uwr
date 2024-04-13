@@ -8,7 +8,7 @@ for i in range(n):
     Q[P2[i] - 1] = i
 
 for _ in range(n):
-    r = 0
+    r = 0 x
     for j in range(n):
         if Q[P1[j] - 1] > j: # sprawdzanie czy P1[j] należy przesunąć w prawo
             r = j

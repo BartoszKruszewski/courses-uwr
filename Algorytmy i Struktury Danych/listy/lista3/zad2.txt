@@ -51,8 +51,3 @@ czyli dinf < 0
 
 Czyli punktu są po tej samej stronie prostej IJ.
 Czyli każdy punkt, którego odpowiadająca prosta jest widoczna należy do otoczki wypukłej górnej.
-
-
-
-
-
