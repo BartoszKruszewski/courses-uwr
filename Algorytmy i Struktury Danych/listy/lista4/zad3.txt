@@ -1,0 +1,8 @@
+Szukanie SCS tak samo jak LCS tylko:
+dp[i][0] = i
+dp[0][j] = j
+bierzemy max zamiast min przy łączeniu wyniku
+
+Dla optymalizacji nie pamietamy calych stringów w dp,
+tylko wyliczamy w nich dlugosci SCS, a po zakonczeniu wyznaczania dp
+odtwarzamy sciezke.

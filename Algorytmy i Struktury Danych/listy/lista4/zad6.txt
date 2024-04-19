@@ -1,0 +1,20 @@
+Obswerwacja:
+mis(u) = max(
+    sum(mis(v) for v in G[u])
+    c(u) + sum(mis(x) for x in G[v] for v in G[u])
+)
+
+sortujemy wierzcholki warstwami od lisci,
+mozna to zrobic w O(n) idac do liscia,
+a pozniej kolejno dodawac rodzicow.
+(napierw liście, dp[n] to korzeń).
+
+for u in G:
+    dp[u] = max(
+        sum(dp[v] for v in G[u]),
+        c(u) + sum(dp[w] for w in G[v] for v in G[u])
+    )
+return dp[n]
+
+Złozoność O(n), bo kazda wartosc jest odczytywana
+tylko przez przez swojego ojca i dziadka.

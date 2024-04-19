@@ -5,7 +5,7 @@ while v.l or v.r:
     v = min(v.l, v.r)
     
 Złożność:
-    O(n) szukanie korzenia (bez odkrywania wartości)
+    O(logn) szukanie korzenia (bez odkrywania wartości)
     O(logn) bo przechodzimy po ścieżce od korzenia do liścia
 
 Lemat 1:
