@@ -49,14 +49,14 @@ int main() {
         }
     }
 
-    // wypisywanie dp
-    cout << endl;
-    for (int i = 0; i < k; i++) {
-        for (int j = 0; j < l; j++) {
-            cout << dp[i][j] << " ";
-        }
-        cout << endl;
-    }
+    // // wypisywanie dp
+    // cout << endl;
+    // for (int i = 0; i < k; i++) {
+    //     for (int j = 0; j < l; j++) {
+    //         cout << dp[i][j] << " ";
+    //     }
+    //     cout << endl;
+    // }
 
     // inicjacja tablicy przedzialow
     int bars[k + 1];

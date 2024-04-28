@@ -1,38 +1,31 @@
 # Bartosz Kruszewski
-# 15.04.2024
+# 26.04.2024
 # Wyznaczanie wartości dystrybuanty rozkładu normalnego
 
 from math import sqrt, pi, e
 
-def cdf(u: float, v: float, x: float) -> float:
+def cdf(u: float, v: float, x: float, n: int = 1000000) -> float:
     '''Funkcja obliczająca wartość dystrybuanty rozkładu normalnego.
 
     - u: wartość oczekiwana
     - v: odchylenie standardowe
     - x: argument dystrybuanty
+    - n: liczba węzłów
 
-    Funkcja wykorzystuje kwadraturę Gaussa-Legendre'a z 10 węzłami.
+    Funkcja wykorzystuje złożoną metodę trapezów.
     '''
-    
-    # węzły
-    t = [
-        0.14887433898163122, 0.4333953941292472, 0.6794095682990244,
-        0.8650633666889845, 0.9739065285171717, -0.14887433898163122, 
-        -0.4333953941292472, -0.6794095682990244, -0.8650633666889845, 
-        -0.9739065285171717
-    ]
-    
-    # wagi
-    w = [
-        0.2955242247147529, 0.2692667193099963, 0.2190863625159820, 
-        0.1494513491505806, 0.0666713443086881, 0.2955242247147529,
-        0.2692667193099963, 0.2190863625159820, 0.1494513491505806,
-        0.0666713443086881
-    ]
 
-    a = (x - u) / sqrt(2) / v # mozemy obliczyć wcześniej
-    s = sum(w[i] * e ** (-1 * (t[i] * a) ** 2) for i in range(10))
-    return (1 + (x - u) / sqrt(2 * pi) / v * s) / 2
+    # mozemy obliczyć wcześniej
+    a = (x - u) / sqrt(2) / v 
+
+    # dwa pierwsze wyrazy dzielimy przez 2
+    s = (e ** -(-1 * a) ** 2 + e ** -((-1 + 2 / n) * a) ** 2) / 2 
+
+    # sumowanie kolejnych wyrazów sumy
+    s += sum(e ** -(t / n * a) ** 2 for t in range(-n + 4, n + 1, 2))
+
+    # obliczanie koncowego wyniku
+    return (1 + (x - u) / sqrt(2 * pi) / v * 2 / n  * s) / 2
 
 # testy
 if __name__ == '__main__':

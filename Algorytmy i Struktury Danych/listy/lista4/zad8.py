@@ -14,12 +14,12 @@ def rec(sm1, sm2, sm3, j):
     if (sm1, sm2) in dp: return dp[(sm1, sm2)]
     if (sm2, sm1) in dp: return dp[(sm2, sm1)]
 
-    dp[(sm1, sm2)] = max(
+    dp[(sm1, sm2)] = any((
 	    rec(sm1 + arr[j], sm2, sm3, j + 1),
 	    rec(sm1, sm2 + arr[j], sm3, j + 1),
 	    rec(sm1, sm2, sm3 + arr[j], j + 1),
-	)
-	
+    ))
+
     return dp[(sm1, sm2)]
 
 print(rec(0, 0, 0, 0))
