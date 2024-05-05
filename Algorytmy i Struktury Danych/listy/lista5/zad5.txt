@@ -1,0 +1,27 @@
+Najpierw sprawdzamy czy istenieją dwie identyczne liczby w zbiorze
+
+Algorytm:
+1. sortowanie
+2. przejśćie po liście i sprawdzanie liczb obok czy są takie same
+3. dla każdej pary znalezionych liczb sprawdzanie binsearchem czy istnieje c = -2a
+4. jeżeli istnieje to zwracamy TAK, wpp wyrzucamy powtórki ze zbioru
+
+Złożoność: O(nlogn)
+
+Jeżeli nie znaleźliśmy takiej pary liczb to możemy założyć, że a != b != c
+
+Zapiszmy liczby ze zbioru jako punkty postaci (x, x^3).
+Punkty są współliniowe wtw 
+(xb - xa)(yc - ya) - (yb - ya)(xc - xa) = 0
+(b - a)(c^3 - a^3) - (b^3 - a^3)(c - a) = 0
+(b - a)(c - a)(a^2 + ac + c^2) - (b - a)(c - a)(a^2 + ab + b^2) =
+(b - a)(c - a)(a^2 + ac + c^2 - a^2 - ab - b^2) =
+(b - a)(c - a)(c^2 - b^2 + ac - ab) =
+(b - a)(c - a)((c - b)(c + b) + a(c - b)) =
+(b - a)(c - a)(c - b)(c + b + a) = 0
+
+b - a = 0 v c - a = 0 v c - b = 0 v c + b + a = 0
+
+Wiemy, że a != b != c, więc zachodzi a + b + c = 0
+Więc, jeżeli algorytm zwróci TAK to 3SUM jest spełniony.
+    

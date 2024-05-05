@@ -1,0 +1,17 @@
+Algorytm:
+Dzielimy zbiór na dwie równe części 
+i robimy porównania elementów z jednego zbioru i drugiego.
+Wykonujemy w ten sposób n/2 porównań. 
+Bierzemy większe elementy z porównań i powtarzamy proces rekurencyjnie.
+Ostatni element jaki zostanie będzie maksimum.
+Robimy to w n/2 + n/4 + ... + 1 = n - 1 porównaniach
+
+Drugi największy element mógł odpaść tylko w porównaniu z największym.
+Takich porównań było ceil(log(n)).
+Biorąc elementy biorące udział w tych porównaniach
+możemy przejść po nich liniowo i znaleść największy.
+Robimy to za pomocą ceil(log(n)) - 1 porównań.
+
+Sumując liczbę porównań otrzymujemy n - 1 + ceil(log(n)) - 1 = n + ceil(log(n)) - 2
+
+Więc wystarcza n + ceil(log(n)) - 2 porównań.
