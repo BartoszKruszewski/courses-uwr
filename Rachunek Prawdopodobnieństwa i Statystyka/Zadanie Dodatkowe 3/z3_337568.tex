@@ -1,0 +1,84 @@
+% Nie jestem zbyt dobrze zaznajomiony z LaTeX'em,
+% a chciałem, żeby moja praca wyglądała dobrze,
+% więc skorzystałem z pomocy ChatGPT przy formatowaniu
+% ostatecznego wyglądu pdf. Stąd pochodzą różne 
+% podejrzane instrukcje LaTeX'a.
+
+% Całość obliczeń niezbędnych do rozwiązania zadań
+% została oczywiście wykonana ręcznie lub
+% z użyciem narzędzi zbliżonych do kalkulatorów statystycznych.
+
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{booktabs} 
+\usepackage{siunitx} 
+\sisetup{output-exponent-marker=\ensuremath{\mathrm{e}}}
+\usepackage{titlesec}
+\usepackage{float}
+\usepackage[margin=1in,top=0.75in]{geometry}
+\usepackage{caption}
+
+\titleformat{\section}{\normalfont\Large\bfseries}{Zadanie \thesection}{1em}{}
+
+\title{Zadanie egzaminacyjne 3}
+\author{Bartosz Kruszewski - 337568}
+
+\pagenumbering{gobble}
+
+\renewcommand{\tablename}{}
+\renewcommand{\thetable}{}
+\captionsetup[table]{labelsep=none}
+
+\begin{document}
+
+\maketitle
+
+\section{}
+\begin{equation*}
+M_x(t) = \int_{0}^{\infty} e^{tx} \lambda e^{-\lambda x} dx = \frac{\lambda}{\lambda - t}
+\end{equation*}
+
+\section{}
+\begin{alignat*}{2}
+&\text{Markov:} &\qquad P(X \ge \lambda a) &\le \frac{1}{\lambda^{2} a} \\
+&\text{Chebyshev:} &\qquad P(X \ge \lambda a) &\le \frac{1}{(\lambda^{2} a - 1)^2} \\
+&\text{Chernoff:} &\qquad P(X \ge \lambda a) &\le \lambda^{2} a e^{-\lambda^{2} a + 1}
+\end{alignat*}
+
+\section{}
+
+\begin{equation*}
+    \lambda = k + m + 1 = 8 + 6 + 1 = 15
+\end{equation*}
+
+\begin{table*}[htbp]
+    \centering
+    \caption{Wartości w postaci wykładniczej}
+    \begin{tabular}{cccccc}
+        \toprule
+        Wartości $a$ & Wartości dokładne & Markov & Chebyshev & Chernoff \\
+        \midrule
+        3 & $e^{-15^{2} * 3}$ & $\frac{1}{15^2 * 3}$ & $\frac{1}{(15^2 * 3 - 1)^2}$ & $15^{2} * 3 e^{-15^{2} * 3 + 1}$ \\
+        4 & $e^{-15^{2} * 4}$ & $\frac{1}{15^2 * 4}$ & $\frac{1}{(15^2 * 4 - 1)^2}$ & $15^{2} * 4 e^{-15^{2} * 4 + 1}$ \\
+        6 & $e^{-15^{2} * 6}$ & $\frac{1}{15^2 * 6}$ & $\frac{1}{(15^2 * 6 - 1)^2}$ & $15^{2} * 6 e^{-15^{2} * 6 + 1}$ \\
+        10 & $e^{-15^{2} * 10}$ & $\frac{1}{15^2 * 10}$ & $\frac{1}{(15^2 * 10 - 1)^2}$ & $15^{2} * 10 e^{-15^{2} * 10 + 1}$ \\
+        \bottomrule
+    \end{tabular}
+\end{table*}
+
+\begin{table*}[htbp]
+    \centering
+    \caption{Wartości w postaci liczbowej}
+    \begin{tabular}{cccccc}
+        \toprule
+        Wartości $a$ & Wartości dokładne & Markov & Chebyshev & Chernoff \\
+        \midrule
+        3 & \num{7.0994e-294} & \num{1.4814e-3} & \num{2.2013e-6} & \num{1.3026e-290} \\
+        4 & \num{1.3644e-391} & \num{1.1111e-3} & \num{1.2373e-6} & \num{3.3381e-388} \\
+        6 & \num{5.4021e-587} & \num{7.4074e-4} & \num{5.4951e-7} & \num{1.8495e-583} \\
+        10 & \num{6.8772e-978} & \num{4.4444e-4} & \num{1.9770e-7} & \num{4.2062e-974} \\
+        \bottomrule
+    \end{tabular}
+\end{table*}
+
+\end{document}

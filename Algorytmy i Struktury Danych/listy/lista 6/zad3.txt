@@ -1,0 +1,16 @@
+1. Wyznaczanie (jakiegokolwiek) centrum drzewa T1
+2. Zrootowanie drzew T1 jego centrum (za pomoca DFS)
+3. Kodowanie drzew
+4. Wyznaczanie wszystkich centrów drzewa T2
+5. Dla kazdego centrum drzewa T2:
+    - rootowanie T2 w tym centrum
+    - kodowanie drzewa T2
+    - porównanie zakodowanego T2 z T2
+6. Jezeli dla jakiegoś centrum T2 kodowanie są idnetyczne to T1 i T2 sa izomorficzne
+
+Wyznaczanie cetrum polega na usuwaniu lisci z grafu,
+az zostanie tylko jeden lub dwa wierzcholki. O(n)
+
+Kodowanie:
+    1. Liscie oznaczamy jako ()
+    2. Pozostale wierzcholki jako posortowane oznaczenie ich dzieci zamkniete w ()

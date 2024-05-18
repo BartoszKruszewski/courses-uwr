@@ -37,7 +37,6 @@ def lis(arr):
             pos = bin_r(arr, min_id, -1, l - 1, arr[i])
             prev[i] = min_id[pos - 1]
             min_id[pos] = i
-        print(min_id)
 	
     # odtwarzanie od konca
     i = min_id[l - 1]

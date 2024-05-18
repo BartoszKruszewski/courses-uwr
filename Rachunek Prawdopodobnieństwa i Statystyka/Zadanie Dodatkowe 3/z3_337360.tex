@@ -1,0 +1,65 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[margin=1.65in,top=1.25in]{geometry}
+\title{Zadanie dodatkowe 3}
+\author{337360 Krystian Ćwikliński}
+
+\begin{document}
+
+\maketitle
+
+\section{Wyznaczanie MGF}
+\begin{equation}
+M_x(t) = \int_{0}^{\infty} e^{tx} * \lambda e^{-\lambda x}dx = \frac{\lambda}{\lambda - t}
+\end{equation}
+
+\section{Wyznaczanie oszacowań}
+Nierówność Markova:
+\begin{equation}
+P(X \ge \lambda a) \le \frac{1}{\lambda^{2} a}
+\end{equation}
+Nierówność Chebysheva:
+\begin{equation}
+P(X \ge \lambda a) \le \frac{1}{(\lambda^{2} a - 1)^2}
+\end{equation}
+Nierówność Chernoffa:
+\begin{equation}
+P(X \ge \lambda a) \le \lambda^{2} a e^{-\lambda^{2} a + 1}
+\end{equation}
+
+\section{Tabele z wartościami dokładnymi i oszacowaniami}
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{|c|cccc|}
+        \hline
+        Wartości $a$ & Wartości dokładne & $\approx$ Markova & $\approx$ Chebysheva & $\approx$ Chernoffa \\
+        \hline
+        3 & $e^{-7^{2} * 3}$ & $\frac{1}{7^2 * 3}$ & $\frac{1}{(7^2 * 3 - 1)^2}$ & $7^{2} * 3 e^{-7^{2} * 3 + 1}$ \\
+        \hline
+        4 & $e^{-7^{2} * 4}$ & $\frac{1}{7^2 * 4}$ & $\frac{1}{(7^2 * 4 - 1)^2}$ & $7^{2} * 4 e^{-7^{2} * 4 + 1}$ \\
+        \hline
+        6 & $e^{-7^{2} * 6}$ & $\frac{1}{7^2 * 6}$ & $\frac{1}{(7^2 * 6 - 1)^2}$ & $7^{2} * 6 e^{-7^{2} * 6 + 1}$ \\
+        \hline
+        10 & $e^{-7^{2} * 10}$ & $\frac{1}{7^2 * 10}$ & $\frac{1}{(7^2 * 10 - 1)^2}$ & $7^{2} * 10 e^{-7^{2} * 10 + 1}$ \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{|c|cccc|}
+        \hline
+        Wartości $a$ & Wartości dokładne & $\approx$ Markova & $\approx$ Chebysheva & $\approx$ Chernoffa \\
+        \hline
+        3 & $1.4411 * 10^{-64}$ & $6.8027 * 10^{-3}$ & $4.6913 * 10^{-5}$ & $5.7586 * 10^{-62}$ \\
+        \hline
+        4 & $7.5558 * 10^{-86}$ & $5.1020 * 10^{-3}$ & $2.6298 * 10^{-5}$ & $4.0256 * 10^{-83}$ \\
+        \hline
+        6 & $2.0769 * 10^{-128}$ & $3.4013 * 10^{-3}$ & $1.1648 * 10^{-5}$ & $1.6598 * 10^{-125}$ \\
+        \hline
+        10 & $1.5692 * 10^{-213}$ & $2.0408 * 10^{-3}$ & $4.1819 * 10^{-6}$ & $2.0902 * 10^{-210}$ \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\end{document}
