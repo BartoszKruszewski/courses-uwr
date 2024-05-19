@@ -1,0 +1,11 @@
+Zamiast używać dwóch bitów można użyć jednego.
+
+Oznaczenia dla 2 bitów:
+-1 lewe poddrzewo większe
+0 poddrzewa są równe
+1 prawe poddrzewo większe
+
+Oznaczenia dla 1 bitu (odczytujemy bit z lewego oraz prawego poddrzewa na raz):
+1 0 lewe poddrzewo większe
+0 0 podrzewa są równe
+0 1 prawe poddrzewo większe

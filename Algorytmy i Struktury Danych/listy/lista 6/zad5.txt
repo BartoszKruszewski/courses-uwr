@@ -1,0 +1,26 @@
+Taka struktura nazywa się drzewa lewicowe.
+
+Operacje:
+1. insert - scalenie kopca jednoelementowego z macierzystym
+2. deleteMax - usunięcie korzenia i scalenie jego poddrzew
+
+Więc musimy zaimplementować scalanie.
+
+def merge(x, y):
+    if not x: return y
+    if not y: return x
+
+    # jeżeli korzeń x jest większy to zamieniamy drzewa
+    if x.v > y.v: return merge(y, x)
+
+    # x.r jest oraz y są większe od korzenia
+    # robimy ich merge i dajemy jako x.r
+    x.r = merge(x.r, y)
+
+    # przywracamy lewicowość
+    if h(x.l) < h(x.r): swap(x.l, x.r)
+        
+    # aktualizacja h
+    h(x) = h(x.r) + 1
+
+    return x

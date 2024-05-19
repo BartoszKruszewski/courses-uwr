@@ -1,0 +1,26 @@
+    u     RP     v
+   / \   --->   / \
+  v   C        A   u
+ / \     <---     / \
+A   B     RL     B   C
+
+Rotacje nie zmieniają porządku BST.
+
+Lemat 1:
+Każde drzewo BST można przekształcić rotacjami w drzewo liniowe.
+Zauważmy, że A B oraz C mogą być puste, więc wykonując cały czas
+dowolne rotacje tylko w prawo otrzymamy drzewo liniowe.
+
+Lemat 2:
+Każde drzewo liniowe można przekształcic w dowolone drzewo BST.
+Znajdujemy korzeń docelowego poddrzewa i wykonujemy dla niego
+rotacje w lewo (korzeń to u na schemacie), aż zostanie korzeniem.
+Rekurecyjnie powtarzamy to dla każdego poddrzewa.
+
+Dowód:
+Weźmy dowolne dwa drzewa BST T1 oraz T2 o takich samych wartościach wierzchołków.
+Sprowadzamy T1 i T2 do postaci liniowej (z lematu 1, wiemy że to możliwe).
+Drzewa mają takie same wartości wierzchołków oraz są BST, 
+więc jest tylko jedno możliwe przedstawienie ich w postaci liniowej.
+Skoro L(T1) = L(T2) to możemy (używając lematu 2) zrobić przekształcenie:
+T1 -> L(T1) = L(T2) -> T2.

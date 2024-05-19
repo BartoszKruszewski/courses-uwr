@@ -1,0 +1,24 @@
+Używamy drzewa AVL z modyfikacji:
+- pamiętamy wartości min_diff, min_l, max_l, min_r, max_r dla każdego węzła
+- po wykonaniu insert lub delete, wywołujemy update dla każdego
+  węzła na scieżce od nowego lub usuwanego węzła do korzenia
+
+def update(node):
+
+    min_l = min(node.l, node.l.min_l)
+    max_l = max(node.l, node.l.max_r)
+    min_r = min(node.r, node.r.min_l)
+    max_r = max(node.r, node.r.max_r)
+
+    node.min_diff = min(
+        node.l.min_diff,
+        node.r.min_diff,
+        node.v - max_l.v,
+        min_r.v - node.v
+    )
+
+Procedura update ma złożoność O(1).
+Wykonujemy ją na ścieżce, która ma max wysokość drzewa AVL czyli O(logn).
+Wykonujemy ją tylko po operacjach insert oraz delete, więc zachowują one O(logn).
+
+Chcąc odczytać min_diff wystarczy, że odczytamy root.min_diff w czasie O(1).

@@ -1,0 +1,104 @@
+Obserwacja 1:
+Przechodząc po drzewie szukając elementu k, 
+elementy na lewo od ścieżki będą w drzewie L, a na prawo w R.
+
+Obserwacja 2:
+Dla T będącego drzewem AVL o wysokości h postaci:
+
+        T
+       / \
+      TL TR
+     / \
+    L   R
+
+    | h(TL) - h(TR) | <= 1 (z def AVL)
+    h(TL) = max(h(L), h(R)) + 1
+    | max(h(L), h(R)) + 1 - h(TR) | <= 1
+    w pesymistycznym przypadku:
+    | min(h(L)) - h(TR) | <= 3
+
+Algorytm:
+split(T, k):
+
+    # dotarliśmy do liścia
+    if T is null:
+        return (null, null)
+
+    # k jest korzeniem podrzewa, czyli L ma elementy mniejsze, a R większe.
+    if k == T.value:
+        return (T.L, T.R)
+
+    # idzemy rekurencyjnie ścieżką w lewą stronę
+    if k < T.value:
+        L, R = self.split(T.L, k)
+        
+        # w L wszystkie elementy są mniejsze niż k
+        # w R wszystkie elementy są większe niż k
+        # w T.R wszystkie elementy są większe niż w k i w R
+
+        return (L, join(R, T.value, T.R)) 
+
+    # idzemy rekurencyjnie ścieżką w prawą stronę
+    if k > T.value:
+        L, R = self.split(T.R, k)
+        
+        # w L wszystkie elementy są mniejsze niż k
+        # w R wszystkie elementy są większe niż k
+        # w T.L wszystkie elementy są mniejsze niż k i w L
+
+        return (join(T.L, T.value, L), R) 
+
+join(L, x, R):
+    
+    # L i R są AVL oraz |h(L) - h(R)| <= 3 z obserwacji 2
+    # wszystkie elementy w L są mniejsze od x
+    # wszystkie elementy w R są większe od x
+
+    if h(R) > h(L) + 1:
+
+        # h(R) - h(L) = 2 v 3
+
+        # tworzymy drzewo T i robimy rotacje w lewo:
+        #         x                v
+        #        / \              / \
+        #       L   r    --->    x   B
+        #          / \          / \
+        #         A   B        L   A
+
+        # jeżeli h(R) - h(L) = 3 na początku to robimy roatcje jeszcze raz
+        #         v               v
+        #        / \             / \
+        #       x   B           a   B
+        #      / \     --->    / \
+        #     L   a           x   D
+        #        / \         / \
+        #       C   D       L   C
+
+
+    if h(L) > h(R) + 1:
+
+        # analogicznie
+
+    else:
+        
+        # |h(L) - h(R)| <= 1
+        # zwiększając obie wysokości o 1 zachowujemy AVL
+
+        # tworzymy drzewo T:
+        #       x
+        #      / \
+        #     L   R
+
+    return T
+
+Analiza Złożoności:
+
+split pesymistycznie (nie trafił na wartość k) schodzi do liścia,
+ale wywołuje się rekurencyjnie tylko raz. 
+Zejście do liścia w drzewie AVL to O(logn) wywołań.
+Za każdym razem wywoływana jest funkcja join,
+która działa w czasie O(1).
+
+Ostatecznie złożoność splita to O(logn).
+
+
