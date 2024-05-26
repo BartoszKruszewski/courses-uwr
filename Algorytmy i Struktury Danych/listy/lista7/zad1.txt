@@ -1,0 +1,23 @@
+Oznaczmy:
+u - ilość operacji UNION
+f - ilość operacji FIND 
+
+Operacja UNION działa w czasie stałym.
+Po ciągu operacji UNION złączymy u + 1 korzeni.
+
+W najgorszym przypadku przejdziemy przez wszystkie złączone wierzchołki.
+
+Po przejściu wszystkich złączonych wierzchołków,
+kolejne wywołania FIND będą wywoływane
+na już zoptymalizowanych wierzchołkach,
+więc na synach korzenia, czyli ich koszt to będzie O(1).
+
+Koszty:
+- operacje UNION: u * O(1) = O(u)
+- pierwsze FINDY: (u + 1) * O(1) = O(u)
+- kolejne FINDY: f * O(1) = O(f)
+
+Łączny koszt:
+O(u) + O(u) + O(f) = O(u + f) = O(sigma)
+
+    

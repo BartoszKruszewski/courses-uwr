@@ -1,0 +1,12 @@
+Przy analizie algorytmu z podwieszaniem pod dziadka wystarczy, ze przy
+analazie zamortyzowanej kosztu FIND za odwiedzenie wierzchołka obarczamy
+funkcję FIND, jeżeli wierzchołek to:
+    - korzeń
+    - syn korzenia
+    - dziadek korzenia
+    - syn wierzchołka, który jest w innej grupie
+    - dziadek wierzchołka, który jest w innej grupie
+Wpp obciążamy wierzchołek.
+
+Powoduje to zwięszenie obiążenia FIND o stałą z log*n + 1 do log*n + 3.
+Dalej zachowuje to asymptotyczną złożoność.

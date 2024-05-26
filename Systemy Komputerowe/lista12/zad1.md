@@ -4,6 +4,15 @@ Zauważmy, że w zapytaniach 0 1 7 2 3 2 7 1 0 3 mamy 5 różnych stron, więc p
 
 #### Algorytm FIFO
 
+System operacyjny utrzymuje listę wszystkich stron, które aktualnie znajdują się w pamięci,
+przy czym strony dodane
+jako ostatnie znajdują się na końcu, natomiast te dodane najwcześniej — na początku. W przy-
+padku wystąpienia błędu braku strony strona znajdująca się na początku listy jest usuwana,
+a nowa strona jest umieszczana na końcu listy. W odniesieniu do sklepu zastosowanie algo-
+rytmu FIFO może doprowadzić do usunięcia wosku do wąsów, ale także mąki, soli czy masła.
+W przypadku komputerów występuje ten sam problem: najstarsza strona w dalszym ciągu może
+być potrzebna. Z tego powodu algorytm FIFO w klasycznej postaci jest rzadko używany.
+
 ```
 0 -> 0       miss
 1 -> 1 0     miss

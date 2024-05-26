@@ -1,0 +1,31 @@
+Stosujemy strukturę UNION-FIND z poprzednich zadań.
+Zamiast UNION(A, B, C) mamy UNION(A, B) gdzie C jest wyższym drzewem posród A i B.
+
+Algorytm:
+
+min_j = [n] * n
+
+for j = n ... 0:
+    union(E[i])
+    
+    for u in V:
+        if find(u) == find(v):
+            min_j[u] = j
+
+Poprawność:
+    Istnieje ścieżka pomiędzy u a v <=> find(u) == find(v),
+    ponieważ find zwraca w jakim zbiorze jest wierzchołek.
+    Jeżeli wierzchołki są połączone to znaczy, 
+    że można się z nich dostać do każdego wierzchołka połączonego z nimi.
+    To oznacza, że można się dostać do korzenia zbioru, który ma nazwę zbioru.
+    Nazwa będzie taka dla u i v jeżeli są połączone.
+
+    Idąc od końca i znajdując, że scieżka istnieje, wiemy,
+    że będzie ona również istnieć po dodaniu kolejnych krawędzi,
+    czyli poprzedni sprawdzany indeks krawędzi jest minimum.
+
+Analiza Złożoności:
+    Z wykładu wiemy, że czas wykonania ciągu
+    operacji UNION-FIND to O(nlog*n) względem ilości operacji.
+    Tutaj wykonujemy łącznie |E| operacji UNION oraz 2 * |E| * |V| operacji FIND.
+    Czyli złożoność algorytmu to O(EV * log*EV)

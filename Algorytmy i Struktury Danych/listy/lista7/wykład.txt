@@ -1,0 +1,60 @@
+Struktura:
+    - las drzew (każde drzewo reprezentuje zbiór), gdzie każdy wierzchołek ma wskaźnik na ojca.
+    - tablica Element[i], która ma wskaźniki na wierzchołek o nazwie i.
+    - tablica Root[i], która ma wskaźniki na korzeń zbioru i.
+
+Procedura UNION(A, B, C):
+    1. Podłączenie korzenia mniejszego z drzew A i B pod korzeń większego (odczytanie nazw z tablicy Root). 
+    2. Przypisanie tego korzenia do C w tablicy Root.
+
+Procedura FIND(i):
+    1. Odczytanie wierzchołka o nazwie i z tablicy Element.
+    2. Przejście do korzenia i odczytanie nazwy korzenia.
+    3. Wszystkie wierzchołki po których przeszliśmy podczepiamy do korzenia.
+
+Rząd wierzchołka to wysokość poddrzewa jakie tworzy.
+
+Lemat 1:
+    Rzędy wierzchołków na ścieżce od korzenia do liścia są ściśle rosnące.
+
+Lemat 2:
+    Jest co najwyżej n/2^r wierzchołków rzędu r.
+
+Lemat 3:
+    Rząd jest mniejszy lub równy logn.
+
+
+Analiza złożoności:
+    n - ilość elementów
+    m - ilość instrukcji UNION
+    k - ilość instrukcji FIND
+
+    Koszy wykonania ciągu UNION wynosi m * O(1) = O(m).
+
+    Podzielmy wierzchołki, ze względu na rząd.
+    Wierzchołki o rzędzie r będą w grupie log*r.
+
+    Przeprowadźmy analazię zamortyzowaną kosztu FIND.
+    Za odwiedzenie wierzchołka obarczamy funkcję FIND, jeżeli wierzchołek to:
+        - korzeń
+        - syn korzenia
+        - syn wierzchołka, który jest w innej grupie
+    Wpp obciążamy wierzchołek.
+
+    Maksymalna ilość grup to 
+    log*(max r) = log*(logn) <= log*n.
+    Zmiana grupy odbywa się log*n - 1 razy,
+    więc FIND może być obciążony max log*n + 1.
+
+    FIND wykonujemy k razy, więc łączne obciążenie FIND to O(k * log*n).
+
+    W grupie g jest F(g) - F(g - 1) rzędów.
+    
+    Wierzchołków o rzędach z grupy g jest:
+    sum(od F(g - 1) do F(g) po n/2^i) <= n/2^F(g - 1) = n/F(g).
+
+    Więc obciążemy wierzchołków z grupy g jest równe:
+    (F(g) - F(g - 1)) * n/F(g) <= n
+
+    Wszystkich grup jest log*n, więc obciążenie wszystkich wierzchołków to:
+    O(log*n * n).
