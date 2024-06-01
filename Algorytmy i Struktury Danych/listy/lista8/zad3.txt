@@ -1,0 +1,19 @@
+Zakładmy, że funkcja hashująca hashuje równomiernie, 
+więc ppb, że klucz trafi do konkretnej komórki jest równe 1/n.
+
+Stąd ppb, że klucz nie trafi do konkretnej komórki to 1 - 1/n.
+Dodajemy klucze n razy, więc ppb, że komórka zostanie pusta
+po dodaniu wszystkich kluczy to (1 - 1/n)^n.
+
+Z definicji e, wiemy że dla dużych n: (1 - 1/n)^n ~ 1/e.
+
+Zdefiniujmy Xi jako zmienną losową oznaczającą,
+czy w i-ta komórka pozostanie pusta (wtedy jest 1 wpp 0).
+
+P(Xi = 1) = 1/e
+
+Weźmy X = sum(Xi), wtedy X jest zmienną losową oznaczającą,
+ilość pustych komórek
+
+E(X) = E(sum(Xi)) = sum(E(Xi)) = sum(0 * (1 - 1/e) + 1 * 1/e) =
+sum(1/e) = n * 1/e = n/e ~ 0.3679 * n

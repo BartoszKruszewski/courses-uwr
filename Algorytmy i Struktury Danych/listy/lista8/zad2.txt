@@ -1,0 +1,45 @@
+Algorytm:
+
+# wyznaczenie d dla pierwszego punktu z każdym innym
+d = min(dist(P[0], p) for p in P)
+res = <P[0], argmin(dist(P[0], p) for p in P)>
+
+grid = {(0, 0): P[0]}
+
+for p in P[1:]:
+    # wyliczenie współrzędnych w nowej siatce
+    g = p // d
+
+    # przejście po wszystkich sąsiadach 
+    for neighbor in neighbours(g):
+        if neighbor in grid:
+            if dist(p, grid[neighbor]) < d:
+                d = dist(p, grid[neighbor])
+                res = <p, grid[neighbor]>
+
+    # dodanie sprawdzonego punktu do siatki 
+    grid[g] = p
+
+Złożoność:
+
+Najpierw wyznaczamy dystans od pierwszego punktu do n punktów w czasie O(n).
+Dla każdego punktu wyznaczamy jego wszystkich sąsiadów w czasie O(1),
+oraz sprawdzamy czy sąsiad znajduje się w słowniku,
+co robimy w oczekiwanym czasie O(1). 
+
+Łącznie daje nam to O(n) + n * oczekiwany czas O(1) = oczekiwany czas O(n).
+
+Poprawność:
+
+Tworzymy siatkę o wielkości kwadratu d x d, 
+gdzie d to aktualnie minimlana odległość pomiędzy punktami.
+Zapewnia to nam, że każdy punkt będzie znajdował się w osobnym kwadracie.
+Punkt najbliższy do sprawdzanego musi znaleść się w sąsiednim kwadracie w siatce.
+Stąd wynika optymalizacja względem algorytmu brutalnego działającego w O(n2).
+Zamiast dla każdego punktu sprawdzać n punktów, sprawdzamy tylko skonczoną liczbę punktów.
+
+Zauważmy, że podczas zmiany d, przeskalowujemy siatkę,
+czyli zachowujemy zależności pomiędzy punktami. Więc punkty, które już były w słowniku są nadal najbliższymi punktami dla 
+
+
+
