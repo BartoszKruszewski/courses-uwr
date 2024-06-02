@@ -6,10 +6,15 @@ def optimal_bst(p, n):
     # suma prawdopodobienstw dla przedzialu i:j
     w = [[0 for _ in range(n)] for _ in range(n)]
     
+    # tablica do odzyskiwania
+    # pamięta jaki wierzcholek jest korzeniem dla danego przedzialu
+    root = [[0 for _ in range(n)] for _ in range(n)]
+
     # przypisanie wartości początkowych
     for i in range(n):
         w[i][i] = p[i]
         e[i][i] = p[i]
+        root[i][i] = i
     
     # iteracja po długości poddrzewa
     for l in range(2, n + 1):
@@ -29,8 +34,27 @@ def optimal_bst(p, n):
                 # zaktualizowanie kosztu
                 cost = e[i][r - 1] + e[r + 1][j] + w[i][j]
                 e[i][j] = min(e[i][j], cost)
+
+                # zapamietanie korzenia dla przedzialu
+                root[i][j] = r
+
+    return e, root
+
+# odzyskiwanie drzewa
+def build_tree(root, keys, i, j):
+
+    # jeżeli przedział jest błedy to zwróc pusty wskaznik
+    if i > j:
+        return None
     
-    return e[0][n - 1]
+    # tworzenie drzewa rekurencyjnie
+    node = {
+        'key': keys[root[i][j]],
+        'left': build_tree(root, keys, i, root[i][j] - 1),
+        'right': build_tree(root, keys, root[i][j] + 1, j)
+    }
+
+    return node
 
 # Złożoność: O(n3), bo trzy pętle w pętli
 

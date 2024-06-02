@@ -1,0 +1,33 @@
+Lemat:
+Prawdopodobieństwo znalezienia 
+pustego pola w tablicy dla danego hasha jest rowne 1/(1 - a).
+
+Założmy, że przeszukamy i-pól. Prawdopodobienstwo, że j-te pole
+będzie pełne to (n - j) / (m - j). 
+Wtedy prawdopodobieństwo tego, że liczba prób będzie >= i to:
+sum((n - j) / (m - j)) <= (n/m) ^ i = a^i.
+
+Oznaczmy X jako zmienną losową, oznaczającą liczbę prób.
+Wiemy, że P(X >= i) = a^i.
+
+Wtedy E(X) = sum(a^i) <= 1/(1 - a).
+
+Dowód:
+Wiemy z lematu, że prawdopodobieństwo znalezienia 
+pustego pola w tablicy dla danego hasha jest rowne 1/(1 - a).
+Znalezenie zapełnionego pola odpowiednią wartość
+zależy od tego ile wartości dla danego hasha zostało
+już dodanych do tablicy. Założmy, że jest ich i.
+Wtedy a = i/m, wiec prawdopodobieństwo znalezienia
+takiego pola to 1/(1 - i/m) = m/(m - i).
+
+Weźmy średnią wartość i dla i = 0...n:
+sum(m/(m - i))/n = m/n * sum(1/(m - i)) <= m/n * integral(1/m-x) =
+m/n * (-ln(m - n) + ln(m)) = m/n * (-ln(m/(m - n)))
+
+Podstawiając a = n/m:
+1/a * ln(1/(1 - a))
+
+
+
+

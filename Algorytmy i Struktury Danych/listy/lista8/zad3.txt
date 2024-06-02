@@ -8,7 +8,7 @@ po dodaniu wszystkich kluczy to (1 - 1/n)^n.
 Z definicji e, wiemy że dla dużych n: (1 - 1/n)^n ~ 1/e.
 
 Zdefiniujmy Xi jako zmienną losową oznaczającą,
-czy w i-ta komórka pozostanie pusta (wtedy jest 1 wpp 0).
+czy i-ta komórka pozostanie pusta (wtedy jest 1 wpp 0).
 
 P(Xi = 1) = 1/e
 
