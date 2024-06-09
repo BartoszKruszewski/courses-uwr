@@ -1,0 +1,38 @@
+1. Podzielenie wzorca na podwzorce, rozdzielając go względem ♦.
+2. Dla każdego podwzorca uruchamiamy zmodyfikowane KMP.
+    - szukamy podwzorca za pomocą KMP
+    - przy znalezniu dodajemy indeks do listy
+    - wiemy, że w już przeszukanym kawałku tablicy jest tylko 
+      jeden wzorzec, więc po dodaniu go do listy przeszukujemy
+      tablice tylko od znalezionego indeksu + długość podwzorca
+    - czas działania takiego KMP pozostaje liniowy
+    - w rezultacie dostajemy posortowaną rosnąco listę 
+      indeksów początkowych wszystkich wystąpień podwzorca
+3. Teraz wykonujemy poniższy algorytm:
+
+koniec = 0
+for podwzorzec in wzorzec:
+    znaleziony = False
+    for indeks in indeksy_poczatkowe[podwzorzec]:
+        if indeks > koniec:
+            koniec = indeks + dlugosc(podwzorzec)
+            znaleziony = True
+    if not znaleziony:
+        return False
+return True
+
+Złożoność:
+
+Oznaczamy:
+n - długość tekstu
+m - długość wzorca
+k - ilość podwzorców
+l - max ilość wystąpień podwzorca w tekście
+
+1. O(m)
+2. k * O(n) = O(n * k)
+3. k * O(l) = O(l * k)
+
+Razem: O(m) + O(n * k) + O(l * k) = O(m + n * k + l * k)
+Zakładamy, że m < n oraz l < n, więc złożoność to 
+O(n * k)  

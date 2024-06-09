@@ -1,0 +1,24 @@
+Algorytm:
+1. Sprawdzamy, czy T oraz T' mają tą samą długość
+2. Tworzymy ciąg T'' = T' + T'
+3. Uruchamiamy KMP na T''
+
+Złożonośc:
+1. O(1)
+2. O(n)
+3. O(n + 2n) = O(n)
+Razem: O(1) + O(n) + O(n) = O(n)
+
+Poprawność:
+Przesuńmy cyklicznie T o i znaków 
+i oznaczmy wynik tej operacji jako T'.
+
+Wtedy T' = T[(i + 1) : n] + T[0 : i].
+
+Weźmy T'' = T' + T' =
+T[(i + 1) : n] + T[0 : i] + T[(i + 1) : n] + T[0 : i] =
+T[(i + 1) : n] + T + T[0 : i].
+
+Czyli (T in T'') <=> (T' == przesunięte T).
+
+ 
