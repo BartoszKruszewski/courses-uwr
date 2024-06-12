@@ -19,6 +19,14 @@ Weźmy T'' = T' + T' =
 T[(i + 1) : n] + T[0 : i] + T[(i + 1) : n] + T[0 : i] =
 T[(i + 1) : n] + T + T[0 : i].
 
-Czyli (T in T'') <=> (T' == przesunięte T).
+Czyli (T in T'') <= (T' == przesunięte T).
 
- 
+Weźmy T in T''.
+Załóżmy, że T zaczyna się w indeksie i + 1.
+Wtedy T'' = T' + T' = 
+T'[0 : i] + T'[(i + 1) : n] + T'[0 : i] + T'[(i + 1) : n] = 
+
+Skoro T zaczyna się w (i + 1) to:
+T = T'[(i + 1) : n] + T'[0 : i]
+
+Czyli (T in T'') => (T' == przesunięte T).

@@ -27,7 +27,3 @@ m/n * (-ln(m - n) + ln(m)) = m/n * (-ln(m/(m - n)))
 
 Podstawiając a = n/m:
 1/a * ln(1/(1 - a))
-
-
-
-
