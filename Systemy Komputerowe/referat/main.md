@@ -51,46 +51,13 @@ Jednym z kluczowych problemów w tradycyjnych systemach szeregowania jest inwers
 
 ## Implementacja
 
-Structura danych: Wątek
-- Każdy wątek posiada priorytet, przydział czasu CPU oraz referencję do swojego szeregatora.
-- Wątki mogą dziedziczyć priorytety od innych wątków.
+Do implemetacji używamy struktury Thread oraz Dispatcher. Thread może opisywać zarówno procesy jak i być "organizatorem" dla innych obiektów Thread. Jest on wysoko poziomowym budulcem hierarchi dziedziczenia. Dispatchery są niżej poziomowymi szeregatorami. Mogą mieć zaimplemntowane własne, prostsze mechanizmy planowania przydziału czasu procesora. Początkowo czas jest przydzielony tylko Thread będącymi korzeniami hierarchi. Ich potomkowie mogą prosić o przydział czasu i dostają swój przydział, który przydzielają kolejnym potomkom. W ten sposób każda podhierarchia może we własnym zakresie optymalizować przydział czasu do własnych podwątków. Jeżeli jakiś proces zostaje zablokowany, to pozostały przydzielony mu czas może zostać przekazany jego rodzeństwu w hierarchi, albo zostać przekazany do swoich przodków. Operacje dotacji czasu innemu wątkowi mogą być też wyznaczane ręcznie, z ustaleniem własnej polityki dotacji.
 
-Structura danych: Szeregator
-- Szeregator zarządza kolejką wątków gotowych do wykonania.
-- Szeregator posiada metody do dodawania wątków, wybierania następnego wątku do wykonania oraz aktualizowania priorytetów wątków.
+Przykładowe polityki dotacji:
 
-Dodawanie wątku do szeregatora
-- Wątek jest dodawany do kolejki szeregatora.
-- Szeregator decyduje o priorytecie wątku i umieszcza go w odpowiednim miejscu w kolejce.
-
-Wybór kolejnego wątku do wykonania
-- Szeregator wybiera następny wątek do wykonania na podstawie priorytetów.
-- Wątek o najwyższym priorytecie jest wybierany jako pierwszy.
-
-Przekazywanie czasu CPU
-- Wątek przekazuje część swojego czasu CPU innemu wątkowi.
-- Priorytet przekazującego wątku jest dziedziczony przez odbiorcę.
-
-Aktualizacja priorytetu wątku
-- Szeregator aktualizuje priorytet wątku na nowy priorytet.
-- Wątek jest ponownie umieszczany w kolejce priorytetowej.
-
-Zapobieganie inwersji priorytetów
-- Jeśli wątek przekazujący priorytet ma wyższy priorytet niż odbiorca, priorytet odbiorcy jest aktualizowany na wyższy.
-- Mechanizm ten zapobiega blokowaniu wątków o wysokim priorytecie przez wątki o niższym priorytecie.
-
-Rozkład obciążenia między procesorami
-- Szeregator rozdziela wątki między różne procesory, aby zapewnić równomierne obciążenie.
-- Każdy procesor wykonuje wątki przydzielone przez szeregator.
-
-Powiązanie procesora 
-- Wątek może być przypisany do określonego procesora, co zwiększa wydajność.
-- Przypisanie wątku do procesora zapewnia lepsze wykorzystanie pamięci podręcznej procesora.
-
-Inicjalizacja szeregatora
-- System operacyjny inicjalizuje szeregatory dla każdego procesora podczas uruchamiania.
-- Tworzone są nowe instancje szeregatorów dla każdego procesora.
-
+- **WAKEUP_ON_BLOCK**: dotacja, kiedy wątek zostaje zablokowany
+- **WAKEUP_ON_SWITCH**: dotacja, kiedy wąteki są często przełączane pomiędzy sobą
+- **WAKEUP_ON_CONFLICT**: dotacja, kiedy następuje inwersja priorytetów
 
 ## Porównanie z innymi metodami szeregowania
 
@@ -99,6 +66,7 @@ Inicjalizacja szeregatora
 Tradycyjne metody priorytetowe obejmują różne algorytmy szeregowania, takie jak **Fixed-Priority Scheduling** i **Round Robin**. Każda z tych metod ma swoje zalety i wady.
 
 #### Fixed-Priority Scheduling
+
 - **Zalety**:
   - Prosta implementacja.
   - Stałe priorytety ułatwiają przewidywalność zachowania systemu.
@@ -107,6 +75,7 @@ Tradycyjne metody priorytetowe obejmują różne algorytmy szeregowania, takie j
   - Brak elastyczności w dynamicznym dostosowywaniu priorytetów wątków.
 
 #### Round Robin
+
 - **Zalety**:
   - Sprawiedliwe przydzielanie czasu CPU, gdzie każdy wątek otrzymuje równą szansę na wykonanie.
   - Prosta implementacja, dobra dla systemów bez twardych wymagań czasowych.
@@ -119,6 +88,7 @@ Tradycyjne metody priorytetowe obejmują różne algorytmy szeregowania, takie j
 Metody wieloklasowe, takie jak **Multilevel Queue Scheduling** i **Multilevel Feedback Queue**, oferują bardziej złożone podejście do szeregowania.
 
 #### Multilevel Queue Scheduling
+
 - **Zalety**:
   - Możliwość separacji wątków o różnych priorytetach do różnych kolejek.
   - Lepsze zarządzanie różnymi typami zadań (np. zadania interaktywne vs. zadania wsadowe).
@@ -127,6 +97,7 @@ Metody wieloklasowe, takie jak **Multilevel Queue Scheduling** i **Multilevel Fe
   - Problem głodzenia (starvation) wątków o niższym priorytecie.
 
 #### Multilevel Feedback Queue
+
 - **Zalety**:
   - Dynamiczne dostosowywanie priorytetów wątków w zależności od ich zachowania i potrzeb.
   - Lepsza wydajność w systemach z mieszanymi obciążeniami.
@@ -139,22 +110,26 @@ Metody wieloklasowe, takie jak **Multilevel Queue Scheduling** i **Multilevel Fe
 **CPU Inheritance Scheduling** oferuje unikalne podejście, które łączy zalety tradycyjnych metod priorytetowych i metod wieloklasowych, jednocześnie minimalizując ich wady.
 
 #### Elastyczność i modularność
+
 - **Tradycyjne metody priorytetowe** i **metody wieloklasowe** mają ograniczoną elastyczność w dostosowywaniu priorytetów i polityk szeregowania.
 - **CPU Inheritance Scheduling** umożliwia dynamiczne dziedziczenie priorytetów i elastyczne przekazywanie czasu CPU między wątkami, co pozwala na lepsze dostosowanie do bieżących potrzeb aplikacji i systemu.
 
 #### Rozwiązywanie problemu inwersji priorytetów
+
 - W tradycyjnych metodach priorytetowych problem inwersji priorytetów jest poważnym ograniczeniem.
 - **CPU Inheritance Scheduling** minimalizuje ten problem poprzez mechanizm dziedziczenia priorytetów, gdzie wątki mogą przejmować priorytety od innych wątków, zapewniając bardziej efektywne wykorzystanie czasu CPU.
 
 #### Zarządzanie w środowiskach wieloprocesorowych
+
 - Tradycyjne metody i metody wieloklasowe mogą mieć trudności z efektywnym zarządzaniem czasem CPU w systemach wieloprocesorowych.
 - **CPU Inheritance Scheduling** jest naturalnie skalowalne do systemów wieloprocesorowych, umożliwiając efektywne rozłożenie obciążenia i lepsze zarządzanie zasobami procesora.
 
 ### Podział zastosowań
+
 - **Tradycyjne metody** są często stosowane w prostych systemach, gdzie przewidywalność jest ważniejsza niż elastyczność.
 - **Metody wieloklasowe** są używane w systemach, gdzie różne typy zadań muszą być efektywnie zarządzane.
 - **CPU Inheritance Scheduling** znajduje zastosowanie w złożonych systemach, gdzie różne aplikacje mają różne wymagania dotyczące zasobów CPU i gdzie dynamiczne dostosowywanie priorytetów jest kluczowe.
 
 ## Podsumowanie
 
-CPU Inheritance Scheduling to zaawansowany algorytm szeregowania procesorów, który zyskał zainteresowanie głównie w środowiskach akademickich i badawczych, a jego popularność w komercyjnych systemach operacyjnych jest ograniczona. Jego elastyczność i zdolność do zarządzania różnymi politykami szeregowania w ramach jednego systemu sprawiają, że jest szczególnie użyteczny w systemach czasu rzeczywistego i eksperymentalnych projektach badawczych. Pomimo swojego potencjału, CIS nie jest powszechnie stosowany w praktycznych implementacjach komercyjnych systemów operacyjnych.
+CPU Inheritance Scheduling to zaawansowany algorytm szeregowania procesorów, który zyskał zainteresowanie głównie w środowiskach akademickich i badawczych, a jego popularność w komercyjnych systemach operacyjnych jest ograniczona. Jego elastyczność i zdolność do zarządzania różnymi politykami szeregowania w ramach jednego systemu sprawiają, że jest szczególnie użyteczny w systemach czasu rzeczywistego i eksperymentalnych projektach badawczych. Pomimo swojego potencjału, CPU Inheritance Scheduling nie jest powszechnie stosowany w praktycznych implementacjach komercyjnych systemów operacyjnych.
