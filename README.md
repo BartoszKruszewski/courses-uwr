@@ -29,3 +29,11 @@
 * Systemy Komputerowe (Computer Systems)
 * Seminarium: Algorytmy Numeryczne i Graficzne (Seminar: Numerical and Graphical Algorithms)
 * Ochrona Własności Intelektualnej (Intellectual Property Protection)
+
+## Semester 5 (Winter 2024/2025)
+* Machine Learning
+* Inżynieria Oprogramowania (Software Engineering)
+* Kurs Języka Rust (Rust Course)
+* Kurs ASP.NET (ASP.NET Course)
+* O Ekonomii i Gospodarce Inaczej (Economy)
+* Lektorat z Języka Angielskiego B2-1 (English B2-1 Language Course)
