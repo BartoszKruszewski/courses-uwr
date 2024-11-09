@@ -40,21 +40,42 @@ fn generate_mandelbrot(res: usize, max_iter: usize) -> Image {
 }
 
 fn main() {
-    // Jak ktos ma mocny komputer 
-    // (ja nie mam, doszedlem max do 2048_10000 i stracilem cierpliwosc)
-
-    // for res in (7..=14).map(|exp| 2_usize.pow(exp)) {
-    //     for max_iter in (1..=4).map(|exp| 10_usize.pow(exp)) {
-    //         let img = generate_mandelbrot(res, max_iter);
-    //         let file_name = format!("mandelbrot_{}_{}.ppm", res, max_iter);
-    //         img.save_ppm(&file_name).expect("Failed to save the image.");
-    //     }
-    // }
-
-    // Dla res = 10000 i max_iter = 1000 liczylo sie okolo 20min
     let res = 1000;
     let max_iter = 1000;
     let img = generate_mandelbrot(res, max_iter);
     let file_name = format!("mandelbrot_{}_{}.ppm", res, max_iter);
     img.save_ppm(&file_name).expect("Failed to save the image.");
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use complex::Complex;
+
+    #[test]
+    fn test_mandelbrot() {
+        // Test known points within the Mandelbrot set
+        assert_eq!(mandelbrot(Complex::new(0.0, 0.0), 1000), 1000);
+        assert_eq!(mandelbrot(Complex::new(-1.0, 0.0), 1000), 1000);
+
+        // Test points outside the Mandelbrot set
+        assert!(mandelbrot(Complex::new(2.0, 2.0), 1000) < 1000);
+        assert!(mandelbrot(Complex::new(-2.0, -2.0), 1000) < 1000);
+    }
+
+    #[test]
+    fn test_generate_mandelbrot() {
+        let res = 10;
+        let max_iter = 100;
+        let image = generate_mandelbrot(res, max_iter);
+
+        // Test if image dimensions are correct
+        assert_eq!(image.get_width(), res);
+        assert_eq!(image.get_height(), res);
+
+        // Check some pixels have color values set
+        let (r, g, b) = image.get_pixel(0, 0).unwrap();
+        assert!(r < 255 || g < 255 || b < 255, "Expected non-white pixel color.");
+    }
+}
+

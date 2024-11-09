@@ -1,0 +1,9 @@
+Plik app offline.htm w ASP.NET służy do informowania użytkowników o niedostępności aplikacji,
+na przykład podczas wdrażania nowej wersji lub konserwacji.
+
+Plik ten wyświetla komunikat dla użytkowników, gdy aplikacja jest offline, co zapobiega błędom.
+Gdy app offline.htm znajduje się w katalogu głównym aplikacji, IIS automatycznie wyłącza aplikację i wyświetla ten plik, co zabezpiecza proces aktualizacji.
+Można w nim umieścić dowolny HTML, np. komunikat o konserwacji, który informuje użytkowników o stanie aplikacji.
+Po zakończeniu aktualizacji wystarczy usunąć plik, aby przywrócić normalny dostęp do aplikacji.
+
+W zadaniu 5 został umieszony taki plik, żeby zadanie działało normalnie należy go usunąć.
