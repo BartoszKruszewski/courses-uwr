@@ -6,4 +6,6 @@ mod zad3;
 mod zad4;
 mod zad5;
 
-fn main() {}
+fn main() {
+    println!("{}",execute("F3LF5RF6"));
+}
