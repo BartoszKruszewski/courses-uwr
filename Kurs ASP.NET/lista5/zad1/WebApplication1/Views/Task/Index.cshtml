@@ -1,0 +1,38 @@
+﻿@model WebApplication1.Models.TaskModel
+
+@{
+    ViewBag.Title = "Task Form";
+}
+
+<h2>Task Form</h2>
+
+@using (Html.BeginForm())
+{
+    <div>
+        <label for="FirstName">First Name:</label>
+        @Html.TextBoxFor(m => m.FirstName)
+        @Html.ValidationMessageFor(m => m.FirstName)
+    </div>
+
+    <div>
+        <label for="LastName">Last Name:</label>
+        @Html.TextBoxFor(m => m.LastName)
+        @Html.ValidationMessageFor(m => m.LastName)
+    </div>
+
+    <h3>Tasks:</h3>
+    @for (int i = 0; i < 10; i++)
+    {
+        <div>
+            <label for="Tasks_@i">Task @(i + 1):</label>
+            @Html.TextBoxFor(m => m.Tasks[i])
+            @Html.ValidationMessageFor(m => m.Tasks[i])
+        </div>
+    }
+
+    <button type="submit">Submit</button>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

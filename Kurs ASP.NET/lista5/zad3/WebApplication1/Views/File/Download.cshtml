@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Download File";
+}
+
+<h2>Download File</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="fileName">Wybierz plik do pobrania:</label>
+        <select id="fileName" name="fileName" class="form-control">
+            @foreach (var file in (string[])ViewBag.Files)
+            {
+                <option value="@file">@file</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Pobierz</button>
+</form>

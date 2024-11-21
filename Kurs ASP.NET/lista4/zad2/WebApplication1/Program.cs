@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Routing.Matching;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
-//builder.Services.AddSingleton<EndpointSelector, CustomEndpointSelector>();
+builder.Services.AddSingleton<EndpointSelector, CustomEndpointSelector>();
 var app = builder.Build();
 
 app.UseRouting();

@@ -1,0 +1,33 @@
+﻿@model WebApplication1.Models.TaskModel
+
+@{
+    ViewData["Title"] = "Task Form";
+}
+
+<h2>Task Form</h2>
+
+<form method="post" asp-action="Submit" asp-controller="Task">
+    <div>
+        <label>First Name:</label>
+        <input asp-for="FirstName" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label>Last Name:</label>
+        <input asp-for="LastName" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+
+    <h3>Tasks</h3>
+    @for (int i = 0; i < 10; i++)
+    {
+        <div>
+            <label>Task @(i + 1):</label>
+            <input asp-for="Tasks[@i]" />
+            <span asp-validation-for="Tasks[@i]" class="text-danger"></span>
+        </div>
+    }
+
+    <button type="submit">Submit</button>
+</form>

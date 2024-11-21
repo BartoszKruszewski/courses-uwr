@@ -1,0 +1,44 @@
+﻿@model WebApplication1.Models.FormModel
+
+<h2>Formularz</h2>
+
+@using (Html.BeginForm("Submit", "Home", FormMethod.Post))
+{
+    <div>
+        <label for="Name">Imię:</label>
+        @Html.TextBoxFor(m => m.Name)
+    </div>
+
+    <div>
+        <label for="IsActive">Aktywność:</label>
+        @Html.CheckBoxFor(m => m.IsActive)
+    </div>
+
+    <div>
+        <label for="Password">Hasło:</label>
+        @Html.PasswordFor(m => m.Password)
+    </div>
+
+    <div>
+        <label for="Gender">Płeć:</label>
+        @Html.RadioButtonFor(m => m.Gender, "Male") Mężczyzna
+        @Html.RadioButtonFor(m => m.Gender, "Female") Kobieta
+    </div>
+
+    <div>
+        <label for="Categories">Kategoria:</label>
+        @Html.DropDownListFor(m => m.SelectedCategory, new SelectList(Model.Categories, "Id", "Name"))
+    </div>
+
+    <div>
+        <label for="Description">Opis:</label>
+        @Html.TextAreaFor(m => m.Description)
+    </div>
+
+    <div>
+        <button type="submit">Wyślij</button>
+    </div>
+}
+
+<h3>Surowy HTML:</h3>
+@Html.Raw("<p>Ten tekst zawiera <strong>HTML</strong>.</p>")

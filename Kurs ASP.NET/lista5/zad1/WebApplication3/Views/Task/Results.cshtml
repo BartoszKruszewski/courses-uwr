@@ -1,0 +1,31 @@
+﻿@model WebApplication3.Models.TaskModel
+
+@{
+    ViewBag.Title = "Results";
+}
+
+<h2>Results</h2>
+
+<div>
+    <strong>First Name:</strong> @Model.FirstName <br />
+    <strong>Last Name:</strong> @Model.LastName
+</div>
+
+<h3>Tasks:</h3>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Task</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < 10; i++)
+        {
+            <tr>
+                <td>Task @(i + 1)</td>
+                <td>@Model.Tasks[i]</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Upload File";
+}
+<h2>Upload File</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="file">Wybierz plik:</label>
+        <input type="file" id="file" name="file" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Prześlij</button>
+</form>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-info mt-3">@ViewBag.Message</div>
+}
