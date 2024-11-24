@@ -1,0 +1,8 @@
+<svg viewBox="-500 -500 1000 1000" xmlns="http://www.w3.org/2000/svg">
+<g>
+<line stroke="black" stroke-width="2" x1="0" x2="100" y1="0" y2="0"/>
+<line stroke="black" stroke-width="2" x1="100" x2="100" y1="0" y2="100"/>
+<line stroke="black" stroke-width="2" x1="100" x2="0" y1="100" y2="100.00000000000001"/>
+<line stroke="black" stroke-width="2" x1="0" x2="-0.00000000000001836909530733566" y1="100.00000000000001" y2="0.000000000000014210854715202004"/>
+</g>
+</svg>
