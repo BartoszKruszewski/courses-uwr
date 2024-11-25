@@ -1,7 +1,28 @@
-forward 100
-right 90
-forward 100
-right 90
-forward 100
-right 90
-forward 100
+to square
+    repeat 4 [ forward 100 right 90 ]
+end
+
+to triangle
+    repeat 3 [ forward 80 right 120 ]
+end
+
+to polygon :sides :size
+    repeat :sides [ forward :size right 360 / :sides ]
+end
+
+to pattern
+    repeat 36 [
+        square
+        right 10
+    ]
+end
+
+to main
+    if x > 10 [ square ]
+    if x <= 10 [ triangle ]
+    polygon 6 50
+    pattern
+end
+
+x = 15
+main

@@ -1,4 +1,4 @@
-use crate::instruction::Instruction;
+use crate::parser::Instruction;
 use svg::node::element::{Group, Line};
 
 pub struct Turtle {
@@ -23,12 +23,13 @@ impl Turtle {
     pub fn exec(&mut self, instructions: &Vec<Instruction>) {
         for instruction in instructions {
             match instruction {
-                Instruction::Forward(dist) => { self.move_forward(*dist); }
-                Instruction::Backward(dist) => { self.move_forward(-*dist); }
+                Instruction::Forward(dist) => self.move_forward(*dist),
+                Instruction::Backward(dist) => self.move_forward(-*dist),
                 Instruction::Left(degrees) => self.angle = (self.angle + degrees) % 360.0,
                 Instruction::Right(degrees) => self.angle = (self.angle - degrees) % 360.0,
                 Instruction::PenUp => self.pen_down = false,
-                Instruction::PenDown => self.pen_down = true
+                Instruction::PenDown => self.pen_down = true,
+                Instruction::Repeat(n, ins) => for _ in 0..*n { self.exec(ins); }
             }
         }
     }
