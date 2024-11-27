@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan pomieszczeń</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+  .room {
+      border: 2px solid #6c757d;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.2s;
+      background-color: #e9ebec;
+    }
+
+    .room:hover {
+      transform: scale(1.05);
+    }
+
+    .room.selected {
+      background-color: green;
+      color: white;
+      pointer-events: none;
+    }
+
+    .room.available {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .room.unavailable {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .corridor {
+      position: absolute;
+      background-color: #b8b5b5;
+    }
+
+    .filter-box {
+      background-color: #f8f9fa;
+      border: 1px solid #ced4da;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      background-color: #b8b5b5;
+    }
+
+    .info-box {
+      display: none;
+      position: absolute;
+      background: white;
+      border: 1px solid #ced4da;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    .navbar-dark .navbar-brand {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    #floor-plan {
+      position: relative;
+      width: 100%;
+      height: 600px;
+      border: 2px solid #ced4da;
+      border-radius: 5px;
+      background-color: #f8f9fa;
+    }
+
+    .room.filtered-out {
+      background-color: gray !important;
+      color: white;
+      pointer-events: none;
+    }
+  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">MójAkademik.pl</a>
+      <div class="mx-auto">
+        <span class="navbar-text text-white">
+          Wybór pokoju
+        </span>
+      </div>
+      <div class="d-flex">
+        <a href="#" class="nav-link text-white">
+          <i class="bi bi-person"></i> Moje konto
+        </a>
+      </div>
+    </div>
+  </nav>    
+
+  <div class="container" style="position: relative; top: 2vh;">
+    <div class="row">
+      <!-- Filter Section -->
+      <div class="col-md-4">
+        <div class="filter-box">
+          <h5>Filtruj pokoje</h5>
+          <form id="filter-form">
+            <div class="mb-3">
+              <label for="floorFilter" class="form-label">Piętro</label>
+              <select id="floorFilter" class="form-select">
+                <option value="">Wszystkie</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="sizeFilter" class="form-label">Wielkość pokoju</label>
+              <select id="sizeFilter" class="form-select">
+                <option value="">Wszystkie</option>
+                <option value="10m²">10m²</option>
+                <option value="20m²">20m²</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="standardFilter" class="form-label">Standard</label>
+              <select id="standardFilter" class="form-select">
+                <option value="">Wszystkie</option>
+                <option value="Basic">Basic</option>
+                <option value="Premium">Premium</option>
+                <option value="Economy">Economy</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="occupantsFilter" class="form-label">Ilość mieszkańców</label>
+              <select id="occupantsFilter" class="form-select">
+                <option value="">Dowolna</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+            </div>
+            <div class="mb-3 d-flex justify-content-between">
+              <button type="button" id="applyFilters" class="btn btn-primary">Zastosuj filtry</button>
+              <button type="button" id="clearFilters" class="btn btn-secondary">Wyczyść filtry</button>
+            </div>            
+          </form>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="d-flex justify-content-center align-items-center">
+          <div style = "width : 600px">
+            <div id="floor-plan" style="position: relative; width: 100%; height: 600px; border: 1px solid rgb(56, 54, 54); margin: auto; background-color: #4a4f54;">
+              <div class="room" id="kuchnia" style="width: 200px; height: 100px; top: 0px; left: 0px;">
+                Kuchnia
+              </div>
+              <!-- Lewa strona -->
+              <div class="corridor" style="width: 200px; height: 50px; top: 100px; left: 0px;"></div>
+              <div class="corridor" style="width: 100px; height: 30px; top: 220px; left: 100px;"></div>
+              <div class="corridor" style="width: 100px; height: 30px; top: 350px; left: 100px;"></div>
+              <div class="corridor" style="width: 100px; height: 30px; top: 520px; left: 100px;"></div>
+              <div class="corridor" style="width: 100px; height: 100%; top: 00px; left: 200px;"></div>
+              <div class="corridor" style="width: 100px; height: 30px; top: 70px; left: 300px;"></div>
+              <div class="corridor" style="width: 100px; height: 30px; top: 200px; left: 300px;"></div>
+              <div class="corridor" style="width: 100px; height: 30px; top: 370px; left: 300px;"></div>
+    
+    
+              <div class="room available" id="m1" style="width: 200px; height: 70px; top: 150px; left: 0px;">Pokój 1</div>
+              <div class="room available" id="m2" style="width: 100px; height: 80px; top: 220px; left: 0px;">Pokój 2</div>
+              <div class="room" id="m4" style="width: 100px; height: 50px; top: 250px; left: 100px;">WC</div>
+    
+              <div class="room" id="m4" style="width: 100px; height: 50px; top: 300px; left: 100px;">WC</div>
+              <div class="room available" id="m4" style="width: 100px; height: 80px; top: 300px; left: 0px;">Pokój 3</div>
+              <div class="room available" id="m3" style="width: 200px; height: 70px; top: 380px; left: 0px;">Pokój 4</div>
+    
+              <div class="room unavailable" id="m5" style="width: 200px; height: 70px; top: 450px; left: 0px;">Pokój 5</div>
+              <div class="room unavailable" id="m6" style="width: 100px; height: 80px; top: 520px; left: 0px;">Pokój 6</div>
+              <div class="room" id="m4" style="width: 100px; height: 50px; top: 550px; left: 100px;">WC</div>
+    
+              <!-- Prawa strona -->  
+              <div class="room unavailable" id="m7" style="width: 200px; height: 70px; top: 0px; left: 300px;">Pokój 7</div>
+              <div class="room unavailable" id="m8" style="width: 100px; height: 80px; top: 70px; left: 400px;">Pokój 8</div>
+              <div class="room" id="m4" style="width: 100px; height: 50px; top: 100px; left: 300px;">WC</div>
+    
+              <div class="room" id="m4" style="width: 100px; height: 50px; top: 150px; left: 300px;">WC</div>
+              <div class="room available" id="m10" style="width: 100px; height: 80px; top: 150px; left: 400px;">Pokój 9</div>
+              <div class="room unavailable" id="m9" style="width: 200px; height: 70px; top: 230px; left: 300px;">Pokój 10</div>
+    
+              <div class="room available" id="m11" style="width: 200px; height: 70px; top: 300px; left: 300px;">Pokój 11</div>
+              <div class="room available" id="m12" style="width: 100px; height: 80px; top: 370px; left: 400px;">Pokój 12</div>
+              <div class="room" id="m4" style="width: 100px; height: 50px; top: 400px; left: 300px;">WC</div>
+    
+              <div class="room" id="pralnia" style="width: 200px; height: 80px; top: 450px; left: 300px;">
+                Kuchnia
+              </div>
+              <div class="room" id="pralnia" style="width: 200px; height: 70px; top: 530px; left: 300px;">
+                Pralnia
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Informacje o pokoju -->
+    <div id="info" class="info-box"></div>
+  </div>
+
+  <script>
+    const rooms = {
+      kuchnia: { size: '20m²', standard: 'Basic', available: true, price: '500 zł', occupants: 0 },
+      pralnia: { size: '20m²', standard: 'Basic', available: true, price: '300 zł', occupants: 0 },
+      wc: { size: '8m²', standard: 'Basic', available: true, price: '150 zł', occupants: 2 },
+      m1: { size: '20m²', standard: 'Premium', available: false, price: '800 zł', occupants: 2 },
+      m3: { size: '20m²', standard: 'Premium', available: false, price: '800 zł', occupants: 2 },
+      m5: { size: '20m²', standard: 'Premium', available: false, price: '800 zł', occupants: 2 },
+      m7: { size: '20m²', standard: 'Premium', available: false, price: '800 zł', occupants: 2 },
+      m9: { size: '20m²', standard: 'Premium', available: false, price: '800 zł', occupants: 2 },
+      m11: { size: '20m²', standard: 'Premium', available: false, price: '800 zł', occupants: 2 },
+      m2: { size: '10m²', standard: 'Premium', available: false, price: '800 zł', occupants: 1 },
+      m4: { size: '10m²', standard: 'Premium', available: false, price: '800 zł', occupants: 1 },
+      m6: { size: '10m²', standard: 'Premium', available: false, price: '800 zł', occupants: 1 },
+      m8: { size: '10m²', standard: 'Premium', available: false, price: '800 zł', occupants: 1 },
+      m10: { size: '10m²', standard: 'Premium', available: false, price: '800 zł', occupants: 1 },
+      m12: { size: '10m²', standard: 'Premium', available: false, price: '800 zł', occupants: 1 },
+      m2: { size: '10m²', standard: 'Premium', available: false, price: '800 zł', occupants: 1 },
+    };
+
+    const applyFiltersButton = document.getElementById('applyFilters');
+    const infoBox = document.getElementById('info');
+
+    document.querySelectorAll('.room').forEach(room => {
+      room.addEventListener('click', event => {
+        const id = room.id;
+        const roomInfo = rooms[id];
+        if (roomInfo) {
+          infoBox.innerHTML = `
+            <strong>Pomieszczenie:</strong> ${id}<br>
+            <strong>Rozmiar:</strong> ${roomInfo.size}<br>
+            <strong>Standard:</strong> ${roomInfo.standard}<br>
+            <strong>Cena:</strong> ${roomInfo.price}<br>
+            <strong>Liczba mieszkańców:</strong> ${roomInfo.occupants}<br>
+            <button class="btn btn-success mt-2" onclick="selectRoom('${id}')">Wybierz pokój</button>
+          `;
+          infoBox.style.display = 'block';
+          infoBox.style.left = `${event.pageX + 10}px`;
+          infoBox.style.top = `${event.pageY + 10}px`;
+        }
+      });
+    });
+
+    document.addEventListener('click', event => {
+      if (!event.target.classList.contains('room')) {
+        infoBox.style.display = 'none';
+      }
+    });
+
+    applyFiltersButton.addEventListener('click', () => {
+      const sizeFilter = document.getElementById('sizeFilter').value;
+      const standardFilter = document.getElementById('standardFilter').value;
+      const occupantsFilter = document.getElementById('occupantsFilter').value;
+
+      const specialRooms = ['kuchnia', 'pralnia', 'prysznice', 'wc'];
+
+      document.querySelectorAll('.room').forEach(room => {
+        const id = room.id;
+        const roomInfo = rooms[id];
+
+        let matchesFilter = true;
+        if (sizeFilter && roomInfo.size !== sizeFilter) matchesFilter = false;
+        if (standardFilter && roomInfo.standard !== standardFilter) matchesFilter = false;
+        if (occupantsFilter && parseInt(occupantsFilter) !== roomInfo.occupants) {
+          matchesFilter = false;
+        }
+
+        if (matchesFilter) {
+          room.classList.remove('filtered-out');
+        } else {
+          room.classList.add('filtered-out');
+        }
+
+        if (specialRooms.includes(id)) {
+          room.classList.remove('filtered-out');
+        }
+      });
+    });
+
+    const clearFiltersButton = document.getElementById('clearFilters');
+
+    clearFiltersButton.addEventListener('click', () => {
+      // Resetowanie wartości wszystkich filtrów
+      document.getElementById('sizeFilter').value = '';
+      document.getElementById('standardFilter').value = '';
+      document.getElementById('floorFilter').value = '';
+      document.getElementById('occupantsFilter').value = '';
+
+      // Przywrócenie widoczności wszystkich pokoi
+      document.querySelectorAll('.room').forEach(room => {
+        room.classList.remove('filtered-out');
+      });
+    });
+
+    function selectRoom(roomId) {
+      const roomInfo = rooms[roomId]; // Pobierz dane o pokoju z obiektu `rooms`
+      
+      if (roomInfo) {
+        if (roomInfo.available) {
+          alert(`Pokój ${roomId} jest już zajęty.`);
+          return;
+        }
+
+        roomInfo.available = false;
+
+        const roomElement = document.getElementById(roomId);
+        if (roomElement) {
+          roomElement.style.backgroundColor = 'green'; // Zmień kolor na zielony
+          roomElement.innerText = `Wybrany`; // Zaktualizuj tekst pokoju
+        }
+
+        infoBox.style.display = 'none';
+
+        alert(`Pokój ${roomId} został pomyślnie wybrany!`);
+      } else {
+        console.error(`Nie znaleziono pokoju o ID: ${roomId}`);
+      }
+    }
+  </script>
+</body>
+</html>

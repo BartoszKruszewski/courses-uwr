@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezerwacja Zakwaterowania</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .btn-purple {
+            background-color: purple;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Pasek nawigacji -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">MójAkademik.pl</a>
+          <div class="mx-auto">
+            <span class="navbar-text text-white">
+              Rezerwacja Terminu Zakwaterowania
+            </span>
+          </div>
+          <div class="d-flex">
+            <a href="#" class="nav-link text-white">
+              <i class="bi bi-person"></i> Moje konto
+            </a>
+          </div>
+        </div>
+      </nav>   
+
+    <!-- Główna zawartość -->
+    <div class="container mt-4">
+        <!-- Komunikat o dokonaniu rezerwacji -->
+        <div id="reservationMessage" class="alert alert-success d-none text-center"></div>
+
+        <div class="row">
+            <!-- Panel filtrowania -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Filtruj sloty</h5>
+                        <form id="filterForm">
+                            <div class="mb-3">
+                                <label for="dateFilter" class="form-label">Data</label>
+                                <input type="date" class="form-control" id="dateFilter" name="date">
+                            </div>
+                            <div class="mb-3">
+                                <label for="timeStartFilter" class="form-label">Od godziny</label>
+                                <input type="time" class="form-control" id="timeStartFilter" name="timeStart">
+                            </div>
+                            <div class="mb-3">
+                                <label for="timeEndFilter" class="form-label">Do godziny</label>
+                                <input type="time" class="form-control" id="timeEndFilter" name="timeEnd">
+                            </div>
+                            <button type="button" class="btn btn-primary w-100" id="filterBtn">Filtruj</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista slotów -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Dostępne sloty</h5>
+                        <div id="slotsList">
+                            <!-- Sloty generowane dynamicznie -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal potwierdzenia -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Potwierdzenie rezerwacji</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Czy na pewno chcesz zarezerwować ten slot?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="button" class="btn btn-primary" id="confirmReservation">Zarezerwuj</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const slotsList = document.getElementById('slotsList');
+        const reservationMessage = document.getElementById('reservationMessage');
+        let selectedSlot = null;
+
+        // Funkcja generująca sloty dla danego dnia
+        function generateSlots(date) {
+            const slots = [];
+            let currentTime = new Date(date);
+            currentTime.setHours(9, 0, 0, 0); // Start od 9:00
+            const endTime = new Date(currentTime);
+            endTime.setHours(14, 0, 0, 0); // Koniec o 14:00
+
+            while (currentTime < endTime) {
+                slots.push({
+                    time: currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    available: Math.random() > 0.3 // 70% szans na dostępność
+                });
+                currentTime.setMinutes(currentTime.getMinutes() + 15); // Kolejny slot po 15 minutach
+            }
+            return slots;
+        }
+
+        // Funkcja renderująca listę slotów
+        function renderSlots() {
+            slotsList.innerHTML = '';
+            const today = new Date();
+            for (let i = 0; i < 3; i++) {
+                const currentDate = new Date(today);
+                currentDate.setDate(today.getDate() + i);
+
+                const slots = generateSlots(currentDate);
+
+                const dayHeader = document.createElement('h6');
+                dayHeader.className = 'mt-3';
+                dayHeader.textContent = currentDate.toLocaleDateString();
+
+                const dayContainer = document.createElement('div');
+                dayContainer.className = 'd-flex flex-wrap gap-2';
+
+                slots.forEach(slot => {
+                    const slotButton = document.createElement('button');
+                    slotButton.className = `btn btn-${slot.available ? 'success' : 'secondary'} btn-sm`;
+                    slotButton.disabled = !slot.available;
+                    slotButton.textContent = slot.time;
+
+                    if (slot.available) {
+                        slotButton.setAttribute('data-bs-toggle', 'modal');
+                        slotButton.setAttribute('data-bs-target', '#confirmationModal');
+                        slotButton.addEventListener('click', () => {
+                            selectedSlot = {
+                                date: currentDate.toLocaleDateString(),
+                                time: slot.time,
+                                element: slotButton
+                            };
+                        });
+                    }
+
+                    dayContainer.appendChild(slotButton);
+                });
+
+                slotsList.appendChild(dayHeader);
+                slotsList.appendChild(dayContainer);
+            }
+        }
+
+        document.getElementById('confirmReservation').addEventListener('click', () => {
+            if (selectedSlot) {
+                // Zmieniamy kolor na fioletowy
+                selectedSlot.element.classList.remove('btn-success');
+                selectedSlot.element.classList.add('btn-purple');
+                selectedSlot.element.disabled = true;
+
+                // Wyświetlamy komunikat o rezerwacji
+                reservationMessage.textContent = `Dokonano rezerwacji w dniu ${selectedSlot.date} o godzinie ${selectedSlot.time}.`;
+                reservationMessage.classList.remove('d-none');
+                reservationMessage.scrollIntoView({ behavior: 'smooth' });
+
+                const modal = bootstrap.Modal.getInstance(document.getElementById('confirmationModal'));
+                modal.hide();
+            }
+        });
+
+        renderSlots();
+    </script>
+</body>
+</html>

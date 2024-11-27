@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zarządzanie Gośćmi</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .guest-status.pending {
+      color: orange;
+      font-weight: bold;
+    }
+
+    .guest-status.confirmed {
+      color: #155724;
+      font-weight: bold;
+    }
+
+    .guest-limit {
+      color: #721c24;
+      font-weight: bold;
+    }
+
+    .delete-icon {
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .delete-icon:hover {
+      color: red;
+    }
+  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">MójAkademik.pl</a>
+      <div class="mx-auto">
+        <span class="navbar-text text-white">
+          Zarządzanie Gośćmi
+        </span>
+      </div>
+      <div class="d-flex">
+        <a href="#" class="nav-link text-white">
+          <i class="bi bi-person"></i> Moje konto
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <div class="row">
+      <!-- Sekcja Formularza -->
+      <div class="col-md-6">
+        <div class="card" style="background-color: #dcdcdc; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+          <div class="card-header bg-primary text-white">
+            Dodaj lub wypisz gościa
+          </div>
+          <div class="card-body">
+            <form id="guestForm">
+              <h5>Dodaj gościa</h5>
+              <div class="mb-3">
+                <label for="guestNameIn" class="form-label">Imię i Nazwisko</label>
+                <input type="text" id="guestNameIn" class="form-control" placeholder="Imię i Nazwisko" required>
+              </div>
+              <div class="mb-3">
+                <label for="entryTime" class="form-label">Godzina wejścia</label>
+                <input type="time" id="entryTime" class="form-control" required>
+              </div>
+              <button type="button" class="btn btn-success w-100 mb-3" onclick="addGuest()" style="background-color: #d4edda; color: #155724; font-size: 15px; font-weight: bold;">Dodaj Gościa</button>
+
+              <h5>Wypisz gościa</h5>
+              <div class="mb-3">
+                <label for="guestNameOut" class="form-label">Imię i Nazwisko</label>
+                <input type="text" id="guestNameOut" class="form-control" placeholder="Imię i Nazwisko" required>
+              </div>
+              <div class="mb-3">
+                <label for="exitTime" class="form-label">Godzina wyjścia</label>
+                <input type="time" id="exitTime" class="form-control" required>
+              </div>
+              <button type="button" class="btn btn-danger w-100" onclick="removeGuest()" style="background-color: #f8d7da; color: #721c24; font-size: 15px; font-weight: bold;">Wypisz Gościa</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sekcja Listy Gości -->
+      <div class="col-md-6">
+        <div class="card" style="background-color: #dcdcdc; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+          <div class="card-header bg-secondary text-white">
+            Lista Gości (Limit: 3)
+          </div>
+          <div class="card-body">
+            <div id="guestLimit" class="guest-limit mb-2"></div>
+            <ul id="guestList" class="list-group">
+              <li class="list-group-item">Brak gości</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const guestList = [];
+    const maxGuests = 3;
+
+    function addGuest() {
+      const guestName = document.getElementById("guestNameIn").value.trim();
+      const entryTime = document.getElementById("entryTime").value;
+
+      if (!guestName || !entryTime) {
+        alert("Proszę podać poprawne dane gościa.");
+        return;
+      }
+
+      if (guestList.filter(guest => !guest.exitTime).length >= maxGuests) {
+        alert("Osiągnięto maksymalny limit gości (3 osoby).");
+        return;
+      }
+
+      const newGuest = {
+        name: guestName,
+        entryTime: entryTime,
+        exitTime: null,
+        status: "pending",
+      };
+
+      // Dodajemy nowego gościa na początek listy
+      guestList.unshift(newGuest);
+      updateGuestList();
+      clearForm();
+    }
+
+    function removeGuest() {
+      const guestName = document.getElementById("guestNameOut").value.trim();
+      const exitTime = document.getElementById("exitTime").value;
+
+      if (!guestName || !exitTime) {
+        alert("Proszę podać poprawne dane gościa.");
+        return;
+      }
+
+      const guestIndex = guestList.findIndex(
+        (guest) => guest.name === guestName && !guest.exitTime
+      );
+
+      if (guestIndex === -1) {
+        alert("Nie znaleziono gościa o podanym imieniu i nazwisku lub gość już wyszedł.");
+        return;
+      }
+
+      guestList[guestIndex].exitTime = exitTime;
+      guestList[guestIndex].status = "pending"; //confirmed
+      updateGuestList();
+      clearForm();
+    }
+
+    function updateGuestList() {
+      const guestListElement = document.getElementById("guestList");
+      const guestLimitElement = document.getElementById("guestLimit");
+
+      // Clear existing list
+      guestListElement.innerHTML = "";
+
+      if (guestList.length === 0) {
+        guestListElement.innerHTML = '<li class="list-group-item">Brak gości</li>';
+      } else {
+        guestList.forEach((guest, index) => {
+          const statusClass = guest.status === "pending" ? "pending" : "confirmed";
+          const guestItem = document.createElement("li");
+          guestItem.className = `list-group-item d-flex justify-content-between align-items-center`;
+
+          const deleteIcon =
+            guest.status === "confirmed"
+              ? `<i class="bi bi-trash-fill delete-icon text-danger" onclick="deleteGuest(${index})"></i>`
+              : "";
+
+          guestItem.innerHTML = `
+            <div>
+              <strong>${guest.name}</strong><br>
+              <small>Wejście: ${guest.entryTime}</small><br>
+              <small>Wyjście: ${guest.exitTime || "-"}</small>
+            </div>
+            <div class="d-flex align-items-center">
+              <span class="guest-status ${statusClass} me-3">${guest.status === "pending" ? "W trakcie potwierdzenia" : "Potwierdzony"}</span>
+              ${deleteIcon}
+            </div>
+          `;
+          guestListElement.appendChild(guestItem);
+        });
+      }
+
+      const currentGuests = guestList.filter(guest => !guest.exitTime).length;
+      guestLimitElement.textContent =
+        currentGuests >= maxGuests
+          ? "Limit gości osiągnięty!"
+          : `Możesz dodać jeszcze ${maxGuests - currentGuests} ${maxGuests - currentGuests === 1 ? "gościa" : "gości"}.`;
+    }
+
+    function deleteGuest(index) {
+      if (guestList[index].status !== "confirmed") {
+        alert("Można usunąć tylko wizyty zakończone.");
+        return;
+      }
+
+      if (confirm(`Czy na pewno chcesz usunąć wizytę dla gościa "${guestList[index].name}"?`)) {
+        guestList.splice(index, 1); // Usuń gościa z listy
+        updateGuestList(); // Zaktualizuj wyświetlaną listę
+      }
+    }
+
+    function clearForm() {
+      document.getElementById("guestNameIn").value = "";
+      document.getElementById("entryTime").value = "";
+      document.getElementById("guestNameOut").value = "";
+      document.getElementById("exitTime").value = "";
+    }
+
+    // Initialize list
+    updateGuestList();
+  </script>
+</body>
+</html>

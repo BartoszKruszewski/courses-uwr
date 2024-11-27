@@ -1,28 +1,20 @@
-to square
-    repeat 4 [ forward 100 right 90 ]
-end
-
-to triangle
-    repeat 3 [ forward 80 right 120 ]
-end
-
-to polygon :sides :size
-    repeat :sides [ forward :size right 360 / :sides ]
-end
-
-to pattern
-    repeat 36 [
-        square
-        right 10
+to square :x
+[
+    repeat 4
+    [
+        repeat 10
+        [
+            forward :X
+        ]
+        right 90
     ]
-end
+]
 
-to main
-    if x > 10 [ square ]
-    if x <= 10 [ triangle ]
-    polygon 6 50
-    pattern
-end
-
-x = 15
-main
+to foo
+[
+    repeat 10
+    [
+        forward 20
+        left 3
+    ]
+]
