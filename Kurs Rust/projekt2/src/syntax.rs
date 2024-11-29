@@ -1,20 +1,24 @@
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum Op {
     Add,
     Sub,
     Mul,
     Div,
-    Eq
+    Eq,
+    Gt,
+    Lt,
+    And,
+    Or
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum Num {
     Value(f64),
     Variable(String),
     Op(Op, Box<Num>, Box<Num>)
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum Ins {
     Forward(Num),
     Backward(Num),
@@ -25,6 +29,5 @@ pub enum Ins {
     Repeat(Num, Vec<Ins>),
     If(Num, Vec<Ins>),
     Define(String, Vec<String>, Vec<Ins>),
-    Call(String, Vec<String>),
-    None
+    Call(String, Vec<Num>)
 }

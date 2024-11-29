@@ -6,9 +6,9 @@ pub fn read_and_trim_lines(file_path: &str) -> io::Result<Vec<String>> {
     let reader = io::BufReader::new(file);
     let lines = reader
         .lines()
-        .filter_map(Result::ok) // Ignoruj błędne linie
+        .filter_map(Result::ok)
         .map(|line| line.trim().to_string())
-        .filter(|line| !line.is_empty()) // Pomijaj puste linie
+        .filter(|line| !line.is_empty())
         .collect();
     Ok(lines)
 }

@@ -1,0 +1,10 @@
+to main x
+[
+    repeat x
+    [
+        forward 40
+        left 360 / x
+    ]
+]
+
+main 10

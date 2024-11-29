@@ -29,9 +29,9 @@ impl Kw {
             "pendown" => Kw::PenDown,
             "repeat" => Kw::Repeat(args),
             "if" => Kw::If(args),
-            "to" => Kw::To(args),
-            "[" => Kw::BlockStart,
-            "]" => Kw::BlockEnd,
+            "def" => Kw::To(args),
+            "{" => Kw::BlockStart,
+            "}" => Kw::BlockEnd,
             name => Kw::Call(name.to_string(), args)
         }
     }
