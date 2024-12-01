@@ -1,7 +1,8 @@
 use crate::syntax::{Num, Op};
+use crate::utils::{split_by_first_char, remove_whitespace};
 
 pub fn parse(input: &str) -> Num {
-    _parse(&_remove_whitespace(input))
+    _parse(&remove_whitespace(input))
 }
 
 fn _parse(input: &str) -> Num {
@@ -43,40 +44,12 @@ fn _parse_val_var(input: &str) -> Num {
 }
 
 fn _parse_bin_op(input: &str, op: char) -> Option<Num> {
-    if let Some((left, right)) = _split_by_first_char(input, op) {
-        Some(Num::Op(_char_into_op(op), Box::new(_parse(&left)), Box::new(_parse(&right))))
-    } 
+    if let Some((left, right)) = split_by_first_char(input, op) {
+        Some(Num::Op(Op::new(op), Box::new(_parse(&left)), Box::new(_parse(&right))))
+    }
     else {
         None
     }
-}
-
-fn _char_into_op(op: char) -> Op {
-    match op {
-        '+' => Op::Add,
-        '-' => Op::Sub,
-        '*' => Op::Mul,
-        '/' => Op::Div,
-        '&' => Op::And,
-        '|' => Op::Or,
-        '=' => Op::Eq,
-        '>' => Op::Gt,
-        '<' => Op::Lt,
-        bad_op => panic!("Wrong operator: {bad_op}!")
-    }
-}
-
-fn _split_by_first_char(input: &str, sep: char) -> Option<(String, String)> {
-    if let Some(index) = input.find(sep) {
-        let (left, right) = input.split_at(index);
-        Some((left.to_string(), right[1..].to_string()))
-    } else {
-        None
-    }
-}
-
-fn _remove_whitespace(input: &str) -> String {
-    input.chars().filter(|c| !c.is_whitespace()).collect()
 }
 
 #[cfg(test)]

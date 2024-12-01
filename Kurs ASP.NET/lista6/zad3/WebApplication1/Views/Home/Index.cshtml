@@ -1,0 +1,11 @@
+﻿@model WebApplication1.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<p>Wariant1</p>
+@Html.Login("UserName", "Password")
+
+<p>Wariant2</p>
+@Html.LoginFor(m => m.UserName, m => m.Password)

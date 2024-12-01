@@ -1,0 +1,49 @@
+let field_size 1000
+let text_size 20
+let random_ratio 50
+let random_mult 10
+
+repeat 4
+{
+    forward field_size
+    rt 90
+}
+
+penup
+forward field_size / 4
+rt 90
+forward field_size * 3 / 4
+lt 180
+
+repeat field_size / random_ratio
+{
+    let step_left random * random_ratio * random_mult
+
+    
+    pendown
+    forward step_left
+    rt 90
+    text text_size left
+    lt 90
+    bk step_left
+    penup
+
+    rt 90
+    forward field_size / 2
+    lt 90
+
+    let step_right random * random_ratio * random_mult
+
+    
+    pendown
+    forward step_right
+    rt 90
+    text text_size right
+    lt 90
+    bk step_right
+    penup
+
+    lt 90
+    forward field_size / 2
+    rt 90
+}

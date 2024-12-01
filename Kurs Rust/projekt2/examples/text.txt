@@ -1,0 +1,11 @@
+let i 0
+repeat 144
+{
+    penup
+    fd i * i / 30
+    text i logo
+    bk i * i / 30
+    pendown
+    rt 10
+    let i i + 1
+}

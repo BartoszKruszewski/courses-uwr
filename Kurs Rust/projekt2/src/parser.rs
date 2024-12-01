@@ -1,6 +1,7 @@
 use crate::syntax::Ins;
 use crate::keywords::Kw;
 use crate::num_parser::parse as parse_num;
+use crate::utils::split_by_first_char;
 
 pub fn parse(input: Vec<String>) -> Vec<Ins> {
     _parse(input.iter().map(|x| Kw::new(x.as_str())).collect())
@@ -13,7 +14,7 @@ fn _parse(input: Vec<Kw>) -> Vec<Ins> {
         let kw = &input[i];
         let mut next_block = Vec::new();
         match kw {
-            Kw::Repeat(_) | Kw::If(_) | Kw::To(_) => {
+            Kw::Repeat(_) | Kw::If(_) | Kw::Def(_) => {
                 next_block = _find_first_block(input[i..].to_vec());
                 i += next_block.len() + 3;
             }
@@ -27,10 +28,12 @@ fn _parse(input: Vec<Kw>) -> Vec<Ins> {
             Kw::Right(args) => Ins::Right(parse_num(args)),
             Kw::PenUp => Ins::PenUp,
             Kw::PenDown => Ins::PenDown,
+            Kw::Text(args) => _parse_text(args),
             Kw::Call(name, args) => _parse_call(name, args),
             Kw::Repeat(args) => Ins::Repeat(parse_num(args), _parse(next_block)),
             Kw::If(args) => Ins::If(parse_num(args), _parse(next_block)),
-            Kw::To(args) => {_parse_to(args, next_block)}
+            Kw::Let(args) => _parse_let(args),
+            Kw::Def(args) => _parse_def(args, next_block),
             Kw::BlockStart => panic!("Block start out of context!"),
             Kw::BlockEnd => panic!("Block end out of context!"),
         });
@@ -38,7 +41,18 @@ fn _parse(input: Vec<Kw>) -> Vec<Ins> {
     res
 }
 
-fn _parse_to(args: &str, block: Vec<Kw>) -> Ins {
+fn _parse_text(args: &str) -> Ins {
+    let (size_str, text) = split_by_first_char(args, ' ').unwrap();
+
+    Ins::Text(parse_num(&size_str), text)
+}
+
+fn _parse_let(args: &str) -> Ins {
+    let (name, val_str) = split_by_first_char(args, ' ').unwrap();
+    Ins::Let(name, parse_num(&val_str))
+}
+
+fn _parse_def(args: &str, block: Vec<Kw>) -> Ins {
     let parts: Vec<&str> = args.split_whitespace().collect();
 
     Ins::Define(

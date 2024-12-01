@@ -1,0 +1,45 @@
+def direction sign len
+{
+    if sign
+    {
+        rt len
+    }
+    if sign = 0
+    {
+        lt len
+    }
+}
+
+def fern size sign
+{
+    if sign
+    {
+        let reversed 0
+    }
+    if sign = 0
+    {
+        let reversed 1
+    }
+
+    if size > 1
+    {
+        fd size
+        direction sign, 70
+        fern size * 0.5, reversed
+        direction reversed, 70
+        fd size
+        direction reversed, 70
+        fern size * 0.5, sign
+        direction sign, 70
+        direction sign, 7
+        fern size - 1, sign
+        direction reversed, 7
+        bk size * 2
+    }
+}
+  
+pu
+bk 150
+pd
+
+fern 25, 1

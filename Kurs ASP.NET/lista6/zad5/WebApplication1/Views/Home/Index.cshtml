@@ -1,0 +1,29 @@
+﻿@model WebApplication1.Models.PersonModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Walidacja</title>
+</head>
+<body>
+    <h2>Formularz</h2>
+
+    <form asp-action="Submit" method="post">
+        <div>
+            <label for="Pesel">Numer PESEL</label>
+            <input type="text" asp-for="Pesel" />
+            <span asp-validation-for="Pesel"></span>
+        </div>
+        <div>
+            <label for="Name">Imię</label>
+            <input type="text" asp-for="Name" />
+            <span asp-validation-for="Name"></span>
+        </div>
+        <button type="submit">Wyślij</button>
+    </form>
+
+    <script src="~/lib/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

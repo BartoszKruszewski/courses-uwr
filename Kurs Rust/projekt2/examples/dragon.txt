@@ -1,0 +1,23 @@
+def dragon len depth sign
+{
+    if depth = 0
+    {
+        fd len
+    }
+    if depth > 0
+    {
+        dragon len / 1.41, depth - 1, 1
+        if sign
+        {
+            rt 45
+        }
+        if sign = 0
+        {
+            lt 45
+        }
+        dragon len / 1.41, depth - 1, 0
+    }
+}
+
+dragon 100, 12, 1
+    

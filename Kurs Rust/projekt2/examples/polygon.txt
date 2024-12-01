@@ -1,0 +1,16 @@
+def polygon x size
+{
+    repeat x
+    {
+        forward size
+        left 360 / x
+    }
+}
+
+let i 3
+repeat 10
+{
+    polygon i, i * 10
+    let i i + 1
+}
+
