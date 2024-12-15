@@ -4,6 +4,4 @@ mod zad3;
 mod zad4;
 mod zad5;
 
-fn main() {
-    println!("Hello, world!");
-}
+fn main() {}
