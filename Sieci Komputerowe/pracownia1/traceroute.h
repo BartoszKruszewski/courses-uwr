@@ -9,7 +9,7 @@
 #include <arpa/inet.h>
 #include <poll.h>
 #include <unistd.h>
-#include <random>
+#include <algorithm>
 
 #define MAX_HOPS 30
 #define PACKETS_PER_TTL 3

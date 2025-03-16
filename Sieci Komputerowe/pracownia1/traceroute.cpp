@@ -4,6 +4,7 @@
 #include <netinet/ip.h>
 #include <netinet/ip_icmp.h>
 #include <sys/time.h>
+#include <algorithm>
 
 
 unsigned short checksum(void *b, int len) {
