@@ -1,21 +1,17 @@
-## Podział sieci 10.10.0.0/16 na 5 podsieci
+Rozmiar podsieci może być tylko potęgą 2.
+Sieć **10.10.0.0/16** ma **(2^16) adresów** (w tym dwa nieużyteczne).
+Czyli najmniejsze x musi wystapic dwa razy, poniewaz musza sie sumowac do wyzszej potegi (chcemy pokryc wszystkie adresy).
+Jezeli chcemy zeby siec zajmowala najmniej to pozostale sieci musza zajmowac jak najwiecej.
 
-Sieć **10.10.0.0/16** ma **65536 adresów** (2¹⁶).
-Użyteczne adresy: **65534** (po odjęciu adresu sieci i broadcastu).
+$2^{15} + 2^{14} + 2^{13} + 2^{12} + 2^{12} = 2^{16}$.
 
-### 2. Podział na 5 rozłącznych podsieci
-Podziału można dokonać na dwa 
-- **Podział na /19**: daje **8192 adresy** na podsieć (8190 użytecznych).
-- **Uzyskane podsieci**:
-  - 10.10.0.0/19
-  - 10.10.32.0/19
-  - 10.10.64.0/19
-  - 10.10.96.0/19
-  - 10.10.128.0/19
+Wyznaczmy podsieci takich wielkosci:
+- $10.10.128.0/17$
+- $10.10.64.0/18$
+- $10.10.32.0/19$
+- $10.10.16.0/20$
+- $10.10.0.0/20$
 
-### 3. Zmiana liczby użytecznych adresów
-- Przed podziałem: **65534** adresy.
-- Po podziale na 5 podsieci /19: **40950** adresów.
+Minimalny rozmiar podsieci to $2^{12} - 2 = 4096 - 2 = 4094$ \
+(Odejmujemy dwa bo to adres sieci i rozgloszeniowy)
 
-### 4. Minimalny rozmiar podsieci
-- Najmniejsza możliwa podsieć w tym podziale: **/19 (8192 adresy, 8190 użytecznych)**.
