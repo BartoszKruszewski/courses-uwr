@@ -25,15 +25,15 @@ mozemy skleic z
 tworzac
 ▶ 10.0.0.0/22 → do routera B
 
-▶ 10.0.1.8/29 → do routera B
 ▶ 10.0.1.16/29 → do routera B
 ▶ 10.0.1.24/29 → do routera B
-stanowią podsiec
-▶ 10.0.0.0/22 → do routera B
-wiec mozemy je usunac
+mozemy skleic w 
+▶ 10.0.1.16/28 → do routera B
 
 ostatecznie otrzymamy
 
 ▶ 0.0.0.0/0 → do routera A
 ▶ 10.0.0.0/22 → do routera B
 ▶ 10.0.1.0/24 → do routera C
+▶ 10.0.1.8/29 → do routera B
+▶ 10.0.1.16/28 → do routera B
