@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Contact Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Serif&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient-start: #fdfbf7;
+            --bg-gradient-end: #f4f0e8;
+
+            --card-bg-gradient-start: #ffffff;
+            --card-bg-gradient-end: #f9f6f2;
+
+            --text-color-primary: #2e2a26;
+            --text-color-secondary: #5a534c;
+
+            --border-color: #d6cec4;
+            --invalid-border-color: #e27d60;
+
+            --focus-color: #4ca1a3;
+            --focus-color-rgba: rgba(76, 161, 163, 0.2);
+
+            --btn-gradient-start: #4ca1a3;
+            --btn-gradient-end: #78b5a3;
+            --btn-hover-start: #418d8f;
+            --btn-hover-end: #68a18f;
+
+            --white: #fff;
+            --box-shadow-color: rgba(46, 42, 38, 0.1);
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 100%;
+        }
+
+        body {
+            font-family: 'Noto Sans', Arial, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+        }
+
+        .contact-form__card {
+            max-width: 60rem;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--card-bg-gradient-start) 0%, var(--card-bg-gradient-end) 100%);
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px var(--box-shadow-color);
+        }
+
+        .contact-form__title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color-primary);
+            letter-spacing: 2px;
+            font-family: 'Noto Serif', serif;
+            line-height: 1.2;
+        }
+
+        .contact-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 40rem) {
+            .contact-form {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .contact-form__row {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #message {
+            grid-column: 1 / -1;
+        }
+
+        .contact-form__label {
+            font-family: 'Noto Serif', serif;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-color-secondary);
+            letter-spacing: 0.5px;
+        }
+
+        .contact-form__input,
+        .contact-form__select,
+        .contact-form__textarea {
+            padding: 0.8rem;
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            background: var(--white);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: 'Noto Sans', Arial, sans-serif;
+            letter-spacing: 0.3px;
+        }
+
+        .contact-form__input:focus,
+        .contact-form__select:focus,
+        .contact-form__textarea:focus {
+            border-color: var(--focus-color);
+            box-shadow: 0 0 0 3px var(--focus-color-rgba);
+            outline: none;
+        }
+
+        .contact-form__input[type="text"],
+        .contact-form__input[type="email"] {
+            width: 100%;
+        }
+
+        .contact-form__textarea {
+            min-height: 6rem;
+            resize: vertical;
+        }
+
+        .contact-form__checkbox-container {
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .contact-form__checkbox-container .contact-form__label {
+            margin-bottom: 0;
+        }
+
+        .contact-form__checkbox {
+            margin-right: 0.5rem;
+            transform: scale(1);
+            cursor: pointer;
+        }
+
+        @media (pointer: coarse) {
+            .contact-form__checkbox {
+                transform: scale(1.4);
+            }
+        }
+
+        .contact-form__button {
+            grid-column: 1 / -1;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--btn-gradient-start) 0%, var(--btn-gradient-end) 100%);
+            color: var(--white);
+            border: none;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            font-family: 'Noto Sans', Arial, sans-serif;
+        }
+
+        .contact-form__button:hover {
+            background: linear-gradient(135deg, var(--btn-hover-start) 0%, var(--btn-hover-end) 100%);
+            transform: translateY(-2px);
+        }
+
+        .contact-form__input:invalid,
+        .contact-form__textarea:invalid,
+        .contact-form__select:invalid {
+            border: 2px solid var(--invalid-border-color);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contact-form__card">
+        <h1 class="contact-form__title">Contact Form</h1>
+        <form class="contact-form" action="#" method="POST" novalidate>
+            <div class="contact-form__row">
+                <label class="contact-form__label" for="first-name">First Name *</label>
+                <input class="contact-form__input" type="text" id="first-name" name="first-name" required
+                    pattern=".*\S.*">
+            </div>
+            <div class="contact-form__row">
+                <label class="contact-form__label" for="last-name">Last Name</label>
+                <input class="contact-form__input" type="text" id="last-name" name="last-name" pattern=".*\S.*">
+            </div>
+            <div class="contact-form__row">
+                <label class="contact-form__label" for="email">Email *</label>
+                <input class="contact-form__input" type="email" id="email" name="email" required pattern="^.+@.+\..+$">
+            </div>
+            <div class="contact-form__row">
+                <label class="contact-form__label" for="phone">Phone</label>
+                <input class="contact-form__input" type="text" id="phone" name="phone" pattern="^[0-9]{9}$"
+                    placeholder="e.g. 123456789">
+            </div>
+            <div class="contact-form__row contact-form__checkbox-container">
+                <input class="contact-form__checkbox" type="checkbox" id="newsletter" name="newsletter">
+                <label class="contact-form__label" for="newsletter">Sign up for the newsletter</label>
+            </div>
+            <div class="contact-form__row">
+                <label class="contact-form__label" for="reason">Reason for Contact *</label>
+                <select class="contact-form__select" id="reason" name="reason" required>
+                    <option value="" disabled selected>-- Please choose --</option>
+                    <option value="inquiry">Product Inquiry</option>
+                    <option value="complaint">Complaint</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div id="message" class="contact-form__row">
+                <label class="contact-form__label" for="message">Message *</label>
+                <textarea class="contact-form__textarea" id="message" name="message" required
+                    pattern=".*\S.*"></textarea>
+            </div>
+            <button class="contact-form__button" type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+
+</html>
