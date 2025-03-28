@@ -3,7 +3,7 @@
 var calc = new AreaCalculator();
 
 IShape rect = new Rectangle(4, 5);
-Console.WriteLine($"Pole prostokąta: {calc.CalculateArea(rect)}"); 
+Console.WriteLine($"Pole prostokąta: {calc.CalculateArea(rect)}");
 
 IShape sq = new Square(4);
 Console.WriteLine($"Pole kwadratu: {calc.CalculateArea(sq)}"); 
