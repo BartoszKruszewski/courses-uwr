@@ -1,3 +1,10 @@
+// Bartosz Kruszewski 337568
+// Sieci Komputerowe - Pracowania 1
+
+// make
+// sudo ./traceroute <ip_adress>
+
+
 #include "traceroute.h"
 #include <cstring>
 #include <cstdlib>
