@@ -1,0 +1,21 @@
+{
+  "name": "lista10_",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint \"{src,tests}/**/*.{ts,tsx}\" --fix"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-legacy": "^6.1.1",
+    "eslint": "^9.26.0",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "mathjs": "^14.4.0"
+  }
+}
