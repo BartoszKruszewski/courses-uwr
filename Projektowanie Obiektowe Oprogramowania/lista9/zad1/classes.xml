@@ -1,0 +1,11 @@
+<classes>
+    <class name="Person">
+        <field name="name" type="str"/>
+        <field name="age"  type="int"/>
+    </class>
+
+    <class name="Car">
+        <field name="make" type="str"/>
+        <field name="year" type="int"/>
+    </class>
+</classes>

@@ -1,0 +1,5 @@
+class {{ name }}:
+    def __init__(self{% for f in fields %}, {{ f.name }}: {{ f.type }}{% endfor %}):
+        {%- for f in fields %}
+        self.{{ f.name }} = {{ f.name }}
+        {%- endfor %}
