@@ -1,0 +1,1 @@
+Po dodaniu komunikatu wysyłane jest rządanie POST ktora ma content=zawartość

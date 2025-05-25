@@ -1,3 +1,9 @@
+# cd zad2
+# python3 -m venv venv
+# source ./venv/bin/activate
+# pip install -r requirements.txt
+# python3 run.py
+
 from database import Base, engine, session_scope
 from models import Child, Parent
 
