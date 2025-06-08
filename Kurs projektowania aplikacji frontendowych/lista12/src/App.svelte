@@ -1,21 +1,23 @@
 <script lang="ts">
   type Todo = { id: number; name: string; completed: boolean };
 
-  let text = '';
+  let text = "";
   let todos: Todo[] = [];
 
   function add() {
     if (!text.trim()) return;
     todos = [...todos, { id: Date.now(), name: text.trim(), completed: false }];
-    text = '';
+    text = "";
   }
 
   function remove(id: number) {
-    todos = todos.filter(t => t.id !== id);
+    todos = todos.filter((t) => t.id !== id);
   }
 
   function toggle(id: number) {
-    todos = todos.map(t => (t.id === id ? { ...t, completed: !t.completed } : t));
+    todos = todos.map((t) =>
+      t.id === id ? { ...t, completed: !t.completed } : t,
+    );
   }
 
   function moveUp(idx: number) {
@@ -58,7 +60,7 @@
     <section class="todos__container">
       <header class="todos-header__container">
         <h2>
-          Todo List ({todos.filter(t => !t.completed).length} remaining)
+          Todo List ({todos.filter((t) => !t.completed).length} remaining)
           <button id="todos-clear" class="todos-clear" on:click={clearAll}>
             Clear all
           </button>
@@ -67,23 +69,42 @@
 
       <ul id="todo-list" class="todos__list">
         {#each todos as todo, i (todo.id)}
-          <li class="todo__container {todo.completed ? 'todo__container--completed' : ''}">
+          <li
+            class="todo__container {todo.completed
+              ? 'todo__container--completed'
+              : ''}"
+          >
             <div class="todo-element todo-name">{todo.name}</div>
 
-            <button class="todo-element todo-button move-up"  on:click={() => moveUp(i)}>↑</button>
-            <button class="todo-element todo-button move-down" on:click={() => moveDown(i)}>↓</button>
+            <button
+              class="todo-element todo-button move-up"
+              on:click={() => moveUp(i)}>↑</button
+            >
+            <button
+              class="todo-element todo-button move-down"
+              on:click={() => moveDown(i)}>↓</button
+            >
 
             {#if !todo.completed}
-              <button class="todo-element todo-button" on:click={() => toggle(todo.id)}>
+              <button
+                class="todo-element todo-button"
+                on:click={() => toggle(todo.id)}
+              >
                 Done
               </button>
             {:else}
-              <button class="todo-element todo-button" on:click={() => toggle(todo.id)}>
+              <button
+                class="todo-element todo-button"
+                on:click={() => toggle(todo.id)}
+              >
                 Revert
               </button>
             {/if}
 
-            <button class="todo-element todo-button" on:click={() => remove(todo.id)}>
+            <button
+              class="todo-element todo-button"
+              on:click={() => remove(todo.id)}
+            >
               Remove
             </button>
           </li>
