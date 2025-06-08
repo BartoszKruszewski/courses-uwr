@@ -1,39 +1,73 @@
-1. Jaki jest cel systemu nazw DNS?
+# Notatka z wykładu – Warstwa aplikacji cz. 2
 
-2. Do czego służy plik /etc/hosts?
+## DNS
 
-3. Rozwiń skrót TLD (kontekst: DNS), podaj parę przykładów.
+- **Cel systemu DNS**: Umożliwia tłumaczenie nazw domenowych (łatwych do zapamiętania dla ludzi) na adresy IP, niezależnie od zmian tych adresów.
 
-4. Czym są strefy i delegacje DNS?
+- **Plik /etc/hosts**: Historyczny plik lokalny zawierający mapowanie nazw domen na adresy IP, używany zanim powstał DNS. Nadal obecny w systemach operacyjnych.
 
-5. Czym różni się rekurencyjne odpytywanie serwerów DNS od iteracyjnego?
+- **TLD (Top Level Domains)**: Domeny najwyższego poziomu, np. `.pl`, `.com`, `.edu`, `.uk`.
 
-6. Jak działa odwrotny DNS? Jaki typ rekordów i jaką domenę wykorzystuje?
+- **Strefy i delegacje DNS**:
+  - *Strefa*: fragment drzewa domen, zarządzany przez określony serwer nazw.
+  - *Delegacja*: wpis w nadrzędnej strefie wskazujący, który serwer obsługuje daną strefę.
 
-7. Jakie znasz typy rekordów DNS? Co to jest rekord CNAME?
+- **Iteracyjne vs rekurencyjne odpytywanie DNS**:
+  - *Iteracyjne*: klient sam odpytuje kolejne serwery.
+  - *Rekurencyjne*: resolver DNS odpytuje kolejne serwery w imieniu klienta.
 
-8. Do czego służy protokół SMTP a do czego IMAP?
+- **Odwrotny DNS**: Zamiana adresu IP na nazwę domeny, używa rekordu `PTR` oraz specjalnej domeny `in-addr.arpa`.
 
-9. Co to są przekaźniki SMTP (relays)?
+- **Typy rekordów DNS**:
+  - `A` – IPv4
+  - `AAAA` – IPv6
+  - `NS` – wskazuje serwer nazw
+  - `MX` – wskazuje serwer poczty
+  - `CNAME` – alias innej domeny (kanoniczna nazwa)
 
-10. Jaki rekord DNS jest sprawdzany przed wysłaniem poczty do danej domeny?
+## Poczta elektroniczna
 
-11. Wymień parę popularnych pól w nagłówku maila. Do czego służą pola Received i Bcc?
+- **SMTP vs IMAP**:
+  - *SMTP* – protokół do wysyłania maili (port 25/587).
+  - *IMAP* – protokół do pobierania i zarządzania mailami na serwerze.
 
-12. Co umożliwia standard MIME?
+- **Przekaźniki SMTP (relays)**: Serwery pośredniczące w przekazywaniu wiadomości między serwerami nadawcy i odbiorcy.
 
-13. Co to jest spam? Jakie znasz metody walki ze spamem?
+- **Rekord DNS sprawdzany przed wysłaniem poczty**: `MX` – wskazuje serwer odpowiedzialny za przyjmowanie poczty dla danej domeny.
 
-14. Na czym polega mechanizm SPF?
+- **Popularne pola nagłówka maila**:
+  - `Received` – ślad trasy wiadomości przez serwery
+  - `Bcc` – ukryta kopia wiadomości
 
-15. Jaka jest rola trackera w sieci Bittorrent?
+- **Standard MIME**: Pozwala przesyłać różne typy danych (tekst, HTML, załączniki), definiuje m.in. `Content-Type`.
 
-16. Po co w plikach .torrent stosuje się funkcje skrótu?
+- **Spam i metody walki**:
+  - Uczenie maszynowe, blokowanie IP, spowalnianie połączeń, SPF, podpisy cyfrowe
 
-17. Jakie są różnice w postępowaniu seedera i leechera w sieci BitTorrent?
+- **SPF**: Rekord TXT w DNS określający, które adresy IP mają prawo wysyłać pocztę w imieniu danej domeny.
 
-18. Na czym polegają połączenia odwrócone? Jak stosuje się je w protokole FTP?
+## Sieci peer-to-peer (P2P)
 
-19. Opisz podobieństwa i różnice asymetrycznych (cone) NAT (pełnego i ograniczonego) i symetrycznych NAT.
+- **Rola trackera w BitTorrent**: Utrzymuje listę użytkowników i udostępnia listę peerów chcących pobrać dany plik.
 
-20. Opisz technikę wybijania dziur (hole punching) w NAT. Po co konieczny jest serwer pośredniczący?
+- **Funkcje skrótu w .torrent**: Pozwalają na weryfikację poprawności fragmentów pliku.
+
+- **Seeder vs leecher**:
+  - *Seeder* – posiada cały plik i udostępnia go innym.
+  - *Leecher* – pobiera fragmenty, udostępniając przy tym innym te, które już ma.
+
+## NAT i aplikacje
+
+- **Połączenia odwrócone**: Gdy klient za NAT nie może odebrać połączenia, zewnętrzny serwer pośredniczy i klient inicjuje połączenie.
+
+- **FTP i NAT**:
+  - Tryb aktywny FTP nie działa za NAT.
+  - Tryb pasywny FTP pozwala serwerowi inicjować połączenie odbioru danych, co działa za NAT.
+
+- **NAT cone vs symetryczny**:
+  - *Full cone NAT*: przekazuje pakiety z dowolnego źródła.
+  - *Restricted cone NAT*: przekazuje tylko jeśli wcześniej nastąpiła komunikacja.
+  - *Symetryczny NAT*: przypisania zależą od pary nadawca-odbiorca, przez co trudny do przejścia.
+
+- **Hole punching**: Technika obejścia NAT polegająca na inicjacji połączenia do znanego portu z pomocą serwera pośredniczącego, pozwalająca na bezpośrednią komunikację.
+

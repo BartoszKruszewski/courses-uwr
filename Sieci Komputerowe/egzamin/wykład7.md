@@ -1,23 +1,56 @@
-1. Co to jest gniazdo?
+# Notatka z wykładu 7 – TCP
 
-2. Czym różni się gniazdo nasłuchujące od gniazda połączonego? Czy w protokole UDP mamy gniazda połączone?
+## Co to jest gniazdo?
+Gniazdo (ang. socket) to interfejs komunikacyjny pomiędzy aplikacją a warstwą transportową, identyfikowany przez adres IP i numer portu. Pozwala na odbieranie i wysyłanie danych przez sieć.
 
-3. Co robią funkcję jądra bind(), listen(), accept(), connect()?
+## Czym różni się gniazdo nasłuchujące od gniazda połączonego? Czy w UDP są gniazda połączone?
+- **Gniazdo nasłuchujące (serwera)** – służy tylko do przyjmowania połączeń, nie do przesyłania danych.
+- **Gniazdo połączone** – tworzone po zestawieniu połączenia, służy do komunikacji.
+- W UDP **nie ma gniazd połączonych**, każde gniazdo działa niezależnie i nie utrzymuje stanu połączenia.
 
-4. Czym różni się komunikacja bezpołączeniowa od połączeniowej?
+## Co robią funkcje jądra:
+- `bind()` – przypisuje gniazdu lokalny adres IP i port.
+- `listen()` – przygotowuje gniazdo do nasłuchiwania połączeń (tworzy kolejkę).
+- `accept()` – przyjmuje połączenie przychodzące z kolejki, tworząc gniazdo połączone.
+- `connect()` – klient nawiązuje połączenie z serwerem.
 
-5. Czym różni się otwarcie bierne od otwarcia aktywnego? Czy serwer może wykonać otwarcie aktywne?
+## Czym różni się komunikacja bezpołączeniowa od połączeniowej?
+- **Bezpołączeniowa (UDP)** – brak utrzymywanego stanu, każda wiadomość jest niezależna.
+- **Połączeniowa (TCP)** – wymagane nawiązanie i zakończenie połączenia, przesył danych jest bardziej uporządkowany i niezawodny.
 
-6. Do czego służą flagi SYN, ACK, FIN i RST stosowane w protokole TCP?
+## Czym różni się otwarcie bierne od otwarcia aktywnego? Czy serwer może wykonać otwarcie aktywne?
+- **Otwarcie bierne** – `listen()`, serwer oczekuje na połączenie.
+- **Otwarcie aktywne** – `connect()`, klient inicjuje połączenie.
+- Serwer **zwykle nie wykonuje otwarcia aktywnego**, ale technicznie jest to możliwe.
 
-7. Opisz trójstopniowe nawiązywanie połączenia w TCP. Jakie informacje są przesyłane w trakcie takiego połączenia?
+## Do czego służą flagi TCP: SYN, ACK, FIN, RST?
+- **SYN** – synchronizacja, inicjuje połączenie.
+- **ACK** – potwierdzenie odebrania danych.
+- **FIN** – zakończenie połączenia.
+- **RST** – reset połączenia w przypadku błędu.
 
-8. Dlaczego przesyłanych bajtów nie numeruje się od zera?
+## Trójstopniowe nawiązywanie połączenia TCP:
+1. Klient wysyła `SYN`.
+2. Serwer odpowiada `SYN-ACK`.
+3. Klient wysyła `ACK`.
+Każda strona ustala początkowy numer sekwencyjny (losowy).
 
-9. Jakie segmenty są wymieniane podczas zamykania połączenia w protokole TCP?
+## Dlaczego numeracja bajtów nie zaczyna się od zera?
+Ponieważ początkowy numer sekwencyjny jest losowy – zwiększa bezpieczeństwo i zapobiega podszywaniu się.
 
-10. Co zwraca funkcja recv() wywołana na gnieździe w blokującym i nieblokującym trybie?
+## Jakie segmenty są wymieniane podczas zamykania połączenia w TCP?
+1. Jedna strona wysyła `FIN`.
+2. Druga odpowiada `ACK`.
+3. Druga strona wysyła `FIN`.
+4. Pierwsza odpowiada `ACK`.
 
-11. Po co wprowadzono stan TIME_WAIT?
+## Co zwraca funkcja `recv()`?
+- W trybie **blokującym**: czeka aż pojawią się dane, zwraca liczbę bajtów.
+- W trybie **nieblokującym**: zwraca od razu, może zwrócić 0 (brak danych) lub -1 (błąd).
 
-12. Na podstawie diagramu stanów TCP opisz możliwe scenariusze nawiązywania i kończenia połączenia.
+## Po co jest stan TIME_WAIT?
+Pozwala upewnić się, że ostatni `ACK` dotarł oraz zapobiega pomyłkom przy szybkim otwarciu nowego połączenia z tymi samymi parametrami (IP + porty).
+
+## Diagram stanów TCP – scenariusze:
+- **Nawiązanie połączenia**: `CLOSED` → `SYN_SENT` (klient), `CLOSED` → `LISTEN` → `SYN_RECEIVED` (serwer) → `ESTABLISHED`.
+- **Zamknięcie połączenia**: `ESTABLISHED` → `FIN_WAIT_1` → `FIN_WAIT_2` → `TIME_WAIT` → `CLOSED` (klient), `ESTABLISHED` → `CLOSE_WAIT` → `LAST_ACK` → `CLOSED` (serwer).

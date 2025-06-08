@@ -1,31 +1,84 @@
-1. Opisz budowę adresu URL. Opisz budowę adresu URL w przypadku schematu http.
+# Notatka – HTTP (Warstwa aplikacji)
 
-2. W jakim celu serwer WWW ustawia typ MIME dla wysyłanej zawartości? Podaj kilka przykładów typów MIME.
+## 1. Budowa adresu URL (http)
+Adres URL (Uniform Resource Locator) ma postać:
+``schemat://nazwa_serwera[:port]/ścieżka``
 
-3. Po co w nagłówku żądania HTTP/1.1 podaje się pole Host?
+Dla `http`:
+- schemat: `http` lub `https`
+- `//`: separator
+- nazwa serwera (np. `example.com`)
+- opcjonalnie `:port`
+- identyfikator zasobu (np. `/strona/index.html`)
 
-4. Do czego służą pola Accept, Accept-Language, User-Agent, Server, Content-Length, Content-Type w nagłówku HTTP?
+## 2. MIME – typ zawartości
+Serwer ustawia typ MIME, aby przeglądarka wiedziała jak obsłużyć plik.
+**Przykłady typów MIME:**
+- `text/html` – strony internetowe
+- `image/jpeg` – obrazki JPG
+- `application/pdf` – pliki PDF
+- `application/octet-stream` – surowe dane binarne
 
-5. Jak implementuje się przechowywanie stanu w komunikacji HTTP?
+## 3. Pole `Host` w HTTP/1.1
+Wskazuje, do jakiej domeny kierowane jest żądanie. Umożliwia hostowanie wielu stron na jednym adresie IP.
 
-6. Jak wygląda warunkowe zapytanie GET protokołu HTTP?
+## 4. Pola nagłówka HTTP
+- `Accept`: typy MIME akceptowane przez klienta
+- `Accept-Language`: preferencje językowe
+- `User-Agent`: informacje o przeglądarce/kliencie
+- `Server`: dane o oprogramowaniu serwera
+- `Content-Length`: długość treści odpowiedzi
+- `Content-Type`: typ MIME zawartości odpowiedzi
 
-7. Jakie znasz kody odpowiedzi protokołu HTTP?
+## 5. Przechowywanie stanu w HTTP
+HTTP jest bezstanowe. Stan przechowuje aplikacja, np. poprzez `Set-Cookie` z identyfikatorem sesji (`sID=...`), który klient potem odsyła w `Cookie`.
 
-8. Na czym polegają połączenia trwałe w HTTP/1.1? Do czego służy opcja Connection: close w nagłówku HTTP?
+## 6. Warunkowe zapytanie GET
+Używa nagłówka `If-Modified-Since`. Odpowiedź:
+- `200 OK` – zmodyfikowano
+- `304 Not Modified` – brak zmian
 
-9. Po co stosuje się metodę POST?
+## 7. Kody odpowiedzi HTTP
+- `1xx`: informacyjne
+- `2xx`: sukces (`200 OK`)
+- `3xx`: przekierowania (`301`, `302`)
+- `4xx`: błąd klienta (`404 Not Found`)
+- `5xx`: błąd serwera (`500 Internal Server Error`)
 
-10. Co to jest technologia REST?
+## 8. Połączenia trwałe w HTTP/1.1
+Wiele żądań i odpowiedzi może być przesyłanych jednym połączeniem TCP. `Connection: close` – zamyka połączenie po odpowiedzi.
 
-11. Do czego służą serwery proxy?
+## 9. Cel metody POST
+Umożliwia przesyłanie danych w treści żądania – np. formularzy i plików. Bezpieczniejsze niż GET (nie widać w URL).
 
-12. Co to jest odwrotne proxy? Co to jest CDN?
+## 10. REST (Representational State Transfer)
+Styl tworzenia usług webowych wykorzystujący HTTP (metody GET, POST, PUT, DELETE). Umożliwia prostą, czytelną i zautomatyzowaną komunikację.
 
-13. Jak skłonić klienta, żeby łączył się z serwerem proxy a nie bezpośrednio ze stroną WWW?
+## 11. Serwery proxy – zastosowanie
+Pośredniczą w żądaniach HTTP:
+- mogą przechowywać dane w cache,
+- zmniejszają obciążenie łącza,
+- filtrują lub kontrolują dostęp.
 
-14. Jakie informacje dołączane są przez serwer proxy do zapytania?
+## 12. Odwrotne proxy i CDN
+- **Odwrotne proxy**: przed serwerem WWW, rozdzielają ruch.
+- **CDN**: sieć serwerów blisko klientów, serwuje statyczne zasoby szybciej.
 
-15. Co to są anonimowe serwery proxy?
+## 13. Skierowanie klienta do proxy
+- Ustawienia przeglądarki lub sieci
+- ISP może wymusić użycie proxy
+- DNS może kierować na adres proxy
 
-16. W jakim celu powstał protokół QUIC? Jakie funkcje spełnia?
+## 14. Nagłówki dodawane przez proxy
+- `X-Forwarded-For`: IP klienta
+- `Via`: IP proxy
+
+## 15. Anonimowe serwery proxy
+Nie dodają identyfikujących nagłówków. Zwykle płatne – zwiększają prywatność.
+
+## 16. QUIC – nowy protokół
+Zastępuje TCP + TLS dla HTTP/3:
+- Bazuje na UDP
+- Zawiera szyfrowanie (TLS 1.3)
+- Mniejsza latencja (1 RTT)
+- Odporny na opóźnienia jednego strumienia (multiplexing)

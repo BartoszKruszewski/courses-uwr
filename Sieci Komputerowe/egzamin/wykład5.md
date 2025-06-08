@@ -1,33 +1,59 @@
-1. Jakie są zadania warstwy łącza danych a jakie warstwy fizycznej?
+# Notatka z wykładu 5 – Niższe warstwy sieci komputerowych
 
-2. Czym różni się koncentrator od przełącznika sieciowego?
+## Zadania warstw
+- **Warstwa łącza danych**: komunikacja między sąsiadującymi urządzeniami, wykrywanie błędów transmisji, zawodna usługa ramek.
+- **Warstwa fizyczna**: przesyłanie bitów przez medium fizyczne (np. fale radiowe, światłowód, skrętka).
 
-3. Jak działa algorytm rundowy i bezrundowy ALOHA?
+## Koncentrator vs przełącznik
+- **Koncentrator (hub)**: przekazuje każdą ramkę do wszystkich portów, brak inteligencji.
+- **Przełącznik (switch)**: uczy się adresów MAC i kieruje ramki tylko do odpowiedniego portu.
 
-4. Jak działa algorytm odczekiwania wykładniczego?
+## Algorytmy ALOHA
+- **Rundowy ALOHA**: czas podzielony na rundy, nadawanie z prawdopodobieństwem `p`.
+- **Bezrundowy ALOHA**: brak synchronizacji, mniejsze wykorzystanie łącza.
 
-5. Wyjaśnij skróty CSMA/CD i CSMA/CA.
+## Algorytm odczekiwania wykładniczego
+Po kolizji zwiększamy zakres odczekiwania: losowanie z przedziału `0..2^m - 1`, stosowane w Ethernet i WiFi.
 
-6. Opisz budowę ramki Ethernetowej.
+## CSMA/CD vs CSMA/CA
+- **CSMA/CD** (Ethernet): wykrywanie kolizji i przerywanie transmisji.
+- **CSMA/CA** (WiFi): unikanie kolizji, brak możliwości ich wykrycia.
 
-7. Co to jest adres MAC?
+## Budowa ramki Ethernetowej
+- Adres docelowy i źródłowy MAC, typ, dane (46-1500 B), suma kontrolna CRC.
+- Minimalna długość ramki: 64 bajty (dla wykrywania kolizji).
 
-8. Do czego służy tryb nasłuchu (promiscuous mode)?
+## Adres MAC
+- 6 bajtów, unikatowy identyfikator karty sieciowej, możliwy do zmiany.
 
-9. Po co w Ethernecie definiuje się minimalną długość ramki?
+## Tryb nasłuchu (promiscuous mode)
+- Karta sieciowa przekazuje wszystkie ramki do systemu operacyjnego.
 
-10. Do czego służą protokoły ARP i DHCP?
+## Minimalna długość ramki w Ethernecie
+- Zapewnia wykrycie kolizji zanim nadawanie zostanie zakończone.
 
-11. Czym różni się łączenie dwóch sieci za pomocą mostu od łączenia ich za pomocą routera?
+## Protokół ARP i DHCP
+- **ARP**: zamiana adresów IP na MAC.
+- **DHCP**: dynamiczne przydzielanie adresu IP i innych parametrów sieci.
 
-12. Jak warstwa łącza danych realizuje rozgłaszanie?
+## Most vs router
+- **Most**: działa na warstwie łącza danych, szybszy, nie obsługuje fragmentacji IP.
+- **Router**: działa na warstwie sieci, obsługuje IP i routing.
 
-13. Na czym polega tryb uczenia się w przełączniku sieciowym?
+## Rozgłaszanie w warstwie łącza danych
+- Ramki wysyłane na MAC `FF:FF:FF:FF:FF:FF` trafiają do wszystkich urządzeń w domenie rozgłoszeniowej.
 
-14. Po co w przełączanym Ethernecie stosuje się algorytm drzewa spinającego?
+## Tryb uczenia się przełącznika
+- Przełącznik zapamiętuje adresy MAC i porty, aby kierować ruch bez rozgłaszania.
 
-15. Co to jest sieć VLAN? Po co się ją stosuje?
+## Algorytm drzewa spinającego (STP)
+- Zapobiega cyklom w sieci poprzez tworzenie drzewa spinającego, używa go Ethernet.
 
-16. Wyjaśnij zjawisko ukrytej stacji.
+## VLAN
+- Logiczny podział sieci niezależnie od fizycznego połączenia. Ramki zawierają identyfikator VLAN.
 
-17. Na czym polega rezerwowanie łącza za pomocą RTS i CTS?
+## Zjawisko ukrytej stacji
+- Komputer nie wykrywa transmisji innego komputera i powoduje kolizję w punkcie dostępowym.
+
+## RTS i CTS
+- **RTS (Request To Send)** i **CTS (Clear To Send)**: rezerwacja kanału w WiFi przed wysłaniem danych.
