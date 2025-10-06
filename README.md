@@ -37,3 +37,13 @@
 * Kurs ASP.NET (ASP.NET Course)
 * O Ekonomii i Gospodarce Inaczej (Economy)
 * Lektorat z Języka Angielskiego B2-1 (English B2-1 Language Course)
+
+## Semester 6 (Summer 2024/2025)
+* Sieci Komputerowe (Computer Networks)
+* Kurs projektowania aplikacji frontendowych (Front-end application design course)
+* Projektowanie Obiektowe Oprogramowania (Object-Oriented Software Design)
+* Lektorat z Języka Angielskiego B2-2 (English B2-2 Language Course)
+
+## Semester 7 (Winter 2025/2026)
+* Systemy Wbudowane (Embedded systems)
+* Programowanie Współbieżne (Concurent programming)
