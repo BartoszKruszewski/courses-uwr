@@ -1,5 +1,5 @@
 PRG            = main
-OBJ            = ${PRG}.o utils.o
+OBJ            = ${PRG}.o
 PROGRAMMER     = arduino
 PORT           = /dev/tty.usbserial-140
 MCU_TARGET     = atmega328p 
