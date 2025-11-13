@@ -11,7 +11,6 @@ ISR(TIMER1_CAPT_vect) {
     uint16_t current = ICR1;
     diff = current - last_capture;
     last_capture = current;
-    new_capture = 1;
 }
 
 void timer1_init(void) {
