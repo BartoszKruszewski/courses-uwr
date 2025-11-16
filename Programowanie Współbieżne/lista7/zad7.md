@@ -54,3 +54,9 @@ Zamieniamy indeks na system binarny, a następnie zapisujemy po kolei bity.
 Następnie StickyBits są odczytywane i zamieniane na system dziesiętny, co pozwala ustalić wspólny indeks tablicy values.
 
 #### 2. Poprawność
+
+StickyBits są odczytywane tak samo dla każdego wątku.
+
+Zostają odczytane dopiero po zakończeniu zapisu, więc mamy pewność, że zwrócą jakiś zapis.
+
+Każdy zapis odpowiada wartości jakiegoś wątku, więc wartość będzie taka sama dla wszystkich wątków i będzie jedną z wartości proponowanych przez nie.
