@@ -1,7 +1,7 @@
 PRG            = main
-OBJ            = ${PRG}.o i2c.o uart.o
+OBJ            = ${PRG}.o
 PROGRAMMER     = arduino
-PORT           = /dev/tty.usbserial-1140
+PORT           = /dev/tty.usbserial-140
 MCU_TARGET     = atmega328p 
 AVRDUDE_TARGET = atmega328p
 OPTIMIZE       = -O3
