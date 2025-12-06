@@ -1,23 +1,56 @@
+#### Definicja problemu
+
+Mamy tablice 3 elementową. Chcemy konstrukcję spęlniającą interfejs:
+
+```java
+interface Assign2 {
+    public void assign(int i1, int v1, int i2, int v2);
+    public int read(int i);
+}
+```
+
+Która pozwala na atomowy zapis dwóch wartości.
+
+Sprowadza się to do tego, że wątki nie powinny edytować dwóch tych samych elementów tablicy w tym samym czasie.
+
 #### Konstrukcja
 
-Mamy trzy rejestry w których trzymamy krotki:
+```java
 
-- R1 (Środek): przechowuje (wartość, timestamp, właściciel).
+R1, R2, R3 = {-1, -1, -1};
+MRMW[3] array; 
 
-- R0, R2 (Boki): Przechowują (wartość, timestamp).
+void assign(int i1, int v1, int i2, int v2){
+    r = {
+        [0, 1]: R1,
+        [0, 2]: R2,
+        [1, 2]: R3,
+    }[sort([i1, i2])]; // rozroznienie czy indeksy sa rozlaczne
 
-R1 jest wspólny, R0 i R2 są przypisane do wątków.
+    r.compareAndSet(-1, ThreadID); // oznaczenie rozpoczecia zapisu
+    
+    if register.get() == ThreadID {
+        array[i1] = v1;
+        array[i2] = v2;
+        r.set(-1); // oznaczenie zakonczenia zapisu
+    }
+}
 
-Dodatkowo mamy tablice MRMR do ogłaszania wartości przed wykonaniem CAS (gwarancja odczytu w przypadku opóźnień).​
+int read(int i) {
+    return array[i];
+}
+```
 
-Zapis: 
+#### Intuicja
 
-1. Ogłaszenie wartości w Proposal
-2. Próba wykonania CAS na rejestrze R1, podbijając timestamp
-3. Po sukcesie aktualizacja rejestru bocznego
+Konstrukcja wykorzystuje rejestry RMW do rozróżnienia czy występuje równolegla chęć zapisu do dwóch tych samych rejestrów.
 
-Odczyt:
+Do każdego rejestru jest przypisana jedna kombinacja indeksów tablicy.
 
-1. Pobranie stanu R1.
-2. Sprawdzenie timestampu rejestrów bocznych.
-3. Jeśli timestamp boku jest mniejszy niż środka, oznacza to "brudny odczyt" – wtedy pobiera wartość z tablicy Proposal.
+W przypadku gdy indeksy pokrywają się, wątki robią "wyścig" za pomocą instrukcji CAS o zajęcie rejestru oznaczającego odpowiednią kombinację.
+
+W rezultacie zapis dokonywany jest tylko przez jeden wątek.
+
+#### Pozostałe przypadki
+
+Jeżeli indeksy nie pokrywają się (jakiś indeks się różni), to wtedy we wspólnym polu będzie wartość proponowana przez wątek, który dokonał zapisu później (tak jak powinno być).
