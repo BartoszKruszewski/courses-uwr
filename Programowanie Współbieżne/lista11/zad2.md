@@ -1,5 +1,39 @@
 #### `find()`
 
+```java
+class Window {
+    public Node pred, curr;
+    
+    Window(Node myPred, Node myCurr) {
+        pred = myPred; curr = myCurr;
+    }
+}
+    
+Window find(Node head, int key) {
+    Node pred = null, curr = null, succ = null;
+    boolean[] marked = {false};
+    boolean snip;
+
+    retry: while (true) {
+        pred = head;
+        curr = pred.next.getReference();
+        while (true) {
+            succ = curr.next.get(marked);
+            while (marked[0]) {
+                snip = pred.next.compareAndSet(curr, succ, false, false);
+                if (!snip) continue retry;
+                curr = succ;
+                succ = curr.next.get(marked);
+            }
+            if (curr.key >= key)
+                return new Window(pred, curr);
+            pred = curr;
+            curr = succ;
+        }
+    }
+}
+```
+
 `find()` przeszukuje posortowaną listę, zwracając parę kolejnych węzłów (Window z pred i curr), gdzie pred.next powinno wskazywać na curr, a oba węzły są nieoznaczone (nieusunięte).
 
 Algorytm iteracyjnie przechodzi od głowy listy, fizycznie usuwając oznaczone węzły poprzez CAS na pred.next, aż znajdzie parę pred-curr z `curr.key >= key` i `pred.next == curr` oraz brak oznaczeń.
@@ -10,24 +44,73 @@ Jedno wywołanie `compareAndSet()` występuje w pętli: `pred.next.compareAndSet
 
 #### `add()`
 
+```java
+public boolean add(T item) {
+    int key = item.hashCode();
+    while (true) {
+        Window window = find(head, key);
+        Node pred = window.pred, curr = window.curr;
+        if (curr.key == key) {
+            return false;
+        } else {
+            Node node = new Node(item);
+            node.next = new AtomicMarkableReference(curr, false);
+            if (pred.next.compareAndSet(curr, node, false, false)) {
+                return true;
+            }
+        }
+    }
+}
+```
+
 `add(T item)` najpierw wywołuje `find(key)` uzyskując pred i curr, potem sprawdza czy `curr.key == key` (już istnieje).
 
 Jeśli nie, tworzy nowy węzeł z `node.next = AtomicMarkableReference(curr, false)` i próbuje `pred.next.compareAndSet(curr, node, false, false)`.
 
 *Może zawieść gdy: (1) inny wątek zmienił pred.next (np. usunął/usunął fizycznie między pred-curr), (2) pred zostało oznaczone jako usunięte przez inny wątek. Sukces oznacza atomowe wstawienie nowego węzła w posortowanym miejscu.*
-​
+
 #### `remove()`
+
+```java
+public boolean remove(T item) {
+    int key = item.hashCode();
+    boolean snip;
+    while (true) {
+        Window window = find(head, key);
+        Node pred = window.pred, curr = window.curr;
+        if (curr.key != key) {
+            return false;
+        } else {
+            Node succ = curr.next.getReference();
+            snip = curr.next.compareAndSet(succ, succ, false, true);
+            if (!snip)
+                continue;
+            pred.next.compareAndSet(curr, succ, false, false);
+            return true;
+        }
+    }
+}
+```
 
 `remove(T item)` używa find(key) do pred i curr. Jeśli `curr.key == key`, najpierw `snip = curr.next.attemptMark(succ, true)` (logiczne usunięcie), a potem `pred.next.compareAndSet(curr, succ, false, false)` (fizyczne unlink).
 
 *Pierwsze CAS `(attemptMark, wewnętrznie CAS na curr.next z succ->null na succ->marked)` zawiedzie gdy: (1) curr.next ≠ succ (zmienione przez inny wątek), (2) już oznaczone. Drugie CAS zawiedzie gdy: (1) pred.next ≠ curr (już unlinked przez inny), (2) pred.marked.*
 
-​
 #### Metoda `contains()`
+
+```java
+public boolean contains(T item) {
+    int key = item.hashCode();
+    Node curr = head;
+    while (curr.key < key) {
+        curr = curr.next.getReference();
+    }
+    return (curr.key == key && !curr.next.isMarked())
+}
+```
 
 `contains(T item)` wywołuje find(key) i sprawdza `curr.key == key && !curr.marked`. Brak własnych CAS – polega na świeżości okna z `find()`. Zwraca true tylko jeśli znaleziono nieoznaczony węzeł o pasującym kluczu.
 
-​
 #### Drugie CAS w `remove()`
 
 Rezultat drugiego `compareAndSet()` w `remove()` nie jest sprawdzany – zawsze zwraca true niezależnie od sukcesu.

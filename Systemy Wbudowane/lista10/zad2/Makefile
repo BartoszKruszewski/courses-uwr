@@ -1,5 +1,5 @@
 PRG            = main
-OBJ            = ${PRG}.o
+OBJ            = ${PRG}.o hd44780.o
 PROGRAMMER     = arduino
 PORT           = /dev/tty.usbserial-1140
 MCU_TARGET     = atmega328p 
