@@ -91,7 +91,6 @@ Moment wstawienia węzła `pred.next.compareAndSet(curr, node, false, false)`
 **Nieudane**
 
 Odczyt `curr.key == key` po udanej walidacji okna w `find()` (oznacza obecność)
-
 ​
 #### `remove(T item)`
 

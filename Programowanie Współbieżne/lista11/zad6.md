@@ -70,18 +70,32 @@ public class BoundedQueue <T> {
 }
 ```
 
-#### Ujemny size
+#### Jak działa BoundedQueue?
 
-`size` początkowo jest równy $0$
+BoundedQueue to współbieżna kolejka o ograniczonym rozmiarze, w której elementy są wstawiane na koniec (`enq()`) i zdejmowane z początku (`deq()`). Kluczową cechą tej implementacji jest użycie dwóch osobnych zamków: `enqLock` dla operacji wstawiania i `deqLock` dla operacji zdejmowania, co pozwala na jednoczesne wykonywanie obu typów operacji i zwiększa współbieżność.
+​
+#### Zmienne warunkowe
 
-Wątek A wykonuje `enque()`:
-- ...
-- `tail.next = e`
-- *idzie spać*
+**`notEmptyCondition`**
 
-Wątek B wykonuje `deque()`:
-- ...
-- `while (head.next == null)` nie zatrzyma się
-- `size.getAndDecrement()`
+Wstrzymuje wykonanie `deq()`, gdy kolejka jest pusta `(head.next == null)`. Wątek wywołujący `deq()` czeka na tej zmiennej `await()` do momentu, gdy `enq()` doda element do kolejki i wyśle sygnał `signalAll()`, informując że można wznowić pobieranie.
+​
+**`notFullCondition`**
 
-wtedy `size` jest równy $-1$
+Wstrzymuje wykonanie `enq()`, gdy kolejka osiągnęła maksymalny rozmiar `(size == capacity)`. Wątek wywołujący `enq()` czeka na tej zmiennej `await()` do momentu, gdy `deq()` zdejmie element z kolejki i wyśle sygnał `signalAll()`, informując że można wznowić wstawianie.
+​
+#### Czy **size** może stać się ujemny?
+
+Zmienne warunkowe `notEmptyCondition` i `notFullCondition` gwarantują, że `deq()`nigdy nie wykona się na pustej kolejce, a `enq()` nigdy nie wykona się na pełnej.
+​
+Kluczowe właściwości zapewniające poprawność:
+
+- `enq()` tylko zwiększa size: Operacja `size.getAndIncrement()` wykonuje się dopiero po dodaniu elementu do listy
+
+- `deq()` tylko zmniejsza size: `Operacja size.getAndDecrement()` wykonuje się tylko po sprawdzeniu `head.next != null`
+
+Monotoniczne działanie: Jeśli wątek otrzyma "zielone światło" do wykonania deq() (kolejka nie jest pusta), to współbieżne operacje `enq()` tylko dodają elementy, więc nie może stracić tego uprawnienia
+​
+AtomicInteger zapewnia atomowość operacji inkrementacji i dekrementacji.
+
+Dzięki tej synchronizacji size zawsze pozostaje w przedziale $[0, capacity]$.
