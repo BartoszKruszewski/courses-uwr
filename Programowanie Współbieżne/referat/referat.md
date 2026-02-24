@@ -38,7 +38,7 @@ To pełne, ciężkie monitory obsługujące kolejki wątków i `wait/notify`. Th
 
 ### Compare-and-Swap (CAS)
 
-Algorytm opiera się na atomowej instrukcji procesora (CAS). Pozwala ona bezpiecznie przejąć wolny lock jednym rozkazem, bez użycia ciężkich mechanizmów systemowych.[^1]
+Algorytm opiera się na atomowej instrukcji procesora (CAS). Pozwala ona bezpiecznie przejąć wolny lock jednym rozkazem, bez użycia ciężkich mechanizmów systemowych.
 
 ### Headery obiektów
 

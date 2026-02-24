@@ -1,0 +1,5 @@
+
+.app-sections {
+	display: grid;
+	gap: 24px;
+}

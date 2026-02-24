@@ -1,0 +1,16 @@
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+	color: #0f172a;
+	background-color: #eef2f7;
+}
+
+img {
+	max-width: 100%;
+	display: block;
+}

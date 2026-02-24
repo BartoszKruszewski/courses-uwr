@@ -1,0 +1,31 @@
+.contact-item {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.contact-item__label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+}
+
+.contact-item__value,
+.contact-item__link {
+  font-size: 0.95rem;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+.contact-item__link {
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-item__link:hover {
+  color: #2563eb;
+}

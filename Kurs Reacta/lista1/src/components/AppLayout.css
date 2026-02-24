@@ -1,0 +1,21 @@
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: radial-gradient(circle at top, #f1f5ff 0%, #eef2f7 45%, #e5ebf5 100%);
+}
+
+.app-layout__content {
+  width: min(980px, 100%);
+  display: grid;
+  gap: 28px;
+}
+
+@media (min-width: 900px) {
+  .app-layout__content {
+    grid-template-columns: 360px 1fr;
+    align-items: start;
+  }
+}

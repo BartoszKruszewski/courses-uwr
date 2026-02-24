@@ -1,0 +1,31 @@
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.profile-header__avatar {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  border: 4px solid #e2e8f0;
+  object-fit: cover;
+}
+
+.profile-header__info {
+  display: grid;
+  gap: 6px;
+}
+
+.profile-header__name {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.profile-header__role {
+  font-size: 0.95rem;
+  color: #475569;
+  margin: 0;
+}
