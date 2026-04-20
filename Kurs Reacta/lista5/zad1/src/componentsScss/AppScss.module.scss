@@ -1,0 +1,301 @@
+@use 'sass:map';
+
+$font-family: 'Inter', 'Segoe UI', sans-serif;
+$radius-md: 12px;
+$radius-sm: 8px;
+
+$themes: (
+  light: (
+    app-bg: #f1f5f9,
+    app-fg: #334155,
+    card-bg: #ffffff,
+    card-border: #e2e8f0,
+    title: #0f172a,
+    heading: #64748b,
+    select-bg: #f8fafc,
+    select-border: #cbd5e1,
+    select-fg: #334155,
+    avatar-bg: #3b82f6,
+    role: #0f172a,
+    contact-label: #0f172a,
+  ),
+  dark: (
+    app-bg: #0f172a,
+    app-fg: #94a3b8,
+    card-bg: #1e293b,
+    card-border: #334155,
+    title: #f1f5f9,
+    heading: #64748b,
+    select-bg: #0f172a,
+    select-border: #475569,
+    select-fg: #e2e8f0,
+    avatar-bg: #6366f1,
+    role: #e2e8f0,
+    contact-label: #e2e8f0,
+  ),
+  midnight: (
+    app-bg: #1a1025,
+    app-fg: #c4b5fd,
+    card-bg: #261838,
+    card-border: #3b2756,
+    title: #e9d5ff,
+    heading: #8b5cf6,
+    select-bg: #1a1025,
+    select-border: #5b21b6,
+    select-fg: #e9d5ff,
+    avatar-bg: #7c3aed,
+    role: #e9d5ff,
+    contact-label: #c4b5fd,
+  ),
+);
+
+$chip-palette: (
+  language: (
+    bg: #dbeafe,
+    fg: #1e40af,
+    border: #93c5fd,
+  ),
+  framework: (
+    bg: #dcfce7,
+    fg: #166534,
+    border: #86efac,
+  ),
+  tool: (
+    bg: #fef3c7,
+    fg: #92400e,
+    border: #fcd34d,
+  ),
+  soft: (
+    bg: #ede9fe,
+    fg: #5b21b6,
+    border: #c4b5fd,
+  ),
+);
+
+@mixin themed($prop, $token) {
+  @each $name, $palette in $themes {
+    :global(.theme-#{$name}) & {
+      #{$prop}: map.get($palette, $token);
+    }
+  }
+}
+
+:global(*) {
+  box-sizing: border-box;
+}
+
+:global(body) {
+  margin: 0;
+  font-family: $font-family;
+}
+
+.app {
+  min-height: 100vh;
+  padding: 32px 16px;
+  @include themed(background, app-bg);
+  @include themed(color, app-fg);
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  border-radius: $radius-md;
+  padding: 24px;
+  border: 1px solid;
+  @include themed(background, card-bg);
+  @include themed(border-color, card-border);
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.appTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  @include themed(color, title);
+}
+
+.themeSelect {
+  padding: 6px 12px;
+  border-radius: $radius-sm;
+  border: 1px solid;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  @include themed(background, select-bg);
+  @include themed(border-color, select-border);
+  @include themed(color, select-fg);
+}
+
+.profileCard {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profileAvatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  @include themed(background, avatar-bg);
+}
+
+.profileName {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  @include themed(color, title);
+}
+
+.profileTitle {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.profileLocation {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+.cardHeading {
+  margin: 0 0 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  @include themed(color, heading);
+}
+
+.aboutText {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.skillGroup {
+  margin-bottom: 12px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.skillGroupLabel {
+  margin: 0 0 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.6;
+}
+
+.skillChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  border: 1px solid;
+}
+
+.chipLanguage {
+  $palette: map.get($chip-palette, language);
+  background: map.get($palette, bg);
+  color: map.get($palette, fg);
+  border-color: map.get($palette, border);
+}
+
+.chipFramework {
+  $palette: map.get($chip-palette, framework);
+  background: map.get($palette, bg);
+  color: map.get($palette, fg);
+  border-color: map.get($palette, border);
+}
+
+.chipTool {
+  $palette: map.get($chip-palette, tool);
+  background: map.get($palette, bg);
+  color: map.get($palette, fg);
+  border-color: map.get($palette, border);
+}
+
+.chipSoft {
+  $palette: map.get($chip-palette, soft);
+  background: map.get($palette, bg);
+  color: map.get($palette, fg);
+  border-color: map.get($palette, border);
+}
+
+.experienceList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.experienceItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.experienceRole {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  @include themed(color, role);
+}
+
+.experienceCompany {
+  margin: 2px 0 0;
+  font-size: 0.8rem;
+  opacity: 0.65;
+}
+
+.experiencePeriod {
+  font-size: 0.78rem;
+  white-space: nowrap;
+  opacity: 0.55;
+}
+
+.contactList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .contactItem {
+    margin: 0;
+    font-size: 0.88rem;
+  }
+}
+
+.contactLabel {
+  font-weight: 600;
+  margin-right: 6px;
+  @include themed(color, contact-label);
+}
