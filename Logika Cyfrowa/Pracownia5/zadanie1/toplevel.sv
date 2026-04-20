@@ -16,7 +16,7 @@ module toplevel (input  logic [15:0] i, output logic [15:0] o);
       	if (a1 > a3) {a1, a3} = {a3, a1}; // wyłania maksimum globalne w a3
       	if (a1 > a2) {a1, a2} = {a2, a1}; // porównaj środkowe elementy
 
-        o = {a3, a2, a1, a0};
+        o = {a3, a2, a1, a0}
     end
 
 endmodule
