@@ -1,137 +1,100 @@
-import { useEffect, useMemo, useState } from 'react'
-import { createTodo, deleteTodo, getTodos, updateTodo } from './api'
+import { useState } from 'react'
+import type { TodoFilter } from './api'
 import { TodoForm } from './components/TodoForm'
+import { TodoFilters } from './components/TodoFilters'
 import { TodoList } from './components/TodoList'
+import { useCreateTodoMutation } from './hooks/useCreateTodoMutation'
+import { useDeleteTodoMutation } from './hooks/useDeleteTodoMutation'
+import { useTodosQuery } from './hooks/useTodosQuery'
+import { useUpdateTodoMutation } from './hooks/useUpdateTodoMutation'
 import type { Todo } from './types'
 
+function getErrorMessage(error: unknown, fallbackMessage: string) {
+  return error instanceof Error ? error.message : fallbackMessage
+}
+
 function App() {
-  const [todos, setTodos] = useState<Todo[]>([])
   const [newTodoText, setNewTodoText] = useState('')
-  const [loadingState, setLoadingState] = useState<{
-    kind: 'load' | 'add' | 'toggle' | 'delete'
-    todoId?: string
-  } | null>(null)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [filter, setFilter] = useState<TodoFilter>('all')
 
-  const isBusy = loadingState !== null
+  const todosQuery = useTodosQuery()
+  const createTodoMutation = useCreateTodoMutation()
+  const updateTodoMutation = useUpdateTodoMutation()
+  const deleteTodoMutation = useDeleteTodoMutation()
 
-  const loadingMessage = useMemo(() => {
-    if (!loadingState) {
-      return null
-    }
+  const allTodos = todosQuery.data ?? []
+  const todos =
+    filter === 'done'
+      ? allTodos.filter((todo) => todo.done)
+      : filter === 'active'
+        ? allTodos.filter((todo) => !todo.done)
+        : allTodos
+  const isMutating =
+    createTodoMutation.isPending ||
+    updateTodoMutation.isPending ||
+    deleteTodoMutation.isPending
 
-    switch (loadingState.kind) {
-      case 'load':
-        return 'Ładowanie listy...'
-      case 'add':
-        return 'Dodawanie zadania...'
-      case 'toggle':
-        return 'Zapisywanie zmian...'
-      case 'delete':
-        return 'Usuwanie zadania...'
-    }
-  }, [loadingState])
+  const loadingMessage = todosQuery.isPending
+    ? 'Ładowanie listy...'
+    : todosQuery.isFetching
+      ? 'Odświeżanie listy...'
+      : null
 
-  useEffect(() => {
-    let isMounted = true
+  const queryErrorMessage = todosQuery.isError
+    ? getErrorMessage(todosQuery.error, 'Nie udało się pobrać zadań')
+    : null
 
-    async function loadTodos() {
-      setLoadingState({ kind: 'load' })
-      setErrorMessage(null)
+  const mutationErrorMessage =
+    getErrorMessage(createTodoMutation.error, '') ||
+    getErrorMessage(updateTodoMutation.error, '') ||
+    getErrorMessage(deleteTodoMutation.error, '') ||
+    null
 
-      try {
-        const todosFromApi = await getTodos()
-
-        if (isMounted) {
-          setTodos(todosFromApi)
-        }
-      } catch (error) {
-        if (isMounted) {
-          setErrorMessage(error instanceof Error ? error.message : 'Nie udało się pobrać zadań')
-        }
-      } finally {
-        if (isMounted) {
-          setLoadingState(null)
-        }
-      }
-    }
-
-    void loadTodos()
-
-    return () => {
-      isMounted = false
-    }
-  }, [])
-
-  const completedCount = useMemo(
-    () => todos.filter((todo) => todo.done).length,
-    [todos],
-  )
-
-  const activeCount = todos.length - completedCount
+  const completedCount = allTodos.filter((todo) => todo.done).length
+  const activeCount = allTodos.length - completedCount
 
   async function handleAddTodo() {
     const text = newTodoText.trim()
 
-    if (!text || isBusy) {
+    if (!text || isMutating) {
       return
     }
 
-    setErrorMessage(null)
-    setLoadingState({ kind: 'add' })
-
     try {
-      const createdTodo = await createTodo(text)
-      setTodos((currentTodos) => [...currentTodos, createdTodo])
+      await createTodoMutation.mutateAsync(text)
       setNewTodoText('')
-    } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : 'Nie udało się dodać zadania')
-    } finally {
-      setLoadingState(null)
+    } catch {
+      return
     }
   }
 
   async function handleToggleTodo(todo: Todo) {
-    if (isBusy) {
+    if (isMutating) {
       return
     }
 
-    setErrorMessage(null)
-    setLoadingState({ kind: 'toggle', todoId: todo.id })
-
     try {
-      const updatedTodo = await updateTodo(todo.id, {
-        text: todo.text,
-        done: !todo.done,
+      await updateTodoMutation.mutateAsync({
+        id: todo.id,
+        todo: {
+          text: todo.text,
+          done: !todo.done,
+        },
       })
-
-      setTodos((currentTodos) =>
-        currentTodos.map((currentTodo) =>
-          currentTodo.id === updatedTodo.id ? updatedTodo : currentTodo,
-        ),
-      )
-    } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : 'Nie udało się zmienić zadania')
-    } finally {
-      setLoadingState(null)
+    } catch {
+      return
     }
   }
 
   async function handleDeleteTodo(id: string) {
-    if (isBusy) {
+    if (isMutating) {
       return
     }
 
-    setErrorMessage(null)
-    setLoadingState({ kind: 'delete', todoId: id })
-
     try {
-      await deleteTodo(id)
-      setTodos((currentTodos) => currentTodos.filter((todo) => todo.id !== id))
-    } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : 'Nie udało się usunąć zadania')
-    } finally {
-      setLoadingState(null)
+      await deleteTodoMutation.mutateAsync(id)
+    } catch {
+      return
     }
   }
 
@@ -157,7 +120,7 @@ function App() {
 
             <div className="grid grid-cols-3 gap-3 text-center text-sm">
               <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-                <div className="text-2xl font-semibold text-white">{todos.length}</div>
+                <div className="text-2xl font-semibold text-white">{allTodos.length}</div>
                 <div className="text-slate-400">Wszystkie</div>
               </div>
               <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 px-4 py-3">
@@ -172,9 +135,17 @@ function App() {
           </div>
         </header>
 
-        {errorMessage ? (
+        <TodoFilters value={filter} onChange={setFilter} disabled={isMutating} />
+
+        {queryErrorMessage ? (
           <div className="rounded-3xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-100">
-            {errorMessage}
+            {queryErrorMessage}
+          </div>
+        ) : null}
+
+        {mutationErrorMessage ? (
+          <div className="rounded-3xl border border-amber-400/20 bg-amber-400/10 px-4 py-3 text-sm text-amber-100">
+            {mutationErrorMessage}
           </div>
         ) : null}
 
@@ -188,12 +159,12 @@ function App() {
           value={newTodoText}
           onValueChange={setNewTodoText}
           onSubmit={handleAddTodo}
-          disabled={isBusy}
-          isSubmitting={loadingState?.kind === 'add'}
+          disabled={isMutating || todosQuery.isPending}
+          isSubmitting={createTodoMutation.isPending}
         />
 
         <section className="rounded-[2rem] border border-white/10 bg-slate-950/50 p-4 shadow-2xl shadow-sky-950/10 backdrop-blur md:p-6">
-          {loadingState?.kind === 'load' ? (
+          {todosQuery.isPending ? (
             <div className="flex min-h-48 items-center justify-center rounded-3xl border border-dashed border-white/10 bg-white/5 text-slate-300">
               Ładowanie...
             </div>
@@ -209,12 +180,14 @@ function App() {
               todos={todos}
               onToggle={handleToggleTodo}
               onDelete={handleDeleteTodo}
-              disabled={isBusy}
-              busyTodoId={loadingState?.todoId ?? null}
+              disabled={isMutating}
+              busyTodoId={updateTodoMutation.variables?.id ?? deleteTodoMutation.variables ?? null}
               busyAction={
-                loadingState?.kind === 'toggle' || loadingState?.kind === 'delete'
-                  ? loadingState.kind
-                  : null
+                updateTodoMutation.isPending
+                  ? 'toggle'
+                  : deleteTodoMutation.isPending
+                    ? 'delete'
+                    : null
               }
             />
           )}

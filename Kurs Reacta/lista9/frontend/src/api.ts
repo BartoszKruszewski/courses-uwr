@@ -2,6 +2,10 @@ import type { Todo } from './types'
 
 const API_URL = 'http://localhost:3001'
 
+export type TodoFilter = 'all' | 'done' | 'active'
+
+export type UpdateTodoInput = Pick<Todo, 'text' | 'done'>
+
 async function requestJson<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${API_URL}${path}`, {
     ...init,
@@ -28,7 +32,9 @@ async function requestJson<T>(path: string, init?: RequestInit): Promise<T> {
   return payload as T
 }
 
-export function getTodos() {
+export function getTodos(filter: TodoFilter = 'all') {
+  void filter
+
   return requestJson<Todo[]>('/todos')
 }
 
@@ -39,7 +45,7 @@ export function createTodo(text: string) {
   })
 }
 
-export function updateTodo(id: string, todo: Pick<Todo, 'text' | 'done'>) {
+export function updateTodo(id: string, todo: UpdateTodoInput) {
   return requestJson<Todo>(`/todos/${id}`, {
     method: 'PUT',
     body: JSON.stringify(todo),
