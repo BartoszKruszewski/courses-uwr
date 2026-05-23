@@ -1,0 +1,43 @@
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #282c34;
+  color: white;
+}
+
+.nav-links a {
+  color: #abb2bf;
+  text-decoration: none;
+  margin-right: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-links a.active {
+  color: #61dafb;
+}
+
+.nav-links a:hover {
+  color: white;
+}
+
+.auth-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.auth-controls button {
+  padding: 0.5rem 1rem;
+  background-color: #61dafb;
+  color: #282c34;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.auth-controls button:hover {
+  background-color: #4fa8c7;
+}
