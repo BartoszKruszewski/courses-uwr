@@ -1,34 +1,34 @@
 # Wszystkie Kursy
 
 ## Semester 1 (Winter 2022/2023)
-* [Logika dla Informatyków (Logic for Coputer Science)](<Logika dla Informatyków>)
-* [Analiza Matematyczna (Mathematical Analisys)](<Analiza Matematyczna>)
+* Logika dla Informatyków (Logic for Coputer Science)
+* Analiza Matematyczna (Mathematical Analisys)
 * [Wstęp do Informatyki (Introduction to Computer Science)](<Wstęp do Informatyki>)
 * [Kurs Programowania w Pythonie (Python Course)](<Kurs Programowania w Pythonie>)
-* [Podstawowy Warsztat Informatyka (Basic IT tools)](<Podstawowy Warsztat Informatyka>)
+* Podstawowy Warsztat Informatyka (Basic IT tools)
 
 ## Semester 2 (Summer 2022/2023)
-* [Algebra (Algebra)](<Algebra>)
+* Algebra (Algebra)
 * [Metody Programowania (Programming Methods)](<Metody Programowania>)
-* [Programowania Obiektowe (Object Oriented Programming)](<Programowania Obiektowe>)
+* [Programowanie Obiektowe (Object Oriented Programming)](<Programowanie Obiektowe>)
 * [Kurs C++ (C++ Course)](<Kurs C++>)
-* [Warsztaty "Jak założyć firmę?" (How to start a company?)](<Warsztaty "Jak założyć firmę?">)
-* [Filozofia Polityki (Political philosophy)](<Filozofia Polityki>)
+* [Warsztaty Jak Założyć Firmę? (How to start a company?)](<Warsztaty Jak Założyć Firmę?>)
+* Filozofia Polityki (Political philosophy)]
 
 ## Semester 3 (Winter 2023/2024)
 * [Analiza Numeryczna (Numerical Analisys)](<Analiza Numeryczna>)
-* [Matematyka Dyskretna (Discrete Math)](<Matematyka Dyskretna>)
-* [Wybrane Elementy Praktytki Projektowania Oprogramowania (Basics of Webdev)](<Wybrane Elementy Praktytki Projektowania Oprogramowania>)
-* [Kurs Rozrzeszony Języka Python (Advanced Python Course)](<Kurs Rozrzeszony Języka Python>)
+* Matematyka Dyskretna (Discrete Math)
+* [Wybrane Elementy Praktytki Projektowania Oprogramowania (Basics of Webdev)](<Weppo>)
+* [Kurs Rozszerzony Języka Python (Advanced Python Course)](<Kurs Rozszezzony języka Python>)
 * [Kurs Projektowania Aplikacji z Bazami Danych (Database Apps Course)](<Kurs Projektowania Aplikacji z Bazami Danych>)
-* [Projekt: Innovative Projects by Nokia](<Projekt: Innovative Projects by Nokia>)
+* Projekt: Innovative Projects by Nokia
   
 ## Semester 4 (Summer 2023/2024)
 * [Algorytmy i Struktury Danych (Algorithms and Data Structures)](<Algorytmy i Struktury Danych>)
-* [Rachunek Prawdopodobieństwa i Statystyka (Probability Calculus and Statistics)](<Rachunek Prawdopodobieństwa i Statystyka>)
+* [Rachunek Prawdopodobieństwa i Statystyka (Probability Calculus and Statistics)](<Rachunek Prawdopodobnieństwa i Statystyka>)
 * [Systemy Komputerowe (Computer Systems)](<Systemy Komputerowe>)
-* [Seminarium: Algorytmy Numeryczne i Graficzne (Seminar: Numerical and Graphical Algorithms)](<Seminarium: Algorytmy Numeryczne i Graficzne>)
-* [Ochrona Własności Intelektualnej (Intellectual Property Protection)](<Ochrona Własności Intelektualnej>)
+* [Seminarium: Algorytmy Numeryczne i Graficzne (Seminar: Numerical and Graphical Algorithms)](<Seminarium Algorytmy Numeryczne i Graficzne>)
+* [Ochrona Własności Intelektualnej (Intellectual Property Protection)](<Ochrona własności intelektualnej>)
 
 ## Semester 5 (Winter 2024/2025)
 * [Machine Learning](<Machine Learning>)
