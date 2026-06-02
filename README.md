@@ -1,5 +1,3 @@
-# Wszystkie Kursy
-
 ## Semester 1 (Winter 2022/2023)
 * Logika dla Informatyków (Logic for Coputer Science)
 * Analiza Matematyczna (Mathematical Analisys)
