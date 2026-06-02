@@ -22,7 +22,3 @@
 | `src/hooks/useDarkMode.ts` | Odczyt i zapis preferencji motywu | browser | Hook korzysta z efektów i storage, więc browser daje sensowniejsze pokrycie niż unit bez DOM |
 | `src/components/RecipeBoxApp.tsx` i `src/App.tsx` | Złożenie layoutu, providerów i podstawowego renderu strony | e2e albo browser | To bardziej integracja całej aplikacji niż logika biznesowa |
 | `src/lib/getRandomUUID.ts` | Czy zwraca poprawnie identyfikator | unit | W praktyce wystarczy pośrednio przez test reducera, więc osobny test nie jest konieczny |
-
-## Uwagi
-
-Nie testowałem tutaj stylów CSS ani detali implementacyjnych typu wewnętrzny stan komponentów. Jeśli trzeba rozszerzyć pokrycie, kolejnym najtańszym krokiem byłyby testy unit dla `validateRecipeInput` i `filterRecipes` oraz browser testy dla `RecipeFilters` i `RecipeCard`.
