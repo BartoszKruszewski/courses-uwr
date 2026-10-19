@@ -876,10 +876,7 @@ def sort_concat_square_deduplicate(list1, list2, my_threshold):
 <!--
 - phi-1.5 ("Textbooks Are All You Need II"): same recipe beyond code → common sense
 - phi-2: 2.7B, 1.4T tokens; claimed to match models up to 25× larger
-- Phi-3-mini 3.8B: 69% MMLU ≈ GPT-3.5, runs on a phone; small 75%, medium 78%
-- Phi-3.5 (Aug 2024): MoE + vision; Phi-4-mini & multimodal (Feb 2025, 3.8B / 5.6B)
-- Phi-4-reasoning: SFT on o3-mini traces (+ RL for "plus"); beats R1-Distill-Llama-70B on most benchmarks
-- Phi-4-reasoning-vision (Mar 2026): 20% <think> / 80% <nothink> samples; ~200B tokens vs >1T for rivals
+- Phi-3-mini 3.8B: 69% MMLU ≈ GPT-3.5, runs on a phone;
 - Size grew 1.3B → 15B — still small vs frontier
 -->
 
@@ -905,7 +902,6 @@ def sort_concat_square_deduplicate(list1, list2, my_threshold):
 - phi-1 was famous for tiny data (7B)
 - Later Phi models: trillions of tokens
 - "Less data" part did NOT survive; "better data" part did
-- Quality + quantity together
 -->
 
 ---
@@ -927,10 +923,8 @@ def sort_concat_square_deduplicate(list1, list2, my_threshold):
 <p class="src">Phi-4 Technical Report, Dec 2024</p>
 
 <!--
-- Synthetic data = the bulk of pretraining: ~400B tokens, 50 dataset types
 - Techniques: multi-agent prompting, self-revision, instruction reversal — far beyond phi-1's random-topic trick
 - phi-1 paper hinted: on narrow tasks student can beat teacher → here it happens
-- Contamination check: fresh AMC-10/12 (Nov 2024) after data cutoff — lesson from phi-1 carried on
 -->
 
 ---
@@ -950,7 +944,6 @@ def sort_concat_square_deduplicate(list1, list2, my_threshold):
 
 <!--
 - No announced Phi-5; "Phi-5 guides" online are speculation
-- Latest: reasoning, multimodal, specialized variants (e.g. mini-flash-reasoning, hybrid arch, up to 10× throughput)
 - Phi Silica built into Windows Copilot+ PCs (NPU); Azure Foundry; Hugging Face, Ollama
 - Sébastien Bubeck (Phi lead, co-author) moved to OpenAI Oct 2024
 - Microsoft builds its own MAI frontier models; Phi = small-model track
@@ -1025,8 +1018,6 @@ def sort_concat_square_deduplicate(list1, list2, my_threshold):
 - Satire inspired by phi-1.5 — joke about contamination; synthetic data close to benchmark format → suspicion
 - Users often report Phi weaker in open-ended chat than benchmarks suggest — matches paper's robustness limits
 - Microsoft later: fresh contests (Phi-4), publishing eval logs (2026)
-- Model collapse: generation after generation on own outputs, tails vanish
-- Counter: curated, diverse synthetic data mixed with real data works — diversity is key (the paper's own concern)
 -->
 
 ---
@@ -1081,11 +1072,6 @@ def sort_concat_square_deduplicate(list1, list2, my_threshold):
 
 <p class="sub" style="color:#8b8b90">Questions?</p>
 
-<!--
-- Possible questions: is GPT-4 grading fair? why not release data? would it work for other languages?
-- Answer prep: data not released (proprietary), Cosmopedia as open alternative
--->
-
 ---
 
 # Sources
@@ -1104,7 +1090,3 @@ def sort_concat_square_deduplicate(list1, list2, my_threshold):
   <div><span class="tag" style="background:var(--extsoft);color:var(--ext);font-size:12px">web</span> <b>Shumailov et al., 2024</b><br><span class="muted">AI models collapse… · Nature 631</span></div>
   <div><span class="tag" style="background:var(--extsoft);color:var(--ext);font-size:12px">web</span> <b>VentureBeat, Mar 2026</b><br><span class="muted">Phi-4-reasoning-vision-15B</span></div>
 </div>
-
-<!--
-- Only if asked — orange "web" tag = outside the paper
--->
