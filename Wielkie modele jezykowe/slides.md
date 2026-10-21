@@ -5,149 +5,166 @@ paginate: true
 size: 16:9
 title: Textbooks Are All You Need
 style: |
-  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap');
   :root {
-    --ink: #14111c; --mute: #7d7788; --line: #e3dee5; --soft: #fffdf9;
-    --lime: #ffd84d; --indigo: #5b2fd6; --violet: #9c86e4; --lav: #eee8fb;
-    --pink: #c8326b; --pinksoft: #f8e3eb; --green: #3d7a3a;
-    --ext: #e09a00; --extsoft: #fdf1d2;
-    --night: #120e19; --bar: #dcd7e4; --paper: #f7f5f0;
-    --edge: rgba(20, 17, 28, .08);
-    --lift: 0 1px 2px rgba(20, 17, 28, .04), 0 6px 18px -10px rgba(20, 17, 28, .14);
+    --ink: #221a2e; --mute: #6e6580; --line: #ddd5e8; --soft: #ffffff;
+    --paper: #f6f3fa; --primary: #6a3dbf; --deep: #24123a;
+    --accent: #f6c026; --accentsoft: #fff1c4;
+    --lav: #ebe3f8; --bar: #cfc6dd;
+    --violet: #a88bdc; --night: #24123a;
+    --pink: #b23a48; --pinksoft: #f6dfe2; --green: #2f7d4a;
+    --ext: #1f7a8c; --extsoft: #dcf0f3;
   }
   section {
     background: var(--paper); color: var(--ink);
-    font-family: 'Manrope', system-ui, sans-serif; font-weight: 400;
-    font-size: 26px; letter-spacing: -0.01em; line-height: 1.35;
-    padding: 64px 80px 60px;
+    font-family: 'DM Sans', system-ui, sans-serif; font-weight: 400;
+    font-size: 26px; line-height: 1.4;
+    padding: 70px 84px 64px;
     display: flex; flex-direction: column; justify-content: flex-start;
   }
   section::after {
-    font-family: 'IBM Plex Mono', monospace; font-size: 16px; color: #b3acbd;
-    right: 40px; bottom: 28px;
+    content: attr(data-marpit-pagination) ' / ' attr(data-marpit-pagination-total);
+    font-family: 'JetBrains Mono', monospace; font-size: 15px; color: var(--mute);
+    right: 84px; bottom: 26px; padding-top: 6px; border-top: 2px solid var(--accent);
   }
   h1 {
-    font-size: 54px; font-weight: 400; letter-spacing: -0.025em; line-height: 1.1;
-    color: var(--ink); margin: 0 0 8px; padding: 0; border: none;
+    font-family: 'Fraunces', Georgia, serif; font-weight: 600;
+    font-size: 50px; letter-spacing: -0.01em; line-height: 1.12;
+    color: var(--deep); margin: 0 0 10px; padding: 0; border: none;
   }
-  h1 strong { font-weight: 500; }
+  h1::before { content: ""; display: block; width: 56px; height: 6px; background: var(--accent); margin-bottom: 18px; }
+  h1 strong { font-weight: 700; }
   p { margin: 0; }
-  .sub { color: var(--mute); font-size: 24px; margin-top: 2px; }
-  .src { position: absolute; left: 80px; bottom: 30px; font-size: 17px; color: var(--mute); }
-  .mono { font-family: 'IBM Plex Mono', monospace; }
+  .sub { color: var(--mute); font-size: 23px; font-style: italic; }
+  .src { position: absolute; left: 84px; bottom: 28px; font-size: 16px; color: var(--mute); font-family: 'JetBrains Mono', monospace; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
   .muted { color: var(--mute); }
   .small { font-size: 20px; color: var(--mute); }
   .center { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
   .row { display: flex; gap: 22px; align-items: center; justify-content: center; }
   .col { display: flex; flex-direction: column; gap: 14px; }
-  .box { background: var(--soft); border: 1px solid var(--edge); box-shadow: var(--lift); border-radius: 18px; padding: 16px 24px; font-size: 22px; white-space: nowrap; }
-  .box.lime { background: var(--lime); }
-  .box.lav { background: var(--lav); }
-  .box.dark { background: var(--night); color: #fff; border-color: rgba(255, 255, 255, .08); }
-  .box.pink { background: var(--pinksoft); color: #9c1f50; }
-  .box.ext { background: var(--extsoft); color: #8a5a00; }
-  .box .s { display: block; font-size: 17px; color: var(--mute); font-family: 'IBM Plex Mono', monospace; margin-top: 4px; }
-  .box.dark .s { color: #a49dbb; }
-  .arrow { color: #b3a9c9; font-size: 28px; }
-  .hl { background: var(--lime); padding: 0 8px; border-radius: 6px; }
-  .tag { display: inline-block; border: 1px solid var(--edge); font-size: 16px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; background: var(--soft); color: var(--mute); }
+  .box { background: var(--soft); border: 1.5px solid var(--line); border-left: 5px solid var(--primary); border-radius: 4px; padding: 14px 22px; font-size: 22px; white-space: nowrap; }
+  .box.lime { background: var(--accent); border-color: var(--accent); color: var(--deep); font-weight: 600; }
+  .box.lav { background: var(--lav); border-color: #d3c4ef; border-left-color: var(--primary); }
+  .box.dark { background: var(--deep); color: #fff; border-color: var(--deep); }
+  .box.pink { background: var(--pinksoft); color: var(--pink); border-color: #ecc3c9; border-left-color: var(--pink); }
+  .box.ext { background: var(--extsoft); color: #155563; border-left-color: var(--ext); }
+  .box .s { display: block; font-size: 16px; color: var(--mute); font-family: 'JetBrains Mono', monospace; margin-top: 4px; }
+  .box.lime .s { color: rgba(36, 18, 58, .65); } .box.dark .s { color: rgba(255, 255, 255, .75); }
+  .arrow { color: var(--primary); font-size: 28px; font-weight: 700; }
+  .hl { color: var(--primary); font-style: italic; box-shadow: inset 0 -0.32em 0 var(--accent); }
+  .tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 4px 8px; border-radius: 3px; background: var(--lav); color: var(--primary); }
 
   /* title & dividers */
-  section.title, section.divider, section.statement.dark { background: var(--night); color: #fff; justify-content: center; }
-  section.title h1 { font-size: 104px; color: #fff; letter-spacing: -0.035em; margin: 40px 0 16px; }
-  section.divider h1 { font-size: 84px; color: #fff; letter-spacing: -0.03em; }
-  .kicker { color: var(--lime); font-size: 22px; }
-  section.title .who { position: absolute; left: 80px; bottom: 70px; font-size: 22px; }
-  section.title .who span { color: #8a7fae; margin-left: 24px; }
-  section.divider .num { font-family: 'IBM Plex Mono', monospace; color: #7d6fae; font-size: 22px; margin-bottom: 18px; }
-  section.divider .sub { color: #9b93ad; font-size: 26px; margin-top: 10px; }
-  section.title::after, section.divider::after { color: #5a4f72; }
-  section.statement { justify-content: center; }
-  section.statement h1 { font-size: 72px; letter-spacing: -0.035em; }
-  section.statement.dark h1 { color: #fff; }
+  section.title, section.divider { background: var(--deep); color: #fff; justify-content: flex-end; padding-bottom: 110px; }
+  section.title::before, section.divider::before {
+    content: ""; position: absolute; right: -160px; top: -160px; width: 560px; height: 560px;
+    border-radius: 50%; border: 60px solid rgba(246, 192, 38, .95);
+  }
+  section.title h1::before, section.divider h1::before { display: none; }
+  section.title h1 { font-size: 100px; color: #fff; line-height: 1.02; margin: 18px 0 20px; }
+  section.divider h1 { font-size: 80px; color: #fff; }
+  .kicker { color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 18px; text-transform: uppercase; letter-spacing: .14em; }
+  section.title .who { position: absolute; left: 84px; top: 70px; font-size: 22px; font-weight: 500; }
+  section.title .who span { color: #b9a8d6; margin-left: 24px; }
+  section.divider .sub { color: #b9a8d6; font-size: 26px; margin-top: 10px; }
+  section.title::after, section.divider::after { color: #8a7aa6; border-color: transparent; }
+  section.statement { justify-content: center; background: var(--lav); }
+  section.statement h1 { font-size: 68px; }
 
   /* external-knowledge slides */
-  section.ext { box-shadow: inset 12px 0 0 var(--ext); }
+  section.ext { box-shadow: inset 0 10px 0 var(--ext); }
   section.ext::before {
     content: "Beyond the paper · web sources";
-    position: absolute; top: 26px; right: 40px;
-    background: var(--ext); color: var(--night); font: 600 15px/1 'Manrope', sans-serif;
-    letter-spacing: .12em; text-transform: uppercase; padding: 9px 14px; border-radius: 999px;
+    position: absolute; top: 28px; right: 84px;
+    color: var(--ext); font: 600 14px/1 'JetBrains Mono', monospace;
+    letter-spacing: .08em; text-transform: uppercase; padding: 7px 12px; border: 1.5px solid var(--ext); border-radius: 3px;
   }
-  section.ext.divider .kicker { color: var(--ext); }
+  section.ext.divider::before { content: ""; border: 60px solid rgba(31, 122, 140, .95); border-radius: 50%; top: -160px; right: -160px; padding: 0; }
+  section.ext.divider { box-shadow: none; }
+  section.ext.divider .kicker { color: #8fd6e2; }
 
   /* stat tiles */
   .stats { display: grid; grid-template-columns: repeat(var(--n, 3), 1fr); gap: 36px; width: 100%; }
-  .stat .v { font-family: 'IBM Plex Mono', monospace; font-size: 88px; letter-spacing: -0.05em; line-height: 1; }
-  .stat .l { font-size: 23px; color: var(--mute); margin-top: 14px; }
-  .stat.hi .v { color: var(--indigo); }
+  .stat { border-top: 1.5px solid var(--ink); padding-top: 18px; }
+  .stat .v { font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 88px; line-height: 1; color: var(--deep); }
+  .stat .l { font-size: 22px; color: var(--mute); margin-top: 12px; }
+  .stat.hi .v { color: var(--primary); box-shadow: inset 0 -0.18em 0 var(--accent); display: inline-block; }
   .stat.exthi .v { color: var(--ext); }
 
   /* horizontal bars */
-  .hbars { width: 100%; display: flex; flex-direction: column; gap: 11px; }
+  .hbars { width: 100%; display: flex; flex-direction: column; gap: 10px; }
   .hbar { display: grid; grid-template-columns: 300px 1fr; align-items: center; gap: 16px; font-size: 20px; }
-  .hbar .lab small { color: var(--mute); font-family: 'IBM Plex Mono', monospace; font-size: 16px; margin-left: 8px; }
-  .hbar .track { position: relative; height: 28px; }
-  .hbar .fill { height: 100%; width: var(--w); background: var(--bar); border-radius: 6px; }
-  .fill.hi, .vbar.hi { background: var(--night) !important; }
-  .fill.lime, .vbar.lime { background: var(--lime) !important; }
-  .fill.ind, .vbar.ind { background: var(--indigo) !important; }
+  .hbar .lab { text-align: right; }
+  .hbar .lab small { color: var(--mute); font-family: 'JetBrains Mono', monospace; font-size: 15px; margin-left: 8px; }
+  .hbar .track { position: relative; height: 26px; background: rgba(36, 18, 58, .04); }
+  .hbar .fill { height: 100%; width: var(--w); background: var(--bar); border-radius: 0 3px 3px 0; }
+  .fill.hi, .vbar.hi { background: var(--deep) !important; }
+  .fill.lime, .vbar.lime { background: var(--accent) !important; }
+  .fill.ind, .vbar.ind { background: var(--primary) !important; }
   .fill.vio, .vbar.vio { background: var(--violet) !important; }
   .fill.ext, .vbar.ext { background: var(--ext) !important; }
   .fill.pink, .vbar.pink { background: var(--pink) !important; }
-  .hbar .val { position: absolute; left: calc(var(--w) + 12px); top: 50%; transform: translateY(-50%); font-family: 'IBM Plex Mono', monospace; font-size: 19px; white-space: nowrap; }
+  .hbar .val { position: absolute; left: calc(var(--w) + 12px); top: 50%; transform: translateY(-50%); font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 600; white-space: nowrap; }
 
   /* vertical bars */
   .vchart { display: flex; align-items: flex-end; justify-content: center; gap: 56px; }
   .vcol { display: flex; flex-direction: column; align-items: center; }
-  .vbars { display: flex; align-items: flex-end; gap: 10px; height: var(--hh, 320px); border-bottom: 1px solid var(--line); padding: 0 8px; }
-  .vbar { width: var(--bw, 60px); height: var(--h); background: var(--bar); border-radius: 7px 7px 0 0; position: relative; }
-  .vbar span { position: absolute; top: -28px; left: -20px; right: -20px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 19px; }
+  .vbars { display: flex; align-items: flex-end; gap: 6px; height: var(--hh, 320px); border-bottom: 2px solid var(--ink); padding: 0 8px; }
+  .vbar { width: var(--bw, 60px); height: var(--h); background: var(--bar); border-radius: 3px 3px 0 0; position: relative; }
+  .vbar span { position: absolute; top: -28px; left: -20px; right: -20px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 600; }
   .vcap { font-size: 20px; margin-top: 12px; text-align: center; }
-  .vcap small { display: block; color: var(--mute); font-family: 'IBM Plex Mono', monospace; font-size: 16px; }
-  .legend { display: flex; gap: 30px; font-size: 20px; color: #4a4458; justify-content: center; margin-top: 26px; }
-  .legend i { display: inline-block; width: 16px; height: 16px; border-radius: 4px; margin-right: 8px; vertical-align: -2px; background: var(--bar); }
+  .vcap small { display: block; color: var(--mute); font-family: 'JetBrains Mono', monospace; font-size: 15px; }
+  .legend { display: flex; gap: 30px; font-size: 20px; color: var(--mute); justify-content: center; margin-top: 26px; }
+  .legend i { display: inline-block; width: 22px; height: 10px; border-radius: 0; margin-right: 8px; vertical-align: 2px; background: var(--bar); }
 
   /* cards */
   .cards { display: grid; grid-template-columns: repeat(var(--n, 4), 1fr); gap: 20px; width: 100%; }
-  .card { background: var(--soft); border: 1px solid var(--edge); box-shadow: var(--lift); border-radius: 20px; padding: 26px 26px 28px; }
-  .card .k { font-family: 'IBM Plex Mono', monospace; color: var(--mute); font-size: 17px; }
-  .card .t { font-size: 27px; margin-top: 14px; line-height: 1.2; }
-  .card .d { font-size: 20px; color: var(--mute); margin-top: 10px; line-height: 1.35; }
-  .card.lime { background: var(--lime); } .card.lime .k, .card.lime .d { color: #6b4e00; }
-  .card.dark { background: var(--night); color: #fff; border-color: rgba(255, 255, 255, .08); }
+  .card { background: var(--soft); border: 1.5px solid var(--line); border-top: 5px solid var(--primary); border-radius: 4px; padding: 22px 24px 26px; }
+  .card .k { font-family: 'JetBrains Mono', monospace; color: var(--primary); font-size: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+  .card .t { font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 27px; margin-top: 12px; line-height: 1.2; }
+  .card .d { font-size: 19px; color: var(--mute); margin-top: 10px; line-height: 1.4; }
+  .card.lime { background: var(--accentsoft); border-top-color: var(--accent); } .card.lime .k { color: #8a6300; }
+  .card.dark { background: var(--deep); color: #fff; border-color: var(--deep); }
   .card.lav { background: var(--lav); }
-  .card.pink { background: var(--pinksoft); } .card.pink .t { color: #9c1f50; }
-  .card.ext { background: var(--extsoft); } .card.ext .k { color: #a86f00; }
+  .card.pink { background: var(--pinksoft); border-top-color: var(--pink); } .card.pink .k, .card.pink .t { color: var(--pink); }
+  .card.ext { background: var(--extsoft); border-top-color: var(--ext); } .card.ext .k { color: var(--ext); }
 
   /* timeline */
   .tl { position: relative; display: grid; grid-template-columns: repeat(var(--n, 4), 1fr); width: 100%; gap: 12px; }
-  .tl::before { content: ""; position: absolute; left: 0; right: 0; top: 51px; height: 2px; background: var(--line); }
-  .tl .date { font-family: 'IBM Plex Mono', monospace; font-size: 17px; color: var(--mute); height: 36px; }
-  .tl .dot { width: 16px; height: 16px; border-radius: 50%; background: var(--indigo); margin: 8px 0 20px; position: relative; }
+  .tl::before { content: ""; position: absolute; left: 0; right: 0; top: 52px; height: 2px; background: var(--ink); }
+  .tl .date { font-family: 'JetBrains Mono', monospace; font-size: 16px; color: var(--mute); height: 36px; }
+  .tl .dot { width: 14px; height: 14px; transform: rotate(45deg); background: var(--primary); margin: 9px 0 22px 2px; position: relative; }
   .tl .dot.ext { background: var(--ext); }
-  .tl .name { font-size: 25px; line-height: 1.15; }
+  .tl .name { font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 25px; line-height: 1.15; }
   .tl.dense .name { font-size: 21px; white-space: nowrap; }
   .tl.dense7 .name { font-size: 19px; }
   .stats.four .v { font-size: 70px; }
-  .tl .meta { font-size: 19px; color: var(--mute); margin-top: 8px; line-height: 1.35; }
+  .tl .meta { font-size: 18px; color: var(--mute); margin-top: 8px; line-height: 1.35; }
 
   /* code */
-  pre { background: var(--soft) !important; border-radius: 18px; padding: 18px 24px !important; font-size: 18px; line-height: 1.45; margin: 0; border: 1px solid var(--edge); box-shadow: var(--lift); }
-  code { font-family: 'IBM Plex Mono', monospace; }
-  p code, li code, .box code, .card code { background: rgba(20, 17, 28, .05); padding: 2px 7px; border-radius: 6px; font-size: .85em; }
-  pre code { background: none !important; padding: 0 !important; font-size: inherit; }
-  .codecap { font-size: 17px; font-family: 'IBM Plex Mono', monospace; color: var(--mute); margin: 0 0 8px; }
+  pre { background: var(--deep) !important; color: #efe9f7; border-radius: 4px; padding: 20px 26px !important; font-size: 18px; line-height: 1.5; margin: 0; border: none; border-left: 6px solid var(--accent); }
+  code { font-family: 'JetBrains Mono', monospace; }
+  p code, li code, .box code, .card code { background: rgba(36, 18, 58, .07); padding: 2px 6px; border-radius: 3px; font-size: .85em; }
+  pre code { background: none !important; padding: 0 !important; font-size: inherit; color: inherit; }
+  pre .hljs-keyword, pre .hljs-built_in, pre .hljs-literal { color: #f6c026; }
+  pre .hljs-string, pre .hljs-doctag { color: #b8e6a6; }
+  pre .hljs-comment { color: #9785b5; font-style: italic; }
+  pre .hljs-number { color: #ffb38a; }
+  pre .hljs-title, pre .hljs-title.function_ { color: #c9b4ff; }
+  pre .hljs-params, pre .hljs-variable, pre .hljs-attr, pre .hljs-meta, pre .hljs-type, pre .hljs-operator { color: #efe9f7; }
+  .codecap { font-size: 16px; font-family: 'JetBrains Mono', monospace; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--mute); margin: 0 0 10px; }
   .codecap.good { color: var(--green); } .codecap.bad { color: var(--pink); }
 
   /* verdict chips */
-  .ok { color: var(--green); } .no { color: var(--pink); } .meh { color: #b5730b; }
+  .ok { color: var(--green); font-weight: 600; } .no { color: var(--pink); font-weight: 600; } .meh { color: #b5730b; font-weight: 600; }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; width: 100%; align-items: start; }
   section table { display: table; border-collapse: collapse; width: auto; font-size: 24px; margin: 0 auto; border: 0; }
   section table tr { background: transparent !important; border: 0 !important; }
-  section table th, section table td { border: 0 !important; border-bottom: 1px solid var(--line) !important; background: transparent !important; padding: 14px 28px; text-align: left; }
-  section table th { font-weight: 400; color: var(--mute); }
-  section table td.mono { font-size: 22px; }
+  section table tr:nth-child(even) td { background: rgba(255, 255, 255, .6) !important; }
+  section table th, section table td { border: 0 !important; border-bottom: 1px solid var(--line) !important; background: transparent !important; padding: 13px 28px; text-align: left; }
+  section table th { font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--primary); border-bottom: 2px solid var(--ink) !important; }
+  section table td.mono { font-size: 21px; }
 ---
 
 <!-- _class: title -->
@@ -157,7 +174,7 @@ style: |
 
 # Textbooks Are<br>All You Need
 
-<p class="sub" style="color:#9b93ad">Gunasekar et al. · Microsoft Research · 2023</p>
+<p class="sub" style="color:#b9a8d6">Gunasekar et al. · Microsoft Research · 2023</p>
 
 <div class="who">Bartosz Kruszewski</div>
 
@@ -187,16 +204,21 @@ style: |
 <p class="sub">more parameters, more compute → lower loss</p>
 
 <div class="center">
-<svg width="900" height="380" viewBox="0 0 900 380">
-  <line x1="60" y1="40" x2="880" y2="40" stroke="#e7e3ee"/>
-  <line x1="60" y1="140" x2="880" y2="140" stroke="#e7e3ee"/>
-  <line x1="60" y1="240" x2="880" y2="240" stroke="#e7e3ee"/>
-  <line x1="60" y1="340" x2="880" y2="340" stroke="#e7e3ee"/>
-  <polyline points="80,60 280,130 480,195 680,250 860,295" fill="none" stroke="#5b2fd6" stroke-width="2.5"/>
-  <circle cx="80" cy="60" r="7"/><circle cx="280" cy="130" r="7"/><circle cx="480" cy="195" r="7"/><circle cx="680" cy="250" r="7"/><circle cx="860" cy="295" r="7"/>
-  <text x="60" y="372" font-size="18" fill="#857f90">small</text>
-  <text x="880" y="372" font-size="18" fill="#857f90" text-anchor="end">large  (log scale)</text>
-  <text x="56" y="28" font-size="18" fill="#857f90">loss</text>
+<svg width="1040" height="400" viewBox="0 0 1040 400">
+  <defs><linearGradient id="sl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6a3dbf" stop-opacity=".38"/><stop offset="1" stop-color="#6a3dbf" stop-opacity="0"/></linearGradient></defs>
+  <g font-size="18" fill="#6e6580">
+    <text x="60" y="26">loss</text><text x="580" y="26">loss</text>
+    <text x="60" y="380">small</text><text x="480" y="380" text-anchor="end">large  (log scale)</text>
+    <text x="580" y="380">small</text><text x="1000" y="380" text-anchor="end">large  (log scale)</text>
+  </g>
+  <g font-size="24" font-weight="700" fill="#24123a">
+    <text x="470" y="80" text-anchor="end">parameters</text><text x="990" y="80" text-anchor="end">compute</text>
+  </g>
+  <path d="M70,50 C150,230 270,290 470,312 L470,345 L70,345 Z" fill="url(#sl)"/>
+  <path d="M590,60 C660,240 780,295 990,318 L990,345 L590,345 Z" fill="url(#sl)"/>
+  <g stroke="#24123a" stroke-width="2" fill="none"><polyline points="60,40 60,345 480,345"/><polyline points="580,40 580,345 1000,345"/></g>
+  <g stroke="#6a3dbf" stroke-width="5" fill="none" stroke-linecap="round"><path d="M70,50 C150,230 270,290 470,312"/><path d="M590,60 C660,240 780,295 990,318"/></g>
+  <g fill="#f6c026" stroke="#24123a" stroke-width="2.5"><circle cx="470" cy="312" r="10"/><circle cx="990" cy="318" r="10"/></g>
 </svg>
 </div>
 
@@ -300,23 +322,23 @@ def incr_list(l: list):
 
 <div class="center">
 <svg width="960" height="430" viewBox="0 0 960 430">
-  <g stroke="#e7e3ee"><line x1="60" y1="40" x2="920" y2="40"/><line x1="60" y1="160" x2="920" y2="160"/><line x1="60" y1="280" x2="920" y2="280"/><line x1="60" y1="400" x2="920" y2="400"/></g>
-  <g font-size="16" fill="#857f90" font-family="IBM Plex Mono, monospace">
+  <g stroke="#e0d8ea"><line x1="60" y1="40" x2="920" y2="40"/><line x1="60" y1="160" x2="920" y2="160"/><line x1="60" y1="280" x2="920" y2="280"/><line x1="60" y1="400" x2="920" y2="400"/></g>
+  <g font-size="16" fill="#6e6580" font-family="JetBrains Mono, monospace">
     <text x="48" y="45" text-anchor="end">60</text><text x="48" y="165" text-anchor="end">40</text><text x="48" y="285" text-anchor="end">20</text><text x="48" y="405" text-anchor="end">0</text>
     <text x="208" y="424" text-anchor="middle">1B</text><text x="455" y="424" text-anchor="middle">10B</text><text x="702" y="424" text-anchor="middle">100B</text>
   </g>
-  <g fill="#cbc4d6">
+  <g fill="#cbc0dc">
     <circle cx="79" cy="321" r="8"/><circle cx="475" cy="227" r="8"/><circle cx="96" cy="323" r="8"/><circle cx="506" cy="224" r="8"/>
     <circle cx="883" cy="185" r="8"/><circle cx="484" cy="263" r="8"/><circle cx="218" cy="316" r="8"/><circle cx="315" cy="269" r="8"/>
     <circle cx="315" cy="217" r="8"/><circle cx="208" cy="338" r="8"/><circle cx="417" cy="285" r="8"/><circle cx="502" cy="198" r="8"/>
     <circle cx="283" cy="255" r="8"/><circle cx="506" cy="215" r="8"/><circle cx="762" cy="118" r="8"/><circle cx="506" cy="56" r="8"/>
   </g>
-  <g font-size="16" fill="#857f90">
+  <g font-size="16" fill="#6e6580">
     <text x="522" y="61">WizardCoder</text><text x="778" y="123">GPT-3.5</text><text x="868" y="170" text-anchor="end">PaLM-Coder 540B</text>
     <text x="518" y="194">StarCoder</text><text x="489" y="243">Codex-12B</text><text x="230" y="320">SantaCoder</text>
   </g>
-  <circle cx="236" cy="96" r="12" fill="#5b2fd6"/>
-  <text x="256" y="102" font-size="22" fill="#5b2fd6">phi-1 · 1.3B</text>
+  <circle cx="236" cy="96" r="12" fill="#f6c026" stroke="#24123a" stroke-width="2.5"/>
+  <text x="256" y="102" font-size="22" fill="#6a3dbf" font-weight="700">phi-1 · 1.3B</text>
 </svg>
 </div>
 
@@ -1073,7 +1095,7 @@ def sort_concat_square_deduplicate(list1, list2, my_threshold):
 
 # Thank you
 
-<p class="sub" style="color:#9b93ad">Questions?</p>
+<p class="sub" style="color:#b9a8d6">Questions?</p>
 
 ---
 
@@ -1084,12 +1106,12 @@ def sort_concat_square_deduplicate(list1, list2, my_threshold):
   <div><b>Eldan &amp; Li, 2023</b><br><span class="muted">TinyStories · arXiv:2305.07759</span></div>
   <div><b>Kaplan et al., 2020</b><br><span class="muted">Scaling Laws for Neural LMs · arXiv:2001.08361</span></div>
   <div><b>Chen et al., 2021</b><br><span class="muted">Evaluating LLMs Trained on Code · arXiv:2107.03374</span></div>
-  <div><span class="tag" style="background:var(--extsoft);color:#a86f00;font-size:13px">web</span> <b>Abdin et al., 2024</b><br><span class="muted">Phi-3 Technical Report · arXiv:2404.14219</span></div>
-  <div><span class="tag" style="background:var(--extsoft);color:#a86f00;font-size:13px">web</span> <b>Abdin et al., 2024</b><br><span class="muted">Phi-4 Technical Report · arXiv:2412.08905</span></div>
-  <div><span class="tag" style="background:var(--extsoft);color:#a86f00;font-size:13px">web</span> <b>Abdin et al., 2025</b><br><span class="muted">Phi-4-reasoning · arXiv:2504.21318</span></div>
-  <div><span class="tag" style="background:var(--extsoft);color:#a86f00;font-size:13px">web</span> <b>Penedo et al., 2024</b><br><span class="muted">The FineWeb Datasets · arXiv:2406.17557</span></div>
-  <div><span class="tag" style="background:var(--extsoft);color:#a86f00;font-size:13px">web</span> <b>Hugging Face, 2024</b><br><span class="muted">Cosmopedia blog · huggingface.co/blog/cosmopedia</span></div>
-  <div><span class="tag" style="background:var(--extsoft);color:#a86f00;font-size:13px">web</span> <b>Schaeffer, 2023</b><br><span class="muted">Pretraining on the Test Set Is All You Need · arXiv:2309.08632</span></div>
-  <div><span class="tag" style="background:var(--extsoft);color:#a86f00;font-size:13px">web</span> <b>Shumailov et al., 2024</b><br><span class="muted">AI models collapse… · Nature 631</span></div>
-  <div><span class="tag" style="background:var(--extsoft);color:#a86f00;font-size:13px">web</span> <b>VentureBeat, Mar 2026</b><br><span class="muted">Phi-4-reasoning-vision-15B</span></div>
+  <div><span class="tag" style="background:var(--extsoft);color:#155563;font-size:13px">web</span> <b>Abdin et al., 2024</b><br><span class="muted">Phi-3 Technical Report · arXiv:2404.14219</span></div>
+  <div><span class="tag" style="background:var(--extsoft);color:#155563;font-size:13px">web</span> <b>Abdin et al., 2024</b><br><span class="muted">Phi-4 Technical Report · arXiv:2412.08905</span></div>
+  <div><span class="tag" style="background:var(--extsoft);color:#155563;font-size:13px">web</span> <b>Abdin et al., 2025</b><br><span class="muted">Phi-4-reasoning · arXiv:2504.21318</span></div>
+  <div><span class="tag" style="background:var(--extsoft);color:#155563;font-size:13px">web</span> <b>Penedo et al., 2024</b><br><span class="muted">The FineWeb Datasets · arXiv:2406.17557</span></div>
+  <div><span class="tag" style="background:var(--extsoft);color:#155563;font-size:13px">web</span> <b>Hugging Face, 2024</b><br><span class="muted">Cosmopedia blog · huggingface.co/blog/cosmopedia</span></div>
+  <div><span class="tag" style="background:var(--extsoft);color:#155563;font-size:13px">web</span> <b>Schaeffer, 2023</b><br><span class="muted">Pretraining on the Test Set Is All You Need · arXiv:2309.08632</span></div>
+  <div><span class="tag" style="background:var(--extsoft);color:#155563;font-size:13px">web</span> <b>Shumailov et al., 2024</b><br><span class="muted">AI models collapse… · Nature 631</span></div>
+  <div><span class="tag" style="background:var(--extsoft);color:#155563;font-size:13px">web</span> <b>VentureBeat, Mar 2026</b><br><span class="muted">Phi-4-reasoning-vision-15B</span></div>
 </div>
