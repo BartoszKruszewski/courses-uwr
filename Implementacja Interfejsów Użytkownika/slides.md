@@ -212,8 +212,28 @@ style: |
   .pill { display: inline-block; font-family: 'Fragment Mono', monospace; font-size: 18px; padding: 4px 12px; border-radius: 8px; }
 
   /* Slajdy czarne */
-  section.black { background: #000; color: #fff; justify-content: space-between; padding: 56px 64px; }
-  section.black h1 { color: #fff; font-size: 120px; letter-spacing: -0.035em; line-height: 1; }
+  section.black {
+    background: radial-gradient(circle at 76% 50%, rgba(97,218,251,.16), rgba(68,52,252,.06) 30%, transparent 52%), #000;
+    color: #fff; justify-content: space-between; padding: 54px 64px;
+  }
+  section.black h1, section.black .h1 { color: #fff; font-size: 150px; font-weight: 400; letter-spacing: -0.045em; line-height: .95; margin: 0; }
+  .orbit { position: absolute; left: 955px; top: 360px; width: 0; height: 0; }
+  .orbit .ring { position: absolute; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.09); transform: translate(-50%, -50%); }
+  .orbit .ring.d { border-style: dashed; border-color: rgba(255,255,255,.14); }
+  .orbit .core { position: absolute; max-width: none; width: auto; transform: translate(-50%, -50%); filter: drop-shadow(0 0 36px rgba(97,218,251,.55)); }
+  .orbit .pl { position: absolute; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; }
+  .tsub { font-size: 27px; line-height: 1.35; color: #c9cbd1; margin-top: 26px; }
+  .tags { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 12px 34px; margin-top: 34px; font-family: 'Fragment Mono', monospace; font-size: 15px; color: #a3a5a9; max-width: 640px; }
+  .tags span { display: inline-flex; align-items: center; gap: 8px; }
+  .tags i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .foot { display: flex; align-items: center; gap: 20px; border-top: 1px solid rgba(255,255,255,.14); padding-top: 22px; width: 560px; font-size: 20px; }
+  .foot .m { font-family: 'Fragment Mono', monospace; font-size: 15px; color: #a3a5a9; }
+  .bstat { font-family: 'Fragment Mono', monospace; font-size: 40px; letter-spacing: -0.03em; }
+  .bstat small { display: block; font-family: 'Instrument Sans', sans-serif; font-size: 16px; color: #a3a5a9; letter-spacing: 0; margin-top: 4px; }
+  .src-card { background: var(--g1); border-radius: 14px; padding: 18px 22px; display: flex; gap: 18px; align-items: center; }
+  .src-card .tile { margin: 0; }
+  .src-card .t { font-size: 21px; line-height: 1.2; }
+  .src-card .u { font-family: 'Fragment Mono', monospace; font-size: 15px; color: var(--g4); margin-top: 4px; }
   section.black::after { display: none; }
   .label-lime { color: var(--lime); font-size: 18px; }
   .who { font-size: 20px; color: #fff; }
@@ -226,13 +246,25 @@ style: |
 <!-- _class: black -->
 <!-- _paginate: false -->
 
-<img src="assets/logos/react.svg" style="position:absolute; right:100px; top:50%; transform:translateY(-50%); height:420px">
+<div class="orbit">
+  <div class="ring" style="width:580px; height:580px"></div>
+  <div class="ring d" style="width:450px; height:450px"></div>
+  <div class="ring" style="width:310px; height:310px; border-color:rgba(97,218,251,.25)"></div>
+  <span class="pl" style="background:var(--lime); transform:rotate(-38deg) translateX(290px)"></span>
+  <span class="pl" style="background:var(--violet); transform:rotate(152deg) translateX(290px)"></span>
+  <span class="pl" style="background:var(--amber); width:12px; height:12px; transform:rotate(68deg) translateX(225px)"></span>
+  <span class="pl" style="background:var(--red); width:12px; height:12px; transform:rotate(-120deg) translateX(225px)"></span>
+  <span class="pl" style="background:var(--cyan); width:10px; height:10px; transform:rotate(15deg) translateX(155px)"></span>
+  <img class="core" src="assets/logos/react.svg" style="height:230px">
+</div>
 
 <div class="label-lime">Seminarium: Implementacja Interfejsów Użytkownika</div>
 
-# React
+<div>
+  <div class="h1">React</div>
+</div>
 
-<div class="who">Bartosz Kruszewski<span>2026</span></div>
+<div class="foot">Bartosz Kruszewski<span class="m">2026</span></div>
 
 <!--
 - Przedstawiam się, temat: React – biblioteka do budowania interfejsów.
@@ -1445,13 +1477,28 @@ export default ProductList;
 <!-- _class: black -->
 <!-- _paginate: false -->
 
-<img src="assets/logos/react.svg" style="position:absolute; right:100px; top:50%; transform:translateY(-50%); height:420px">
+<div class="orbit">
+  <div class="ring" style="width:580px; height:580px"></div>
+  <div class="ring d" style="width:450px; height:450px"></div>
+  <div class="ring" style="width:310px; height:310px; border-color:rgba(97,218,251,.25)"></div>
+  <span class="pl" style="background:var(--lime); transform:rotate(-150deg) translateX(290px)"></span>
+  <span class="pl" style="background:var(--violet); transform:rotate(30deg) translateX(290px)"></span>
+  <span class="pl" style="background:var(--amber); width:12px; height:12px; transform:rotate(-60deg) translateX(225px)"></span>
+  <span class="pl" style="background:var(--red); width:12px; height:12px; transform:rotate(110deg) translateX(225px)"></span>
+  <span class="pl" style="background:var(--cyan); width:10px; height:10px; transform:rotate(15deg) translateX(155px)"></span>
+  <img class="core" src="assets/logos/react.svg" style="height:230px">
+</div>
 
 <div></div>
 
-# Dziękuję
+<div>
+  <div class="h1">Dziękuję</div>
+  <div class="row" style="margin-top:34px; gap:16px">
+    <span class="chip" style="background:var(--lime); color:#000; font-size:24px; padding:10px 20px"><span class="ic i-users" style="width:22px; height:22px"></span>Pytania?</span>
+  </div>
+</div>
 
-<div class="who">Pytania?</div>
+<div></div>
 
 <!--
 - Podziękowanie, czas na pytania.
@@ -1462,20 +1509,16 @@ export default ProductList;
 
 # Źródła
 
-<div class="fill" style="align-items:flex-start; padding-top:20px">
-<div style="width:100%; font-size:18px">
-
-| | |
-|---|---|
-| react.dev/blog | React 19, 19.2, 19.3, Compiler 1.0, React Foundation, koniec CRA |
-| react.dev/blog/2025/12/03 | Critical Security Vulnerability in React Server Components |
-| linuxfoundation.org | Formation of the React Foundation |
-| survey.stackoverflow.co/2025 | Stack Overflow Developer Survey 2025 |
-| api.npmjs.org | statystyki pobrań npm (październik 2026) |
-| github.com/react/react | repozytorium Reacta |
-| Pete Hunt, JSConf 2013 | „React: Rethinking Best Practices” |
-| simpleicons.org · lucide.dev | logotypy i ikony |
-
+<div class="fill">
+<div class="grid2" style="gap:14px 18px">
+  <div class="src-card"><div class="tile t-c"><img class="lg" src="assets/logos/react.svg"></div><div><div class="t">React Blog</div><div class="u">react.dev/blog · 19.x, Compiler, CRA</div></div></div>
+  <div class="src-card"><div class="tile t-w"><img class="lg" src="assets/logos/linuxfoundation.svg"></div><div><div class="t">React Foundation</div><div class="u">linuxfoundation.org/press</div></div></div>
+  <div class="src-card"><div class="tile t-r"><span class="ic i-shield-alert"></span></div><div><div class="t">React2Shell, CVE-2025-55182</div><div class="u">react.dev/blog/2025/12/03</div></div></div>
+  <div class="src-card"><div class="tile t-a"><img class="lg" src="assets/logos/stackoverflow.svg"></div><div><div class="t">Developer Survey 2025</div><div class="u">survey.stackoverflow.co/2025</div></div></div>
+  <div class="src-card"><div class="tile t-w"><img class="lg" src="assets/logos/npm.svg"></div><div><div class="t">Statystyki pobrań npm</div><div class="u">api.npmjs.org</div></div></div>
+  <div class="src-card"><div class="tile t-k"><span class="ic i-github"></span></div><div><div class="t">Repozytorium Reacta</div><div class="u">github.com/react/react</div></div></div>
+  <div class="src-card"><div class="tile t-v"><span class="ic i-history"></span></div><div><div class="t">„Rethinking Best Practices”</div><div class="u">Pete Hunt · JSConf US 2013</div></div></div>
+  <div class="src-card"><div class="tile t-g"><span class="ic i-palette"></span></div><div><div class="t">Logotypy i ikony</div><div class="u">simpleicons.org · lucide.dev</div></div></div>
 </div>
 </div>
 
