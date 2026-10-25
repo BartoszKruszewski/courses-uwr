@@ -267,9 +267,7 @@ style: |
 <div class="foot">Bartosz Kruszewski<span class="m">2026</span></div>
 
 <!--
-- Przedstawiam się, temat: React – biblioteka do budowania interfejsów.
-- Nie będzie live codingu – zamiast tego przegląd: skąd się wziął, jak działa, z czym się go używa, gdzie jest na rynku i dokąd zmierza.
-- Ok. 45 minut, pytania najlepiej na koniec.
+- Nie będzie live codingu bo jest mega popularny i każdy pewnie coś tam już widział
 -->
 
 ---
@@ -384,7 +382,7 @@ style: |
 <!--
 - 15 lat w jednym slajdzie. Fioletowe punkty = dwa największe przełomy w sposobie pisania kodu: hooki i Server Components.
 - 2017: oprócz przepisania silnika (Fiber) zmiana licencji z BSD+Patents na MIT – po buncie społeczności (m.in. Apache Foundation i WordPress zapowiedzieli odejście).
-- 2025: Create React App oficjalnie wygaszony, React Compiler stabilny.
+- 2025: React Compiler stabilny.
 - 2026: React przechodzi pod Linux Foundation, we wrześniu wychodzi 19.3.
 -->
 
@@ -597,9 +595,9 @@ jsx(Post, {
 </div>
 
 <!--
-- JSX to nie HTML i nie szablon – to cukier składniowy na wywołania funkcji. Kompiluje go Babel, SWC, esbuild.
+- JSX to nie HTML i nie szablon – to cukier składniowy na wywołania funkcji.
 - Wynik to zwykły obiekt JS opisujący element („React element”).
-- Zaleta: w „szablonie” mamy pełny JavaScript – map, warunki, zmienne – zamiast specjalnego języka szablonów jak v-for czy *ngFor.
+- Zaleta: w „szablonie” mamy pełny JavaScript – map, warunki, zmienne – zamiast specjalnego języka szablonów.
 - Wielkie litery = komponent, małe = tag HTML.
 -->
 
@@ -1281,39 +1279,6 @@ export default ProductList;
 - W dużych aplikacjach grupuje się kod wg funkcji biznesowych – zespół „checkout” ma wszystko w jednym folderze.
 - Moduł wystawia publiczne API przez index.ts; importowanie „do środka” innego modułu blokuje się lintem.
 - Popularne wzorce: Feature-Sliced Design, bulletproof-react.
--->
-
----
-
-# Monorepo i design system
-
-<div class="sub">kilka aplikacji, wspólne komponenty i konfiguracja</div>
-
-<div class="fill">
-<div class="col" style="align-items:center; gap:14px; width:100%">
-  <div class="grid3">
-    <div class="box l" style="padding:18px 22px"><img class="lg m" src="assets/logos/nextdotjs.svg"><span>apps/web<span class="m">Next.js</span></span></div>
-    <div class="box l" style="padding:18px 22px"><img class="lg m" src="assets/logos/vite.svg"><span>apps/admin<span class="m">Vite SPA</span></span></div>
-    <div class="box l" style="padding:18px 22px"><img class="lg m" src="assets/logos/expo.svg"><span>apps/mobile<span class="m">Expo</span></span></div>
-  </div>
-  <div class="arrow">↑ ↑ ↑</div>
-  <div class="grid3">
-    <div class="box l lime" style="padding:18px 22px"><img class="lg m" src="assets/logos/storybook.svg"><span>packages/ui<span class="m">design system</span></span></div>
-    <div class="box l lav2" style="padding:18px 22px"><img class="lg m" src="assets/logos/typescript.svg"><span>packages/api<span class="m">typowany klient</span></span></div>
-    <div class="box l" style="padding:18px 22px"><img class="lg m" src="assets/logos/eslint.svg"><span>packages/config<span class="m">ESLint, TS, Tailwind</span></span></div>
-  </div>
-  <div class="chips" style="margin-top:22px; justify-content:center">
-    <span class="chip"><img class="lg s" src="assets/logos/turborepo.svg">Turborepo</span><span class="chip"><img class="lg s" src="assets/logos/nx.svg">Nx</span><span class="chip"><img class="lg s" src="assets/logos/pnpm.svg">pnpm workspaces</span><span class="chip"><img class="lg s" src="assets/logos/typescript.svg">TypeScript wszędzie</span>
-  </div>
-</div>
-</div>
-
-<!--
-- Duże firmy mają kilka aplikacji – web, panel, mobile – dzielących komponenty i logikę.
-- Monorepo (Turborepo, Nx) pozwala trzymać je w jednym repozytorium i budować tylko to, co się zmieniło.
-- Design system: wspólna biblioteka komponentów, dokumentowana w Storybooku – spójny wygląd w całej firmie (np. Fluent UI w Microsoft, Polaris w Shopify).
-- TypeScript to dziś standard – praktycznie każdy profesjonalny projekt React.
-- Wydajność w dużych aplikacjach: code splitting (React.lazy + Suspense), wirtualizacja długich list, React Compiler, pomiar Core Web Vitals.
 -->
 
 ---
