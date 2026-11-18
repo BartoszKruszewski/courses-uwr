@@ -1,0 +1,728 @@
+<title>Ściąga z estymatorów</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" async></script>
+<style>
+/* Layout: one centered reading column, sticky topic tabs, one panel visible at a time. */
+:root {
+  --bg: #F5F7F8;
+  --surface: #FFFFFF;
+  --fg: #18222D;
+  --muted: #5A6775;
+  --line: #DCE2E7;
+  --accent: #0D7A68;
+  --accent-soft: #E2F1EE;
+  --result: #A8580A;
+  --result-soft: #FCF1E2;
+  --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #10161B; --surface: #172029; --fg: #E4EAEF; --muted: #93A1AE; --line: #29343F;
+    --accent: #52C3AE; --accent-soft: #15302B; --result: #EDB068; --result-soft: #2D2417;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #10161B; --surface: #172029; --fg: #E4EAEF; --muted: #93A1AE; --line: #29343F;
+  --accent: #52C3AE; --accent-soft: #15302B; --result: #EDB068; --result-soft: #2D2417;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 15.5px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 10; background: var(--bg);
+}
+.wrap { max-width: 860px; margin: 0 auto; padding-block: 28px 64px; }
+
+header h1 {
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(1.7rem, 4vw, 2.3rem);
+  line-height: 1.15; margin: 0 0 6px; text-wrap: balance; letter-spacing: -0.01em;
+}
+header p { margin: 0; color: var(--muted); }
+
+nav.tabs {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--bg); margin-top: 20px; padding-block: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.tablist { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+.tablist::-webkit-scrollbar { display: none; }
+.tab {
+  flex: 0 0 auto; font: 500 14px var(--font-body); color: var(--muted);
+  background: transparent; border: 1px solid transparent; border-radius: 999px;
+  padding: 6px 14px; cursor: pointer; white-space: nowrap;
+}
+.tab:hover { color: var(--fg); border-color: var(--line); }
+.tab[aria-selected="true"] { background: var(--accent); color: var(--surface); }
+.tab:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+section.panel { padding-top: 24px; display: grid; gap: 18px; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.45rem; margin: 0; text-wrap: balance; }
+h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; margin: 6px 0 0; }
+p { margin: 0; }
+ul, ol { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; }
+
+.box {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  padding: 14px 18px; display: grid; gap: 8px; min-width: 0;
+}
+.label {
+  font: 500 11px var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent);
+}
+.box.recipe { background: var(--accent-soft); border-color: transparent; }
+.box.warn .label { color: var(--result); }
+.res {
+  background: var(--result-soft); color: var(--fg); border-radius: 6px; padding: 1px 6px;
+}
+.muted { color: var(--muted); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { font: 500 11px var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+tr:last-child td { border-bottom: 0; }
+
+mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width: 100%; margin: 4px 0 !important; padding-block: 2px; }
+
+/* distribution picker */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font: 500 13.5px var(--font-body); color: var(--fg); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; cursor: pointer;
+}
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.dist dl { display: grid; grid-template-columns: max-content 1fr; gap: 8px 18px; margin: 0; align-items: baseline; }
+.dist dt { font: 500 11px var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.dist dd { margin: 0; min-width: 0; overflow-x: auto; }
+@media (max-width: 480px) { .dist dl { grid-template-columns: 1fr; gap: 2px; } .dist dd { margin-bottom: 8px; } }
+
+/* tasks */
+.list-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+details.task { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+details.task + details.task { margin-top: 8px; }
+details.task summary {
+  cursor: pointer; padding: 12px 16px; list-style: none; display: flex; gap: 12px; align-items: baseline;
+}
+details.task summary::-webkit-details-marker { display: none; }
+details.task summary::after { content: "+"; margin-left: auto; color: var(--muted); font-family: var(--font-mono); }
+details.task[open] summary::after { content: "−"; }
+.tnum { font: 500 12px var(--font-mono); color: var(--accent); flex: 0 0 auto; }
+.tbody { padding: 0 16px 14px; display: grid; gap: 8px; min-width: 0; }
+.btn {
+  font: 500 13.5px var(--font-body); border: 1px solid var(--line); background: var(--surface); color: var(--fg);
+  border-radius: 8px; padding: 7px 14px; cursor: pointer;
+}
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--surface); border-color: var(--accent); }
+
+/* flashcards */
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  padding: 26px 22px; min-height: 220px; display: grid; gap: 14px; align-content: start;
+}
+.card .q { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; text-wrap: balance; }
+.card .a { border-top: 1px dashed var(--line); padding-top: 14px; }
+.card-nav { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.count { font: 500 12px var(--font-mono); color: var(--muted); margin-left: auto; font-variant-numeric: tabular-nums; }
+.progress { height: 4px; background: var(--line); border-radius: 4px; overflow: hidden; }
+.progress > i { display: block; height: 100%; background: var(--accent); transition: width .2s; }
+@media (prefers-reduced-motion: reduce) { .progress > i { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Ściąga z estymatorów</h1>
+    <p>Statystyka z modelami liniowymi · kolokwium 1 · wykłady 1–3, listy 1–4</p>
+  </header>
+
+  <nav class="tabs" aria-label="Działy">
+    <div class="tablist" role="tablist">
+      <button class="tab" role="tab" data-tab="podstawy">Podstawy</button>
+      <button class="tab" role="tab" data-tab="wlasnosci">Własności</button>
+      <button class="tab" role="tab" data-tab="fisher">Fisher i C–R</button>
+      <button class="tab" role="tab" data-tab="mle">MLE</button>
+      <button class="tab" role="tab" data-tab="momenty">Momenty</button>
+      <button class="tab" role="tab" data-tab="rozklady">Rozkłady</button>
+      <button class="tab" role="tab" data-tab="zadania">Zadania</button>
+      <button class="tab" role="tab" data-tab="fiszki">Fiszki</button>
+    </div>
+  </nav>
+
+  <!-- PODSTAWY -->
+  <section class="panel" id="podstawy" role="tabpanel">
+    <h2>Podstawy</h2>
+    <div class="grid2">
+      <div class="box">
+        <span class="label">Definicja</span>
+        <p><b>Próba losowa</b>: \(X_1,\dots,X_n\) niezależne, o tym samym rozkładzie (iid). Łączna gęstość:</p>
+        \[ f(x_1,\dots,x_n)=\prod_{i=1}^n f(x_i,\theta). \]
+      </div>
+      <div class="box">
+        <span class="label">Definicja</span>
+        <p><b>Statystyka</b>: dowolna funkcja próby (też zmienna losowa). <b>Estymator</b> \(\hat\theta\): statystyka, którą szacujemy nieznane \(\theta\).</p>
+      </div>
+    </div>
+    <div class="box">
+      <span class="label">Rachunek</span>
+      <ul>
+        <li>\(E(aX+bY)=aEX+bEY\) — zawsze</li>
+        <li>\(\mathrm{var}(aX+b)=a^2\,\mathrm{var}X\)</li>
+        <li>\(\mathrm{var}(X+Y)=\mathrm{var}X+\mathrm{var}Y\) — gdy niezależne</li>
+        <li><span class="res">\(EX^2=\mathrm{var}X+(EX)^2\)</span> — klucz w zadaniach typu \(aX^2+bY^2\)</li>
+      </ul>
+    </div>
+    <h3>Sumy niezależnych zmiennych</h3>
+    <div class="tbl"><table>
+      <tr><th>\(X_i\)</th><th>\(\sum_{i=1}^n X_i\)</th></tr>
+      <tr><td>\(B(1,p)\)</td><td>\(\mathrm{Bin}(n,p)\)</td></tr>
+      <tr><td>\(N(\mu,\sigma^2)\)</td><td>\(N(n\mu,\,n\sigma^2)\)</td></tr>
+      <tr><td>\(\mathrm{Pois}(\lambda)\)</td><td>\(\mathrm{Pois}(n\lambda)\)</td></tr>
+      <tr><td>\(\Gamma(a,\theta)\), \(\theta\) skali</td><td>\(\Gamma(na,\theta)\)</td></tr>
+      <tr><td>\(\mathrm{Exp}\) ze średnią \(\theta\)</td><td>\(\Gamma(n,\theta)\)</td></tr>
+    </table></div>
+    <h3>Statystyki opisowe</h3>
+    <div class="box">
+      <ul>
+        <li>Statystyki pozycyjne \(X_{(1)}\le\dots\le X_{(n)}\); \(X_{(1)}=\min\), \(X_{(n)}=\max\).</li>
+        <li>Mediana: \(X_{((n+1)/2)}\) dla nieparzystego \(n\), średnia dwóch środkowych dla parzystego.</li>
+        <li>\(Q_1\), \(Q_3\) — mediany lewej i prawej połowy; \(\mathrm{IQR}=Q_3-Q_1\); rozstęp \(R=X_{(n)}-X_{(1)}\).</li>
+        <li>Boxplot: wąsy do \(Q_1-1.5\,\mathrm{IQR}\) i \(Q_3+1.5\,\mathrm{IQR}\), dalej obserwacje odstające.</li>
+        <li>Histogram przybliża gęstość; qqplot sprawdza typ rozkładu (punkty na prostej = zgodność).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- WŁASNOŚCI -->
+  <section class="panel" id="wlasnosci" role="tabpanel" hidden>
+    <h2>Własności estymatorów</h2>
+    <div class="tbl"><table>
+      <tr><th>Pojęcie</th><th>Wzór</th></tr>
+      <tr><td>Obciążenie</td><td>\(\mathrm{bias}(\hat\theta)=E\hat\theta-\theta\)</td></tr>
+      <tr><td>Nieobciążony</td><td>\(E\hat\theta=\theta\)</td></tr>
+      <tr><td>Asymptotycznie nieobciążony</td><td>\(E\hat\theta_n\to\theta\) dla \(n\to\infty\)</td></tr>
+      <tr><td>Błąd średniokwadratowy</td><td>\(\mathrm{MSE}=E(\hat\theta-\theta)^2=\mathrm{bias}^2+\mathrm{var}\)</td></tr>
+    </table></div>
+    <div class="grid2">
+      <div class="box">
+        <span class="label">Twierdzenie</span>
+        <p><b>Średnia próby</b></p>
+        \[ E\bar X=\mu,\qquad \mathrm{var}\,\bar X=\frac{\sigma^2}{n}. \]
+      </div>
+      <div class="box">
+        <span class="label">Twierdzenie</span>
+        <p><b>Wariancja próby</b> jest nieobciążona:</p>
+        \[ S^2=\frac{1}{n-1}\sum(X_i-\bar X)^2,\quad ES^2=\sigma^2. \]
+      </div>
+    </div>
+    <div class="box">
+      <span class="label">Przydatne tożsamości</span>
+      \[ \sum(X_i-\bar X)^2=\sum X_i^2-n\bar X^2,\qquad E\sum(X_i-\bar X)^2=(n-1)\sigma^2. \]
+    </div>
+    <div class="box">
+      <span class="label">Średnia ważona \(\sum w_iX_i\)</span>
+      <ul>
+        <li>nieobciążona dla \(\mu\) \(\iff\) \(\sum w_i=1\)</li>
+        <li>\(\mathrm{var}=\sigma^2\sum w_i^2\) — najmniejsza przy równych wagach</li>
+      </ul>
+    </div>
+    <h3>Jak policzyć wariancję estymatora</h3>
+    <div class="box">
+      <span class="label">Reguły</span>
+      <ul>
+        <li>\(\mathrm{var}(cT)=c^2\,\mathrm{var}\,T\), \(\mathrm{var}(T+c)=\mathrm{var}\,T\)</li>
+        <li>Niezależne \(X_i\): \(\mathrm{var}\left(\sum a_iX_i\right)=\sum a_i^2\,\mathrm{var}X_i\); dla iid: \(\sigma^2\sum a_i^2\)</li>
+        <li>\(\mathrm{var}\,T=ET^2-(ET)^2\)</li>
+        <li>Suma \(\sum X_i\) ma znany rozkład (Bin, Pois, Gamma, \(N\)), więc można wziąć jego wariancję</li>
+        <li>Normalny: \(\frac{1}{\sigma^2}\sum(X_i-\mu)^2\sim\chi^2_n\) (var \(=2n\)), \(\frac{(n-1)S^2}{\sigma^2}\sim\chi^2_{n-1}\), stąd \(\mathrm{var}\,S^2=\frac{2\sigma^4}{n-1}\)</li>
+      </ul>
+    </div>
+    <div class="box recipe">
+      <span class="label">Przepis: wybierz przypadek</span>
+      <ol>
+        <li><b>Kombinacja liniowa</b> \(\sum a_iX_i\): wyciągnij stałe do kwadratu, zsumuj \(a_i^2\,\mathrm{var}X_i\).</li>
+        <li><b>Min lub max</b>: wyznacz rozkład, np. \(F_{\max}(x)=F(x)^n\), \(f_{\max}=nF^{n-1}f\). Policz \(ET\) i \(ET^2\), potem \(\mathrm{var}=ET^2-(ET)^2\).</li>
+        <li><b>Funkcja nieliniowa</b> \(g(\bar X)\) (np. \(1/\bar X\)): metoda delta, \(\mathrm{var}\,g(\bar X)\approx g'(\mu)^2\,\frac{\sigma^2}{n}\).</li>
+        <li><b>MLE, duże \(n\)</b>: \(\mathrm{var}\,\hat\theta\approx\frac{1}{nI(\theta)}\).</li>
+      </ol>
+    </div>
+    <div class="grid2">
+      <div class="box">
+        <span class="label">Przykład: liniowy</span>
+        <p>Poisson, \(\hat\lambda=\frac{X_1+2X_2+3X_3}{6}\):</p>
+        \[ \mathrm{var}\,\hat\lambda=\frac{1^2+2^2+3^2}{36}\,\lambda=\frac{7\lambda}{18}. \]
+      </div>
+      <div class="box">
+        <span class="label">Przykład: max z \(U(0,\theta)\)</span>
+        <p>\(f_{\max}(x)=\frac{nx^{n-1}}{\theta^n}\), więc \(E\max=\frac{n\theta}{n+1}\), \(E\max^2=\frac{n\theta^2}{n+2}\):</p>
+        \[ \mathrm{var}\max X_i=\frac{n\theta^2}{(n+1)^2(n+2)}. \]
+      </div>
+    </div>
+    <div class="box">
+      <span class="label">Przykład: metoda delta</span>
+      <p>Exp z tempem \(\theta\), \(\hat\theta=1/\bar X\), \(g(x)=1/x\), \(\mu=1/\theta\), \(\sigma^2=1/\theta^2\):</p>
+      \[ \mathrm{var}\,\hat\theta\approx\left(\frac{1}{\mu^2}\right)^2\frac{\sigma^2}{n}=\theta^4\cdot\frac{1}{n\theta^2}=\frac{\theta^2}{n}. \]
+    </div>
+    <div class="box recipe">
+      <span class="label">Przepis: który estymator lepszy?</span>
+      <ol>
+        <li>Policz \(E\hat\theta_1\), \(E\hat\theta_2\) — czy oba równe \(\theta\)?</li>
+        <li>Policz \(\mathrm{var}\hat\theta_1\), \(\mathrm{var}\hat\theta_2\) (stałe wyciągasz do kwadratu, wariancje sumujesz).</li>
+        <li>Lepszy ma mniejszą wariancję (= mniejszy MSE, gdy oba nieobciążone).</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- FISHER -->
+  <section class="panel" id="fisher" role="tabpanel" hidden>
+    <h2>Informacja Fishera i Cramér–Rao</h2>
+    <div class="box">
+      <span class="label">Definicja</span>
+      \[ I(\theta)=E\left(\frac{\partial\log f(X,\theta)}{\partial\theta}\right)^2=-E\,\frac{\partial^2\log f(X,\theta)}{\partial\theta^2} \]
+      <p>Informacja w próbie: <span class="res">\(nI(\theta)\)</span>. Pomocniczo \(E\,\partial_\theta\log f=0\), więc \(I=\mathrm{var}(\partial_\theta\log f)\).</p>
+    </div>
+    <div class="box">
+      <span class="label">Nierówność Craméra–Rao</span>
+      \[ \mathrm{var}\,\hat\theta\ \ge\ \frac{(m'(\theta))^2}{nI(\theta)},\quad m(\theta)=E\hat\theta \qquad\Longrightarrow\qquad \mathrm{var}\,\hat\theta\ \ge\ \frac{1}{nI(\theta)}\ \text{(nieobciążony)} \]
+    </div>
+    <div class="grid2">
+      <div class="box">
+        <span class="label">Efektywny</span>
+        <p>Nieobciążony i \(\mathrm{var}\,\hat\theta=\dfrac{1}{nI(\theta)}\).</p>
+        <p>Efektywność: \(e(\hat\theta)=\dfrac{1/(nI)}{\mathrm{var}\,\hat\theta}\le 1\). Asymptotycznie efektywny: \(e\to1\).</p>
+      </div>
+      <div class="box">
+        <span class="label">Efektywność względna</span>
+        \[ e(\hat\theta_1,\hat\theta_2)=\frac{\mathrm{var}\,\hat\theta_2}{\mathrm{var}\,\hat\theta_1} \]
+        <p>Gdy \(>1\), lepszy jest \(\hat\theta_1\).</p>
+      </div>
+    </div>
+    <div class="box recipe">
+      <span class="label">Przepis: pokaż, że \(\hat\theta\) jest efektywny</span>
+      <ol>
+        <li>\(E\hat\theta=\theta\).</li>
+        <li>\(\mathrm{var}\,\hat\theta\).</li>
+        <li>\(\log f(x,\theta)\) → \(\partial^2_\theta\) → \(I(\theta)=-E(\cdot)\).</li>
+        <li>Sprawdź \(\mathrm{var}\,\hat\theta=1/(nI(\theta))\).</li>
+      </ol>
+    </div>
+    <div class="box warn">
+      <span class="label">Uwaga</span>
+      <ul>
+        <li>\(n\) to <b>liczba wszystkich obserwacji</b> — nawet gdy estymator używa tylko części.</li>
+        <li>Warunki regularności wymagają nośnika niezależnego od \(\theta\). Dla \(U(0,\theta)\) C–R nie działa.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- MLE -->
+  <section class="panel" id="mle" role="tabpanel" hidden>
+    <h2>Estymator największej wiarogodności</h2>
+    <div class="box">
+      <span class="label">Definicja</span>
+      \[ L(\theta)=\prod_{i=1}^n f(x_i,\theta),\qquad l(\theta)=\log L=\sum\log f(x_i,\theta),\qquad \hat\theta_{MLE}=\arg\max_\theta L(\theta). \]
+    </div>
+    <div class="box recipe">
+      <span class="label">Przepis: nośnik nie zależy od \(\theta\)</span>
+      <ol>
+        <li>Wypisz \(l(\theta)\), wyrzuć stałe niezależne od \(\theta\).</li>
+        <li>Rozwiąż \(l'(\theta)=0\).</li>
+        <li>Sprawdź \(l''(\theta)\lt 0\).</li>
+      </ol>
+    </div>
+    <div class="box">
+      <span class="label">Nośnik zależy od \(\theta\) — nie różniczkujemy</span>
+      <p>Zapisz \(L\) z indykatorem i patrz, czy rośnie, czy maleje.</p>
+      <div class="tbl"><table>
+        <tr><th>Gęstość</th><th>\(L(\theta)\)</th><th>MLE</th></tr>
+        <tr><td>\(\frac1\theta\) na \((0,\theta]\)</td><td>\(\theta^{-n}\,\mathbb 1\{\max x_i\le\theta\}\) maleje</td><td><span class="res">\(\max X_i\)</span></td></tr>
+        <tr><td>\(2x/\theta^2\) na \((0,\theta]\)</td><td>\(\propto\theta^{-2n}\,\mathbb 1\{\max x_i\le\theta\}\) maleje</td><td><span class="res">\(\max X_i\)</span></td></tr>
+        <tr><td>\(e^{\theta-x}\), \(x\ge\theta\)</td><td>\(e^{n\theta-\sum x_i}\,\mathbb 1\{\min x_i\ge\theta\}\) rośnie</td><td><span class="res">\(\min X_i\)</span></td></tr>
+      </table></div>
+    </div>
+    <div class="box">
+      <span class="label">Ograniczony zbiór parametrów</span>
+      <p>\(L\) rośnie do \(\bar x\), potem maleje, więc rzutujesz \(\bar X\) na dozwolony przedział:</p>
+      <ul>
+        <li>\(\theta\in[1/3,1]\): \(\hat\theta=\max(\bar X,1/3)\)</li>
+        <li>Poisson, \(\theta\ge5\): \(\hat\theta=\max(\bar X,5)\)</li>
+        <li>\(\theta\le 1/2\): \(\hat\theta=\min(\bar X,1/2)\)</li>
+      </ul>
+    </div>
+    <div class="grid2">
+      <div class="box">
+        <span class="label">Niezmienniczość</span>
+        <p>\(\widehat{g(\theta)}_{MLE}=g(\hat\theta_{MLE})\).</p>
+        <p class="muted">Np. Exp ze średnią \(\theta\): \(\hat P(X\le2)=1-e^{-2/\bar X}\).</p>
+      </div>
+      <div class="box">
+        <span class="label">Asymptotyka</span>
+        \[ \sqrt n(\hat\theta-\theta_0)\xrightarrow{D}N\!\left(0,\tfrac{1}{I(\theta_0)}\right) \]
+        <p>czyli \(\hat\theta\approx N\!\left(\theta,\frac{1}{nI(\theta)}\right)\) dla \(n\ge30\).</p>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="box">
+        <span class="label">Metoda delta</span>
+        \[ \sqrt n\big(g(\hat\theta)-g(\theta_0)\big)\to N\!\left(0,\tfrac{g'(\theta_0)^2}{I(\theta_0)}\right) \]
+      </div>
+      <div class="box">
+        <span class="label">Newton / estymator jednokrokowy</span>
+        \[ \hat\theta^{(1)}=\hat\theta^{(0)}-\frac{l'(\hat\theta^{(0)})}{l''(\hat\theta^{(0)})} \]
+        <p class="muted">Start np. z metody momentów. Wynik jest asymptotycznie efektywny.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOMENTY -->
+  <section class="panel" id="momenty" role="tabpanel" hidden>
+    <h2>Metoda momentów</h2>
+    <div class="box recipe">
+      <span class="label">Przepis</span>
+      <ol>
+        <li>Policz \(EX, EX^2,\dots\) jako funkcje parametrów — tyle momentów, ile parametrów.</li>
+        <li>Przyrównaj do \(\hat m_k=\frac1n\sum X_i^k\). Wygodniej: \(\bar X=EX\) i \(\hat\sigma^2=\frac1n\sum(X_i-\bar X)^2=\mathrm{var}X\).</li>
+        <li>Rozwiąż układ względem parametrów.</li>
+      </ol>
+    </div>
+    <div class="tbl"><table>
+      <tr><th>Rozkład</th><th>Momenty</th><th>Estymatory</th></tr>
+      <tr><td>\(N(\theta_1,\theta_2)\)</td><td>\(EX=\theta_1\), \(\mathrm{var}=\theta_2\)</td><td>\(\hat\theta_1=\bar X\), \(\hat\theta_2=\hat\sigma^2\)</td></tr>
+      <tr><td>\(\Gamma(\theta_1,\theta_2)\), \(\theta_2\) tempo</td><td>\(\theta_1/\theta_2\), \(\theta_1/\theta_2^2\)</td><td>\(\hat\theta_2=\bar X/\hat\sigma^2\), \(\hat\theta_1=\bar X^2/\hat\sigma^2\)</td></tr>
+      <tr><td>log-normalny</td><td>\(EX=e^{\theta_1+\theta_2/2}\), \(EX^2=e^{2\theta_1+2\theta_2}\)</td><td>\(\hat\theta_2=\ln\hat m_2-2\ln\hat m_1\), \(\hat\theta_1=2\ln\hat m_1-\tfrac12\ln\hat m_2\)</td></tr>
+      <tr><td>Laplace, skala \(\sqrt{\theta_2}\)</td><td>\(EX=\theta_1\), \(\mathrm{var}=2\theta_2\)</td><td>\(\hat\theta_1=\bar X\), \(\hat\theta_2=\hat\sigma^2/2\)</td></tr>
+      <tr><td>jednostajny \([\theta_1\pm\sqrt{3\theta_2}]\)</td><td>\(EX=\theta_1\), \(\mathrm{var}=\theta_2\)</td><td>\(\hat\theta_1=\bar X\), \(\hat\theta_2=\hat\sigma^2\)</td></tr>
+      <tr><td>geometryczny \((1-\theta)^x\theta\)</td><td>\(EX=\frac{1-\theta}{\theta}\)</td><td>\(\hat\theta=\frac{1}{1+\bar X}\)</td></tr>
+    </table></div>
+    <p class="muted">Estymatory z metody momentów są proste, ale bywają mało efektywne.</p>
+  </section>
+
+  <!-- ROZKŁADY -->
+  <section class="panel" id="rozklady" role="tabpanel" hidden>
+    <h2>Rozkłady — wybierz jeden</h2>
+    <div class="chips" id="chips">
+      <button class="chip" data-d="b1">\(B(1,\theta)\)</button>
+      <button class="chip" data-d="bin">\(\mathrm{Bin}(m,\theta)\)</button>
+      <button class="chip" data-d="pois">\(\mathrm{Pois}(\theta)\)</button>
+      <button class="chip" data-d="nmu">\(N(\theta,\sigma^2)\)</button>
+      <button class="chip" data-d="nvar">\(N(\mu,\theta)\)</button>
+      <button class="chip" data-d="exps">Exp, średnia \(\theta\)</button>
+      <button class="chip" data-d="expr">Exp, tempo \(\theta\)</button>
+      <button class="chip" data-d="gam">\(\Gamma(\alpha,\theta)\)</button>
+      <button class="chip" data-d="beta">\(\beta(\theta,1)\)</button>
+      <button class="chip" data-d="unif">\(U(0,\theta)\)</button>
+      <button class="chip" data-d="ray">Rayleigh</button>
+      <button class="chip" data-d="geo">Geometryczny</button>
+    </div>
+
+    <div class="box dist" data-d="b1"><dl>
+      <dt>Gęstość</dt><dd>\(\theta^x(1-\theta)^{1-x}\), \(x\in\{0,1\}\)</dd>
+      <dt>\(EX\), var</dt><dd>\(\theta\), \(\theta(1-\theta)\)</dd>
+      <dt>\(I(\theta)\)</dt><dd>\(\frac{1}{\theta(1-\theta)}\)</dd>
+      <dt>MLE</dt><dd><span class="res">\(\bar X\)</span> — efektywny</dd>
+      <dt>Asymptotyka</dt><dd>\(N\!\left(\theta,\frac{\theta(1-\theta)}{n}\right)\)</dd>
+    </dl></div>
+    <div class="box dist" data-d="bin" hidden><dl>
+      <dt>Gęstość</dt><dd>\(\binom mx\theta^x(1-\theta)^{m-x}\), \(m\) znane</dd>
+      <dt>\(EX\), var</dt><dd>\(m\theta\), \(m\theta(1-\theta)\)</dd>
+      <dt>\(I(\theta)\)</dt><dd>\(\frac{m}{\theta(1-\theta)}\)</dd>
+      <dt>MLE</dt><dd><span class="res">\(\bar X/m\)</span> — efektywny, \(\mathrm{var}=\frac{\theta(1-\theta)}{mn}\)</dd>
+    </dl></div>
+    <div class="box dist" data-d="pois" hidden><dl>
+      <dt>Gęstość</dt><dd>\(e^{-\theta}\theta^x/x!\)</dd>
+      <dt>\(EX\), var</dt><dd>\(\theta\), \(\theta\)</dd>
+      <dt>\(I(\theta)\)</dt><dd>\(\frac1\theta\)</dd>
+      <dt>MLE</dt><dd><span class="res">\(\bar X\)</span> — efektywny; przy \(\theta\ge5\): \(\max(\bar X,5)\)</dd>
+      <dt>Asymptotyka</dt><dd>\(N\!\left(\theta,\frac{\theta}{n}\right)\)</dd>
+    </dl></div>
+    <div class="box dist" data-d="nmu" hidden><dl>
+      <dt>Gęstość</dt><dd>\(\frac{1}{\sqrt{2\pi\sigma^2}}e^{-(x-\theta)^2/(2\sigma^2)}\), \(\sigma^2\) znane</dd>
+      <dt>\(I(\theta)\)</dt><dd>\(\frac{1}{\sigma^2}\)</dd>
+      <dt>MLE</dt><dd><span class="res">\(\bar X\)</span> — efektywny</dd>
+      <dt>Rozkład</dt><dd>\(\bar X\sim N\!\left(\theta,\frac{\sigma^2}{n}\right)\) dokładnie</dd>
+    </dl></div>
+    <div class="box dist" data-d="nvar" hidden><dl>
+      <dt>Gęstość</dt><dd>\(\frac{1}{\sqrt{2\pi\theta}}e^{-(x-\mu)^2/(2\theta)}\), \(\mu\) znane, \(\theta=\sigma^2\)</dd>
+      <dt>\(I(\theta)\)</dt><dd>\(\frac{1}{2\theta^2}\)</dd>
+      <dt>MLE</dt><dd><span class="res">\(\frac1n\sum(X_i-\mu)^2\)</span> — nieobciążony, \(\mathrm{var}=\frac{2\theta^2}{n}=\frac1{nI}\), więc efektywny</dd>
+      <dt>Asymptotyka</dt><dd>\(N\!\left(\theta,\frac{2\theta^2}{n}\right)\)</dd>
+    </dl></div>
+    <div class="box dist" data-d="exps" hidden><dl>
+      <dt>Gęstość</dt><dd>\(\frac1\theta e^{-x/\theta}\), \(x>0\)</dd>
+      <dt>\(EX\), var</dt><dd>\(\theta\), \(\theta^2\)</dd>
+      <dt>\(I(\theta)\)</dt><dd>\(\frac{1}{\theta^2}\)</dd>
+      <dt>MLE</dt><dd><span class="res">\(\bar X\)</span> — efektywny</dd>
+      <dt>Asymptotyka</dt><dd>\(N\!\left(\theta,\frac{\theta^2}{n}\right)\)</dd>
+      <dt>Przykład</dt><dd>\(\hat P(X\le 2)=1-e^{-2/\bar X}\)</dd>
+    </dl></div>
+    <div class="box dist" data-d="expr" hidden><dl>
+      <dt>Gęstość</dt><dd>\(\theta e^{-\theta x}\), \(x>0\)</dd>
+      <dt>\(EX\), var</dt><dd>\(1/\theta\), \(1/\theta^2\)</dd>
+      <dt>\(I(\theta)\)</dt><dd>\(\frac{1}{\theta^2}\)</dd>
+      <dt>MLE</dt><dd><span class="res">\(1/\bar X\)</span> — obciążony, ale asymptotycznie efektywny</dd>
+      <dt>Asymptotyka</dt><dd>\(N\!\left(\theta,\frac{\theta^2}{n}\right)\)</dd>
+    </dl></div>
+    <div class="box dist" data-d="gam" hidden><dl>
+      <dt>Gęstość</dt><dd>\(\frac{x^{\alpha-1}e^{-x/\theta}}{\Gamma(\alpha)\theta^\alpha}\), \(\alpha\) znane, \(\theta\) skali</dd>
+      <dt>\(EX\), var</dt><dd>\(\alpha\theta\), \(\alpha\theta^2\)</dd>
+      <dt>\(I(\theta)\)</dt><dd>\(\frac{\alpha}{\theta^2}\)</dd>
+      <dt>MLE</dt><dd><span class="res">\(\bar X/\alpha\)</span> — efektywny</dd>
+      <dt>Asymptotyka</dt><dd>\(N\!\left(\theta,\frac{\theta^2}{n\alpha}\right)\)</dd>
+    </dl></div>
+    <div class="box dist" data-d="beta" hidden><dl>
+      <dt>Gęstość</dt><dd>\(\theta x^{\theta-1}\), \(0\lt x\lt 1\)</dd>
+      <dt>\(EX\)</dt><dd>\(\frac{\theta}{\theta+1}\)</dd>
+      <dt>\(I(\theta)\)</dt><dd>\(\frac{1}{\theta^2}\)</dd>
+      <dt>MLE</dt><dd><span class="res">\(-\dfrac{n}{\sum\log X_i}\)</span></dd>
+      <dt>Asymptotyka</dt><dd>\(N\!\left(\theta,\frac{\theta^2}{n}\right)\)</dd>
+    </dl></div>
+    <div class="box dist" data-d="unif" hidden><dl>
+      <dt>Gęstość</dt><dd>\(\frac1\theta\) na \((0,\theta]\)</dd>
+      <dt>\(EX\), var</dt><dd>\(\theta/2\), \(\theta^2/12\)</dd>
+      <dt>\(I(\theta)\)</dt><dd>brak — rozkład nieregularny (nośnik zależy od \(\theta\))</dd>
+      <dt>MLE</dt><dd><span class="res">\(\max X_i\)</span>, \(E\max=\frac{n}{n+1}\theta\) — asymptotycznie nieobciążony</dd>
+      <dt>\(U(a,b)\)</dt><dd>\(E\min=a+\frac{b-a}{n+1}\), \(E\max=b-\frac{b-a}{n+1}\)</dd>
+    </dl></div>
+    <div class="box dist" data-d="ray" hidden><dl>
+      <dt>Gęstość</dt><dd>\(\frac{x}{\sigma^2}e^{-x^2/(2\sigma^2)}\), \(x>0\)</dd>
+      <dt>\(EX\), \(EX^2\)</dt><dd>\(\sigma\sqrt{\pi/2}\), \(2\sigma^2\)</dd>
+      <dt>var</dt><dd>\(\frac{(4-\pi)\sigma^2}{2}\)</dd>
+      <dt>\(I(\sigma)\)</dt><dd>\(\frac{4}{\sigma^2}\)</dd>
+      <dt>MLE</dt><dd>\(\hat\sigma=\sqrt{\frac{1}{2n}\sum X_i^2}\)</dd>
+    </dl></div>
+    <div class="box dist" data-d="geo" hidden><dl>
+      <dt>Gęstość</dt><dd>\((1-\theta)^x\theta\), \(x=0,1,2,\dots\)</dd>
+      <dt>\(EX\), var</dt><dd>\(\frac{1-\theta}{\theta}\), \(\frac{1-\theta}{\theta^2}\)</dd>
+      <dt>\(I(\theta)\)</dt><dd>\(\frac{1}{\theta^2(1-\theta)}\)</dd>
+      <dt>MLE = MM</dt><dd><span class="res">\(\frac{1}{1+\bar X}\)</span></dd>
+      <dt>Wariant</dt><dd>liczba prób do sukcesu: \(E=1/p\), \(\mathrm{var}=(1-p)/p^2\)</dd>
+    </dl></div>
+  </section>
+
+  <!-- ZADANIA -->
+  <section class="panel" id="zadania" role="tabpanel" hidden>
+    <div class="list-head">
+      <h2>Zadania z list</h2>
+      <div class="card-nav">
+        <button class="btn" id="openAll">Rozwiń wszystkie</button>
+        <button class="btn" id="closeAll">Zwiń</button>
+      </div>
+    </div>
+    <p class="muted">Wyniki policzone samodzielnie — porównaj z ćwiczeniami.</p>
+
+    <h3>Lista 1 · nieobciążoność, MSE</h3>
+    <div>
+      <details class="task"><summary><span class="tnum">1.1</span><span>Suma zmiennych \(B(1,p)\)</span></summary><div class="tbody">
+        <p>\(Y\sim\mathrm{Bin}(n,p)\), \(E(Y/n)=p\) (nieobciążony), <span class="res">\(\mathrm{var}(Y/n)=\frac{p(1-p)}{n}\)</span>.</p>
+      </div></details>
+      <details class="task"><summary><span class="tnum">1.2</span><span>Exp i Gamma — stała \(c\)</span></summary><div class="tbody">
+        <p>a) \(E\bar X=\theta\). b) \(Y\sim\Gamma(na,\theta)\), \(EY=na\theta\), więc <span class="res">\(c=\frac{1}{na}\)</span>.</p>
+      </div></details>
+      <details class="task"><summary><span class="tnum">1.3</span><span>Kostki i monety — E, var, σ</span></summary><div class="tbody">
+        <ul>
+          <li>a) średnia ze 100 kostek: \(E=3.5\), \(\mathrm{var}=\frac{35/12}{100}\approx0.029\), \(\sigma\approx0.171\)</li>
+          <li>b) suma 100 geometrycznych (\(p=1/6\)): \(E=600\), \(\mathrm{var}=100\cdot\frac{5/6}{1/36}=3000\), \(\sigma\approx54.8\)</li>
+          <li>c) \(\mathrm{Bin}(100,\tfrac38)\), bo \(P(\text{2 orły z 4})=\frac{6}{16}\): \(E=37.5\), \(\mathrm{var}\approx23.44\), \(\sigma\approx4.84\)</li>
+        </ul>
+      </div></details>
+      <details class="task"><summary><span class="tnum">1.4</span><span>Rozkłady funkcji próby normalnej</span></summary><div class="tbody">
+        <ul>
+          <li>a) \(N(n\mu,\,n\sigma^2)\)</li>
+          <li>b) \(N(\sqrt n\mu,\,\sigma^2)\)</li>
+          <li>c) \(Y=\frac{a^TX}{\|a\|^2}a\), gdzie \(a^TX\sim N\!\left(\mu\sum a_i,\ \sigma^2\|a\|^2\right)\)</li>
+        </ul>
+      </div></details>
+      <details class="task"><summary><span class="tnum">1.5</span><span>Tożsamość dla sumy kwadratów</span></summary><div class="tbody">
+        <p>\(\sum(X_i-\bar X)^2=\sum X_i^2-2\bar X\sum X_i+n\bar X^2=\sum X_i^2-n\bar X^2\), bo \(\sum X_i=n\bar X\).</p>
+      </div></details>
+      <details class="task"><summary><span class="tnum">1.6</span><span>Poisson i \(U[0,\theta]\) — porównanie MSE</span></summary><div class="tbody">
+        <p>a) Oba nieobciążone. \(\mathrm{var}\hat\lambda_1=\frac\lambda3\), \(\mathrm{var}\hat\lambda_2=\frac{1+4+9}{36}\lambda=\frac{7\lambda}{18}\). <span class="res">Lepszy \(\hat\lambda_1\)</span>.</p>
+        <p>b) \(EX=\theta/2\), \(\mathrm{var}X=\theta^2/12\). Oba nieobciążone. \(\mathrm{var}\hat\theta_1=\frac49\cdot3\cdot\frac{\theta^2}{12}=\frac{\theta^2}{9}\), \(\mathrm{var}\hat\theta_2=\frac32\cdot\frac{\theta^2}{12}=\frac{\theta^2}{8}\). <span class="res">Lepszy \(\hat\theta_1\)</span>.</p>
+      </div></details>
+      <details class="task"><summary><span class="tnum">1.7</span><span>Stałe w \(aX^2+bY^2\)</span></summary><div class="tbody">
+        <p>a) \(EX^2=\sigma^2+4\), \(EY^2=\sigma^2+9\): \((1-a)(\sigma^2+4)+a(\sigma^2+9)=\sigma^2\) ⇒ <span class="res">\(a=-\frac45\)</span>.</p>
+        <p>b) \(a(\sigma^2+\mu^2)+b(3\sigma^2+4\mu^2)=\sigma^2\) dla każdego \(\mu\): \(a+4b=0\), \(a+3b=1\) ⇒ <span class="res">\(a=4,\ b=-1\)</span>.</p>
+      </div></details>
+      <details class="task"><summary><span class="tnum">1.8*</span><span>Min, max, średnia dla \(U(a,b)\)</span></summary><div class="tbody">
+        <ul>
+          <li>\(\min\): \(E=a+\frac{b-a}{n+1}\) — asymptotycznie nieobciążony dla \(a\)</li>
+          <li>\(\max\): \(E=b-\frac{b-a}{n+1}\) — asymptotycznie nieobciążony dla \(b\)</li>
+          <li>\(\bar X\) i \(\frac{X_{n-1}+X_n}{2}\) — nieobciążone dla \(\frac{a+b}{2}\)</li>
+        </ul>
+      </div></details>
+    </div>
+
+    <h3>Lista 2 · efektywność</h3>
+    <div>
+      <details class="task"><summary><span class="tnum">2.1</span><span>\(\bar X\) i \(\bar X/m\) są efektywne</span></summary><div class="tbody">
+        <p>a) \(\mathrm{var}\bar X=\frac{\sigma^2}{n}\), \(I=\frac1{\sigma^2}\) ⇒ równość z C–R.</p>
+        <p>b) \(\mathrm{var}(\bar X/m)=\frac{\theta(1-\theta)}{mn}\), \(I=\frac{m}{\theta(1-\theta)}\) ⇒ równość z C–R.</p>
+      </div></details>
+      <details class="task"><summary><span class="tnum">2.2</span><span>Poisson, próba \(6n\)</span></summary><div class="tbody">
+        <p>Granica C–R: \(\frac{\lambda}{6n}\). \(\hat\lambda_1\) używa \(3n\) obserwacji: \(\mathrm{var}=\frac{\lambda}{3n}\), \(e=\frac12\). \(\hat\lambda_2\) używa \(2n\): \(\mathrm{var}=\frac{\lambda}{2n}\), \(e=\frac13\).</p>
+        <p><span class="res">Lepszy \(\hat\lambda_1\)</span>; efektywny jest \(\bar X\) ze wszystkich \(6n\) obserwacji.</p>
+      </div></details>
+      <details class="task"><summary><span class="tnum">2.3</span><span>Gamma, \(n=4\)</span></summary><div class="tbody">
+        <p>a) \(\mathrm{var}(\bar X/\alpha)=\frac{\theta^2}{4\alpha}=\frac{1}{4I}\) ⇒ efektywny.</p>
+        <p>b) Granica \(\frac{\theta^2}{4\alpha}\). \(\mathrm{var}\hat\theta_1=\frac{10}{36}\frac{\theta^2}{\alpha}=\frac{5\theta^2}{18\alpha}\), \(e=0.9\). \(\mathrm{var}\hat\theta_2=\frac{26}{100}\frac{\theta^2}{\alpha}\), \(e=\frac{25}{26}\approx0.96\). <span class="res">Lepszy \(\hat\theta_2\)</span>.</p>
+      </div></details>
+      <details class="task"><summary><span class="tnum">2.4</span><span>Rayleigh — porównanie z C–R</span></summary><div class="tbody">
+        <p>a) <span class="res">\(c=\sqrt{2/\pi}\)</span>. b) \(\mathrm{var}(c\bar X)=\frac2\pi\cdot\frac{(4-\pi)\sigma^2}{2n}=\frac{(4-\pi)\sigma^2}{\pi n}\).</p>
+        <p>\(I=\frac4{\sigma^2}\), granica \(\frac{\sigma^2}{4n}\), \(e=\frac{\pi}{4(4-\pi)}\approx0.915\).</p>
+      </div></details>
+    </div>
+
+    <h3>Lista 3 · MLE</h3>
+    <div>
+      <details class="task"><summary><span class="tnum">3.1</span><span>MLE i rozkłady asymptotyczne</span></summary><div class="tbody">
+        <ul>
+          <li>a) Pois: \(\bar X\), \(N(\theta,\theta/n)\)</li>
+          <li>b) Gamma: \(\bar X/\alpha\), \(N(\theta,\theta^2/(n\alpha))\)</li>
+          <li>c) Exp, \(EX=1/\theta\): \(1/\bar X\), \(N(\theta,\theta^2/n)\)</li>
+          <li>d) Exp, \(EX=\theta\): \(\bar X\), \(N(\theta,\theta^2/n)\)</li>
+          <li>e) \(N(\mu,\theta)\): \(\frac1n\sum(X_i-\mu)^2\), \(N(\theta,2\theta^2/n)\), <span class="res">efektywny</span></li>
+        </ul>
+      </div></details>
+      <details class="task"><summary><span class="tnum">3.2</span><span>Nośnik zależny od \(\theta\)</span></summary><div class="tbody">
+        <p>a) \(e^{\theta-x}\), \(x\ge\theta\): \(L\) rośnie do \(\min x_i\) ⇒ <span class="res">\(\min X_i\)</span>.</p>
+        <p>b) \(2x/\theta^2\): \(L\propto\theta^{-2n}\) dla \(\theta\ge\max x_i\) ⇒ <span class="res">\(\max X_i\)</span>.</p>
+      </div></details>
+      <details class="task"><summary><span class="tnum">3.3</span><span>Ograniczony zbiór parametrów</span></summary><div class="tbody">
+        <p>a) <span class="res">\(\max(\bar X,\tfrac13)\)</span>. b) <span class="res">\(\max(\bar X,5)\)</span>.</p>
+      </div></details>
+      <details class="task"><summary><span class="tnum">3.4</span><span>MLE prawdopodobieństw</span></summary><div class="tbody">
+        <p>a) \(P(X\le2)=1-e^{-2/\theta}\) ⇒ <span class="res">\(1-e^{-2/\bar X}\)</span>.</p>
+        <p>b) \(P(X>2)=1-e^{-\theta}\left(1+\theta+\tfrac{\theta^2}{2}\right)\) ⇒ wstaw \(\hat\theta=\max(\bar X,5)\).</p>
+      </div></details>
+    </div>
+
+    <h3>Lista 4 · metoda momentów</h3>
+    <div>
+      <details class="task"><summary><span class="tnum">4.1–4.5</span><span>Wszystkie wyniki</span></summary><div class="tbody">
+        <ul>
+          <li>1. \(N\): \(\hat\theta_1=\bar X\), \(\hat\theta_2=\hat\sigma^2\)</li>
+          <li>2. log-normalny: \(\hat\theta_2=\ln\hat m_2-2\ln\hat m_1\), \(\hat\theta_1=2\ln\hat m_1-\tfrac12\ln\hat m_2\)</li>
+          <li>3. Laplace: \(\hat\theta_1=\bar X\), \(\hat\theta_2=\hat\sigma^2/2\)</li>
+          <li>4. geometryczny: \(\hat\theta=\frac{1}{1+\bar X}\)</li>
+          <li>5. jednostajny: \(\hat\theta_1=\bar X\), \(\hat\theta_2=\hat\sigma^2\)</li>
+        </ul>
+        <p class="muted">\(\hat\sigma^2=\frac1n\sum(X_i-\bar X)^2\), \(\hat m_k=\frac1n\sum X_i^k\).</p>
+      </div></details>
+    </div>
+  </section>
+
+  <!-- FISZKI -->
+  <section class="panel" id="fiszki" role="tabpanel" hidden>
+    <h2>Fiszki</h2>
+    <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+    <div id="cards"></div>
+    <div class="card-nav">
+      <button class="btn" id="prev">← Poprzednia</button>
+      <button class="btn primary" id="reveal">Pokaż odpowiedź</button>
+      <button class="btn" id="next">Następna →</button>
+      <button class="btn" id="shuffle">Przetasuj</button>
+      <span class="count" id="count"></span>
+    </div>
+  </section>
+</div>
+
+<script>
+const tabs = [...document.querySelectorAll('.tab')];
+const panels = [...document.querySelectorAll('.panel')];
+function show(id) {
+  if (!document.getElementById(id)) id = 'podstawy';
+  tabs.forEach(t => t.setAttribute('aria-selected', t.dataset.tab === id));
+  panels.forEach(p => p.hidden = p.id !== id);
+  try { localStorage.setItem('tab', id); } catch (e) {}
+}
+tabs.forEach(t => t.addEventListener('click', () => { show(t.dataset.tab); window.scrollTo({ top: 0 }); }));
+let start = 'podstawy';
+try { start = localStorage.getItem('tab') || start; } catch (e) {}
+show(start);
+
+// distributions
+const chips = [...document.querySelectorAll('.chip')];
+const dists = [...document.querySelectorAll('.dist')];
+function pick(d) {
+  chips.forEach(c => c.setAttribute('aria-pressed', c.dataset.d === d));
+  dists.forEach(x => x.hidden = x.dataset.d !== d);
+}
+chips.forEach(c => c.addEventListener('click', () => pick(c.dataset.d)));
+pick('b1');
+
+// tasks
+document.getElementById('openAll').onclick = () => document.querySelectorAll('details.task').forEach(d => d.open = true);
+document.getElementById('closeAll').onclick = () => document.querySelectorAll('details.task').forEach(d => d.open = false);
+
+// flashcards
+const deck = [
+  ['Kiedy estymator jest nieobciążony?', '\\(E\\hat\\theta=\\theta\\) dla każdego \\(\\theta\\).'],
+  ['Rozkład MSE na składniki', '\\(\\mathrm{MSE}=\\mathrm{bias}^2+\\mathrm{var}\\)'],
+  ['Ile wynosi \\(\\mathrm{var}\\,\\bar X\\)?', '\\(\\sigma^2/n\\)'],
+  ['Dlaczego \\(S^2\\) dzieli przez \\(n-1\\)?', 'Bo \\(E\\sum(X_i-\\bar X)^2=(n-1)\\sigma^2\\) — wtedy \\(ES^2=\\sigma^2\\).'],
+  ['\\(EX^2\\), gdy znasz \\(EX\\) i \\(\\mathrm{var}X\\)', '\\(EX^2=\\mathrm{var}X+(EX)^2\\)'],
+  ['Dwie postaci informacji Fishera', '\\(I=E(\\partial_\\theta\\log f)^2=-E\\,\\partial^2_\\theta\\log f\\)'],
+  ['Ile informacji Fishera jest w próbie \\(n\\)-elementowej?', '\\(nI(\\theta)\\)'],
+  ['Granica Craméra–Rao dla nieobciążonego estymatora', '\\(\\mathrm{var}\\,\\hat\\theta\\ge\\frac{1}{nI(\\theta)}\\)'],
+  ['Kiedy estymator jest efektywny?', 'Gdy jest nieobciążony i \\(\\mathrm{var}\\,\\hat\\theta=\\frac{1}{nI(\\theta)}\\).'],
+  ['Efektywność względna \\(e(\\hat\\theta_1,\\hat\\theta_2)\\)', '\\(\\mathrm{var}\\,\\hat\\theta_2/\\mathrm{var}\\,\\hat\\theta_1\\); gdy \\(>1\\), lepszy \\(\\hat\\theta_1\\).'],
+  ['MLE dla \\(U(0,\\theta)\\) i dlaczego bez pochodnej?', '\\(\\max X_i\\) — nośnik zależy od \\(\\theta\\), więc patrzymy na monotoniczność \\(L=\\theta^{-n}\\mathbb 1\\{\\max x_i\\le\\theta\\}\\).'],
+  ['MLE dla Poissona, gdy wiemy, że \\(\\theta\\ge5\\)', '\\(\\max(\\bar X,5)\\)'],
+  ['Niezmienniczość MLE', '\\(\\widehat{g(\\theta)}=g(\\hat\\theta_{MLE})\\)'],
+  ['Asymptotyczny rozkład MLE', '\\(\\hat\\theta\\approx N\\!\\left(\\theta,\\frac{1}{nI(\\theta)}\\right)\\)'],
+  ['Metoda delta — wariancja \\(g(\\hat\\theta)\\)', '\\(\\frac{g\'(\\theta)^2}{nI(\\theta)}\\)'],
+  ['Krok metody Newtona dla MLE', '\\(\\hat\\theta^{(1)}=\\hat\\theta^{(0)}-\\frac{l\'(\\hat\\theta^{(0)})}{l\'\'(\\hat\\theta^{(0)})}\\)'],
+  ['Metoda momentów dla geometrycznego \\((1-\\theta)^x\\theta\\)', '\\(EX=\\frac{1-\\theta}{\\theta}\\) ⇒ \\(\\hat\\theta=\\frac{1}{1+\\bar X}\\)'],
+  ['\\(I(\\theta)\\) dla Poissona', '\\(1/\\theta\\)'],
+  ['\\(I(\\theta)\\) dla \\(B(1,\\theta)\\)', '\\(\\frac{1}{\\theta(1-\\theta)}\\)'],
+  ['Kiedy \\(\\sum w_iX_i\\) jest nieobciążona dla \\(\\mu\\)?', 'Gdy \\(\\sum w_i=1\\); wariancja \\(\\sigma^2\\sum w_i^2\\).']
+];
+const cardsEl = document.getElementById('cards');
+cardsEl.innerHTML = deck.map(([q, a], i) =>
+  `<div class="card" data-i="${i}" hidden><div class="q">${q}</div><div class="a" hidden>${a}</div></div>`).join('');
+const cards = [...cardsEl.children];
+let order = deck.map((_, i) => i), pos = 0;
+function render() {
+  cards.forEach(c => { c.hidden = true; c.querySelector('.a').hidden = true; });
+  cards[order[pos]].hidden = false;
+  document.getElementById('count').textContent = `${pos + 1} / ${deck.length}`;
+  document.getElementById('bar').style.width = `${(pos + 1) / deck.length * 100}%`;
+  document.getElementById('reveal').textContent = 'Pokaż odpowiedź';
+}
+document.getElementById('reveal').onclick = () => {
+  const a = cards[order[pos]].querySelector('.a');
+  a.hidden = !a.hidden;
+  document.getElementById('reveal').textContent = a.hidden ? 'Pokaż odpowiedź' : 'Ukryj odpowiedź';
+};
+document.getElementById('next').onclick = () => { pos = (pos + 1) % deck.length; render(); };
+document.getElementById('prev').onclick = () => { pos = (pos - 1 + deck.length) % deck.length; render(); };
+document.getElementById('shuffle').onclick = () => {
+  for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+  pos = 0; render();
+};
+render();
+document.addEventListener('keydown', e => {
+  if (document.getElementById('fiszki').hidden) return;
+  if (e.key === 'ArrowRight') document.getElementById('next').click();
+  if (e.key === 'ArrowLeft') document.getElementById('prev').click();
+  if (e.key === ' ') { e.preventDefault(); document.getElementById('reveal').click(); }
+});
+</script>
